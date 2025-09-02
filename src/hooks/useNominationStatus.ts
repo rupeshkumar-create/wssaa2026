@@ -41,13 +41,44 @@ export function useNominationStatus(): NominationStatus {
           loading: false,
           error: null
         }));
+      } else if (response.status === 404) {
+        // API route not found, try admin settings API as fallback
+        console.log('⚠️ Settings API not found, trying admin API...');
+        const adminResponse = await fetch('/api/admin/settings', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        });
+        
+        if (adminResponse.ok) {
+          const adminResult = await adminResponse.json();
+          console.log('🔄 Admin settings fetched:', adminResult);
+          
+          const enabled = adminResult.settings?.nominations_enabled?.value === 'true';
+          const closeMessage = adminResult.settings?.nominations_close_message?.value || 'Thank you for your interest! Nominations are now closed.';
+          
+          setStatus(prev => ({
+            ...prev,
+            enabled,
+            closeMessage,
+            loading: false,
+            error: null
+          }));
+        } else {
+          throw new Error('Both settings APIs failed');
+        }
       } else {
         throw new Error('Failed to fetch nomination status');
       }
     } catch (error) {
       console.error('Error fetching nomination status:', error);
+      // Default to enabled for now so you can test the toggle
       setStatus(prev => ({
         ...prev,
+        enabled: true, // Default to enabled for testing
         loading: false,
         error: error instanceof Error ? error.message : 'Failed to fetch status'
       }));
