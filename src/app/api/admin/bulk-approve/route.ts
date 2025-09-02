@@ -8,6 +8,14 @@ interface BulkApprovalRequest {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Supabase is configured
+    if (!process.env.SUPABASE_URL && !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      return NextResponse.json({ 
+        error: 'Database not configured. Please set up Supabase environment variables.',
+        setup_required: true
+      }, { status: 503 });
+    }
+
     // Use the imported supabase client
     
     // Check if user is admin
@@ -185,6 +193,14 @@ export async function POST(request: NextRequest) {
 // GET endpoint to fetch nominees pending bulk approval
 export async function GET(request: NextRequest) {
   try {
+    // Check if Supabase is configured
+    if (!process.env.SUPABASE_URL && !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      return NextResponse.json({ 
+        error: 'Database not configured. Please set up Supabase environment variables.',
+        setup_required: true
+      }, { status: 503 });
+    }
+
     // Use the imported supabase client
     
     // Check if user is admin
