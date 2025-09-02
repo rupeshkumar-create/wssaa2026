@@ -10,9 +10,7 @@ export function AnimatedHero() {
   const nominationStatus = useNominationStatus();
   
   // Prevent hydration mismatch
-  const buttonText = nominationStatus.loading ? "Vote Now" : (nominationStatus.enabled ? "Submit Nomination" : "Vote Now");
-  const buttonHref = nominationStatus.loading ? "/directory" : (nominationStatus.enabled ? "/nominate" : "/directory");
-  const showNominateIcon = !nominationStatus.loading && nominationStatus.enabled;
+  const showNominate = !nominationStatus.loading && nominationStatus.enabled;
   
   return (
     <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-white">
@@ -62,20 +60,21 @@ export function AnimatedHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
         >
+          {/* Primary CTA - Changes based on nomination status */}
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Button 
               asChild 
               size="lg" 
               className="bg-slate-800 hover:bg-slate-900 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 group relative z-30"
             >
-              <Link href={buttonHref} className="flex items-center">
-                {showNominateIcon ? (
+              <Link href={showNominate ? "/nominate" : "/directory"} className="flex items-center">
+                {showNominate ? (
                   <Award className="mr-2 h-5 w-5 flex-shrink-0 text-orange-400" />
                 ) : (
                   <Vote className="mr-2 h-5 w-5 flex-shrink-0 text-orange-400" />
                 )}
                 <span className="font-semibold">
-                  {buttonText}
+                  {showNominate ? "Nominate Now" : "Vote Now"}
                 </span>
                 <motion.div
                   className="ml-2 flex-shrink-0"
@@ -88,6 +87,7 @@ export function AnimatedHero() {
             </Button>
           </motion.div>
 
+          {/* Secondary CTA - Always View Nominees */}
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Button 
               asChild 

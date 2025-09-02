@@ -18,8 +18,6 @@ export default function HomePage() {
   
   // Prevent hydration mismatch
   const showNominate = !nominationStatus.loading && nominationStatus.enabled;
-  const ctaTitle = nominationStatus.loading ? "Ready to Vote?" : (nominationStatus.enabled ? "Ready to Nominate or Vote?" : "Ready to Vote?");
-  const ctaText = nominationStatus.loading ? "vote" : (nominationStatus.enabled ? "nomination or vote" : "vote");
   
   return (
     <div className="min-h-screen bg-background">
@@ -49,31 +47,25 @@ export default function HomePage() {
         <section className="py-20 px-4 bg-slate-50 relative overflow-hidden">
           <div className="container mx-auto text-center relative z-10">
             <h2 className="text-3xl font-bold mb-4 text-slate-900">
-              {ctaTitle}
+              {showNominate ? "Ready to Nominate?" : "Ready to Vote?"}
             </h2>
             <p className="text-slate-600 mb-8 max-w-2xl mx-auto">
               Help us recognize the outstanding individuals and companies shaping the future of staffing.
-              Your {ctaText} could make all the difference.
+              Your {showNominate ? "nomination" : "vote"} could make all the difference.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {showNominate && (
-                <Button asChild size="lg" className="px-8 bg-orange-600 hover:bg-orange-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
-                  <Link href="/nominate">
+              <Button asChild size="lg" className="px-8 bg-orange-600 hover:bg-orange-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
+                <Link href={showNominate ? "/nominate" : "/directory"}>
+                  {showNominate ? (
                     <Award className="mr-2 h-5 w-5 text-white" />
-                    Submit Nomination
-                  </Link>
-                </Button>
-              )}
-              <Button asChild size="lg" className="px-8 bg-slate-800 hover:bg-slate-900 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
-                <Link href="/directory">
-                  <Vote className="mr-2 h-5 w-5 text-orange-400" />
-                  Start Voting
+                  ) : (
+                    <Vote className="mr-2 h-5 w-5 text-white" />
+                  )}
+                  {showNominate ? "Nominate Now" : "Vote Now"}
                 </Link>
               </Button>
             </div>
           </div>
-          
-
         </section>
       </ScrollReveal>
     </div>

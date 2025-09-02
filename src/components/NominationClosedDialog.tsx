@@ -18,7 +18,7 @@ export function NominationClosedDialog({ isOpen, onClose, message }: NominationC
         <div className="flex items-center justify-between p-6 border-b">
           <div className="flex items-center gap-2">
             <Info className="h-5 w-5 text-orange-600" />
-            <h2 className="text-lg font-semibold">Voting Closed</h2>
+            <h2 className="text-lg font-semibold">Nominations Closed</h2>
           </div>
           <button
             type="button"
@@ -37,7 +37,7 @@ export function NominationClosedDialog({ isOpen, onClose, message }: NominationC
           
           <div className="bg-orange-50 p-4 rounded-lg border border-orange-200">
             <p className="text-sm text-orange-800">
-              <strong>What's next?</strong> Stay tuned for future voting opportunities and check back for the next voting period.
+              <strong>What's next?</strong> You can still vote for existing nominees! Visit the directory to cast your votes.
             </p>
           </div>
         </div>
