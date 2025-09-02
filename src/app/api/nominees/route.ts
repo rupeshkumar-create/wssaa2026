@@ -89,130 +89,129 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    try {
-      // Query the nominations table directly with the current schema
-      let query = supabase
-        .from('nominations')
-        .select('*')
-        .eq('status', 'approved')
-        .order('additional_votes', { ascending: false })
-        .order('created_at', { ascending: false });
+    // Query nominations with joined nominee and nominator data
+    let query = supabase
+      .from('nominations')
+      .select(`
+        *,
+        nominees!inner(*),
+        nominators!inner(*)
+      `)
+      .eq('state', 'approved')  // Use 'state' instead of 'status' to match current schema
+      .order('additional_votes', { ascending: false })
+      .order('created_at', { ascending: false });
 
-      if (subcategoryId) {
-        query = query.eq('category', subcategoryId);
-      }
+    if (subcategoryId) {
+      query = query.eq('subcategory_id', subcategoryId);  // Use subcategory_id instead of category
+    }
 
-      if (limit) {
-        query = query.limit(limit);
-      }
+    if (limit) {
+      query = query.limit(limit);
+    }
 
-      const { data: nominees, error } = await query;
+    const { data: nominations, error } = await query;
 
-      if (error) {
-        console.error('Supabase error:', error);
-        // Return demo data if query fails
-        return NextResponse.json({
-          success: true,
-          data: getDemoNomineesData(subcategoryId, limit),
-          count: getDemoNomineesData(subcategoryId, limit).length,
-          message: 'Demo data - database query failed'
-        });
-      }
-    } catch (dbError) {
-      console.error('Database connection error:', dbError);
-      // Return demo data if database is not accessible
+    if (error) {
+      console.error('Supabase error:', error);
+      // Return demo data if query fails
       return NextResponse.json({
         success: true,
         data: getDemoNomineesData(subcategoryId, limit),
         count: getDemoNomineesData(subcategoryId, limit).length,
-        message: 'Demo data - database not accessible'
+        message: 'Demo data - database query failed'
       });
     }
 
-    console.log(`Found ${nominees?.length || 0} nominees`);
+    console.log(`Found ${nominations?.length || 0} approved nominations`);
 
-    // Transform nominees data from the nominations table
-    const transformedNominees = (nominees || []).map((nomination: any) => {
+    // Transform nominations data with joined nominee and nominator data
+    const transformedNominees = (nominations || []).map((nomination: any) => {
       // Safety check
-      if (!nomination) {
-        console.warn('Missing nomination data');
+      if (!nomination || !nomination.nominees) {
+        console.warn('Missing nomination or nominee data');
         return null;
       }
       
-      // Extract nominee data from the nomination
-      const nomineeData = nomination.nominee_data || {};
-      const displayName = nomineeData.name || nomineeData.displayName || 
-                         (nomineeData.firstName && nomineeData.lastName ? 
-                          `${nomineeData.firstName} ${nomineeData.lastName}` : '') || 
-                         'Unknown';
+      // Extract nominee data from the joined table
+      const nominee = nomination.nominees;
+      const nominator = nomination.nominators;
       
-      const imageUrl = nomination.image_url || nomineeData.headshotUrl || nomineeData.logoUrl || null;
-      const liveUrl = nomination.live_url || '';
+      const displayName = nominee.type === 'person' 
+        ? `${nominee.firstname || ''} ${nominee.lastname || ''}`.trim()
+        : nominee.company_name || 'Unknown';
+      
+      const imageUrl = nominee.type === 'person' 
+        ? nominee.headshot_url 
+        : nominee.logo_url;
+      
+      const liveUrl = nominee.live_url || nomination.live_url || '';
 
       return {
         // Basic nomination info
         id: nomination.id,
-        nomineeId: nomination.id,
-        category: nomination.category,
-        type: nomination.type,
+        nomineeId: nominee.id,
+        category: nomination.subcategory_id,
+        categoryGroup: nomination.category_group_id,
+        type: nominee.type,
         votes: (nomination.votes || 0) + (nomination.additional_votes || 0), // Total votes
         status: 'approved' as const,
         createdAt: nomination.created_at,
-        approvedAt: nomination.moderated_at,
+        approvedAt: nomination.approved_at,
         uniqueKey: nomination.id,
 
         // Display fields
         name: displayName,
         displayName: displayName,
         imageUrl: imageUrl,
-        title: nomineeData.title || nomineeData.jobTitle || '',
-        linkedin: nomineeData.linkedin || '',
-        whyVote: nomination.why_vote_for_me || nomineeData.whyVoteForMe || nomineeData.whyMe || nomineeData.whyUs || '',
+        title: nominee.type === 'person' ? nominee.jobtitle : 'Company',
+        linkedin: nominee.type === 'person' ? nominee.person_linkedin : nominee.company_linkedin,
+        whyVote: nominee.type === 'person' ? nominee.why_me : nominee.why_us,
         liveUrl: liveUrl,
 
         // Complete nominee object with ALL available form details
         nominee: {
-          id: nomination.id,
-          type: nomination.type,
+          id: nominee.id,
+          type: nominee.type,
           name: displayName,
           displayName: displayName,
           imageUrl: imageUrl,
           
           // Contact details
-          email: nomineeData.email || '',
-          phone: nomineeData.phone || '',
-          country: nomineeData.country || '',
-          linkedin: nomineeData.linkedin || '',
+          email: nominee.type === 'person' ? nominee.person_email : nominee.company_email,
+          phone: nominee.type === 'person' ? nominee.person_phone : nominee.company_phone,
+          country: nominee.type === 'person' ? nominee.person_country : nominee.company_country,
+          linkedin: nominee.type === 'person' ? nominee.person_linkedin : nominee.company_linkedin,
           liveUrl: liveUrl,
-          bio: nomineeData.bio || '',
-          achievements: nomineeData.achievements || '',
-          socialMedia: nomineeData.socialMedia || '',
+          bio: nominee.bio || '',
+          achievements: nominee.achievements || '',
+          socialMedia: nominee.social_media || '',
 
           // Person-specific fields
-          ...(nomination.type === 'person' ? {
-            firstName: nomineeData.firstName || '',
-            lastName: nomineeData.lastName || '',
-            jobTitle: nomineeData.jobTitle || nomineeData.title || '',
-            title: nomineeData.jobTitle || nomineeData.title || '',
-            company: nomineeData.company || '',
-            headshotUrl: nomineeData.headshotUrl || imageUrl || '',
-            whyMe: nomineeData.whyMe || nomineeData.whyVoteForMe || ''
+          ...(nominee.type === 'person' ? {
+            firstName: nominee.firstname || '',
+            lastName: nominee.lastname || '',
+            jobTitle: nominee.jobtitle || '',
+            title: nominee.jobtitle || '',
+            company: nominee.person_company || '',
+            headshotUrl: nominee.headshot_url || '',
+            whyMe: nominee.why_me || ''
           } : {}),
 
           // Company-specific fields  
-          ...(nomination.type === 'company' ? {
-            companyName: nomineeData.name || nomineeData.companyName || '',
-            companyDomain: nomineeData.domain || nomineeData.companyDomain || '',
-            companyWebsite: nomineeData.website || nomineeData.companyWebsite || '',
-            website: nomineeData.website || nomineeData.companyWebsite || '',
-            companySize: nomineeData.size || nomineeData.companySize || '',
-            industry: nomineeData.industry || nomineeData.companyIndustry || '',
-            logoUrl: nomineeData.logoUrl || imageUrl || '',
-            whyUs: nomineeData.whyUs || nomineeData.whyVoteForMe || ''
+          ...(nominee.type === 'company' ? {
+            companyName: nominee.company_name || '',
+            companyDomain: nominee.company_domain || '',
+            companyWebsite: nominee.company_website || '',
+            website: nominee.company_website || '',
+            companySize: nominee.company_size || '',
+            industry: nominee.company_industry || '',
+            logoUrl: nominee.logo_url || '',
+            whyUs: nominee.why_us || ''
           } : {}),
 
           // Computed fields for easy access
-          whyVote: nomination.why_vote_for_me || nomineeData.whyVoteForMe || nomineeData.whyMe || nomineeData.whyUs || ''
+          whyVote: nominee.type === 'person' ? nominee.why_me : nominee.why_us,
+          titleOrIndustry: nominee.type === 'person' ? nominee.jobtitle : nominee.company_industry
         },
 
         // Legacy nominator info (anonymous in public view)
