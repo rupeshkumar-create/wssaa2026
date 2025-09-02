@@ -12,6 +12,13 @@ export function AnimatedHero() {
   // Prevent hydration mismatch
   const showNominate = !nominationStatus.loading && nominationStatus.enabled;
   
+  // Debug logging
+  console.log('🎯 AnimatedHero - Nomination Status:', {
+    loading: nominationStatus.loading,
+    enabled: nominationStatus.enabled,
+    showNominate
+  });
+  
   return (
     <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-white">
       {/* Clean Background */}

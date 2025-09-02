@@ -19,6 +19,13 @@ export default function HomePage() {
   // Prevent hydration mismatch
   const showNominate = !nominationStatus.loading && nominationStatus.enabled;
   
+  // Debug logging
+  console.log('🏠 HomePage - Nomination Status:', {
+    loading: nominationStatus.loading,
+    enabled: nominationStatus.enabled,
+    showNominate
+  });
+  
   return (
     <div className="min-h-screen bg-background">
       {/* Enhanced Hero Section */}

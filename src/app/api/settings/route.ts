@@ -16,37 +16,47 @@ export async function GET(request: NextRequest) {
       throw new Error('Supabase not configured');
     }
 
-    const { data: settings, error } = await supabase
-      .from('app_settings')
-      .select('setting_key, setting_value, boolean_value')
-      .in('setting_key', ['nominations_enabled', 'nominations_open', 'nominations_close_message']);
+    // Try system_settings table first (used by admin panel)
+    let { data: settings, error } = await supabase
+      .from('system_settings')
+      .select('setting_key, setting_value')
+      .in('setting_key', ['nominations_enabled', 'nominations_close_message']);
 
-    if (error) {
-      console.error('❌ Database error:', error);
-      throw error;
+    // If system_settings doesn't exist or is empty, try app_settings for backward compatibility
+    if (error || !settings || settings.length === 0) {
+      console.log('⚠️ Trying app_settings table for backward compatibility...');
+      const { data: appSettings, error: appError } = await supabase
+        .from('app_settings')
+        .select('setting_key, setting_value, boolean_value')
+        .in('setting_key', ['nominations_enabled', 'nominations_open', 'nominations_close_message']);
+
+      if (appError) {
+        console.error('❌ Database error:', appError);
+        throw appError;
+      }
+
+      settings = appSettings?.map(setting => ({
+        setting_key: setting.setting_key,
+        setting_value: setting.boolean_value !== null ? String(setting.boolean_value) : setting.setting_value
+      })) || [];
     }
 
     console.log('✅ Settings fetched:', settings);
 
     // Convert to key-value object
     const settingsObject = settings.reduce((acc, setting) => {
-      acc[setting.setting_key] = setting.boolean_value !== null 
-        ? setting.boolean_value 
-        : setting.setting_value;
+      acc[setting.setting_key] = setting.setting_value;
       return acc;
     }, {} as Record<string, any>);
 
-    // Check both nominations_enabled and nominations_open for backward compatibility
-    const nominationsEnabled = settingsObject.nominations_enabled === true || 
-                              settingsObject.nominations_enabled === 'true' ||
-                              settingsObject.nominations_open === true ||
-                              settingsObject.nominations_open === 'true';
+    // Check nominations_enabled setting
+    const nominationsEnabled = settingsObject.nominations_enabled === 'true';
 
     return NextResponse.json({
       success: true,
       settings: settingsObject,
       nominations_enabled: nominationsEnabled,
-      nominations_close_message: settingsObject.nominations_close_message || 'Nominations are currently closed.'
+      nominations_close_message: settingsObject.nominations_close_message || 'Thank you for your interest! Nominations are now closed. Please vote for your favorite nominees.'
     });
 
   } catch (error) {
