@@ -1,0 +1,1803 @@
+[
+  {
+    "id": "nom-001",
+    "category": "Top Recruiter",
+    "type": "person",
+    "nominee": {
+      "name": "Mark Johnson",
+      "title": "CEO",
+      "country": "Switzerland",
+      "linkedin": "https://www.linkedin.com/in/mark-johnson",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Digital Staffing Pro",
+      "website": "https://digitalstaffingpro.com",
+      "country": "Switzerland"
+    },
+    "nominator": {
+      "name": "Sarah Mitchell",
+      "email": "priyapatel@digitalstaffingpro.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "whyNominated": "Demonstrated exceptional leadership and mentored numerous team members.",
+    "whyVoteForMe": "My leadership has resulted in team growth and exceptional performance metrics.",
+    "liveUrl": "mark-johnson",
+    "status": "approved",
+    "uniqueKey": "top-recruiter:mark-johnson",
+    "createdAt": "2025-01-01T05:45:00.000Z",
+    "updatedAt": "2025-01-01T05:45:00.000Z"
+  },
+  {
+    "id": "nom-002",
+    "category": "Top Recruiter",
+    "type": "person",
+    "nominee": {
+      "name": "James Rodriguez",
+      "title": "Director of Recruiting",
+      "country": "United States",
+      "linkedin": "https://www.linkedin.com/in/james-rodriguez",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "EuroTalent Network",
+      "website": "https://eurotalentnetwork.com",
+      "country": "United States"
+    },
+    "nominator": {
+      "name": "Mark Johnson",
+      "email": "klausweber@eurotalentnetwork.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/klaus-weber"
+    },
+    "whyNominated": "Demonstrated exceptional leadership and mentored numerous team members.",
+    "whyVoteForMe": "My leadership has resulted in team growth and exceptional performance metrics.",
+    "liveUrl": "james-rodriguez",
+    "status": "approved",
+    "uniqueKey": "top-recruiter:james-rodriguez",
+    "createdAt": "2025-01-02T07:00:00.000Z",
+    "updatedAt": "2025-01-02T07:00:00.000Z"
+  },
+  {
+    "id": "nom-003",
+    "category": "Top Recruiter",
+    "type": "person",
+    "nominee": {
+      "name": "Emily Watson",
+      "title": "Founder & CEO",
+      "country": "Germany",
+      "linkedin": "https://www.linkedin.com/in/emily-watson",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Digital Staffing Pro",
+      "website": "https://digitalstaffingpro.com",
+      "country": "Germany"
+    },
+    "nominator": {
+      "name": "Maria Gonzalez",
+      "email": "hansmueller@digitalstaffingpro.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/dr-sarah-kim"
+    },
+    "whyNominated": "Revolutionized our recruitment process and achieved outstanding placement rates.",
+    "whyVoteForMe": "I've established industry networks and achieved consistent top performer status.",
+    "liveUrl": "emily-watson",
+    "status": "approved",
+    "uniqueKey": "top-recruiter:emily-watson",
+    "createdAt": "2025-01-03T08:15:00.000Z",
+    "updatedAt": "2025-01-03T08:15:00.000Z"
+  },
+  {
+    "id": "nom-004",
+    "category": "Top Executive Leader",
+    "type": "person",
+    "nominee": {
+      "name": "Emily Watson",
+      "title": "Senior Technical Recruiter",
+      "country": "Italy",
+      "linkedin": "https://www.linkedin.com/in/emily-watson",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Mediterranean Staffing",
+      "website": "https://mediterraneanstaffing.com",
+      "country": "Italy"
+    },
+    "nominator": {
+      "name": "Nelson Mandela Jr",
+      "email": "drelizabethwarren@mediterraneanstaffing.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/priya-patel"
+    },
+    "whyNominated": "Led innovative initiatives that transformed our approach to talent acquisition.",
+    "whyVoteForMe": "I've built innovative processes that have improved efficiency and candidate experience.",
+    "liveUrl": "emily-watson",
+    "status": "approved",
+    "uniqueKey": "top-executive-leader:emily-watson",
+    "createdAt": "2025-01-04T08:30:00.000Z",
+    "updatedAt": "2025-01-04T08:30:00.000Z"
+  },
+  {
+    "id": "nom-005",
+    "category": "Top Executive Leader",
+    "type": "person",
+    "nominee": {
+      "name": "Pierre Dubois",
+      "title": "Global Operations Director",
+      "country": "Germany",
+      "linkedin": "https://www.linkedin.com/in/pierre-dubois",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "TechTalent Solutions",
+      "website": "https://techtalentsolutions.com",
+      "country": "Germany"
+    },
+    "nominator": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "jenniferdavis@techtalentsolutions.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/isabella-romano"
+    },
+    "whyNominated": "Has consistently exceeded targets and built strong relationships with clients and candidates.",
+    "whyVoteForMe": "I bring extensive experience with proven results in talent acquisition and client satisfaction.",
+    "liveUrl": "pierre-dubois",
+    "status": "approved",
+    "uniqueKey": "top-executive-leader:pierre-dubois",
+    "createdAt": "2025-01-05T09:45:00.000Z",
+    "updatedAt": "2025-01-05T09:45:00.000Z"
+  },
+  {
+    "id": "nom-006",
+    "category": "Top Staffing Influencer",
+    "type": "person",
+    "nominee": {
+      "name": "Rachel Green",
+      "title": "Recruitment Team Lead",
+      "country": "Mexico",
+      "linkedin": "https://www.linkedin.com/in/rachel-green",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "African Talent Initiative",
+      "website": "https://africantalentinitiative.com",
+      "country": "Mexico"
+    },
+    "nominator": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "pierredubois@africantalentinitiative.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/sarah-mitchell"
+    },
+    "whyNominated": "Demonstrated exceptional leadership and mentored numerous team members.",
+    "whyVoteForMe": "My track record includes thousands of successful placements and industry recognition.",
+    "liveUrl": "rachel-green",
+    "status": "approved",
+    "uniqueKey": "top-staffing-influencer:rachel-green",
+    "createdAt": "2025-01-06T11:00:00.000Z",
+    "updatedAt": "2025-01-06T11:00:00.000Z"
+  },
+  {
+    "id": "nom-007",
+    "category": "Top Staffing Influencer",
+    "type": "person",
+    "nominee": {
+      "name": "Jennifer Davis",
+      "title": "Founder & CEO",
+      "country": "United States",
+      "linkedin": "https://www.linkedin.com/in/jennifer-davis",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "USA Staffing Corp",
+      "website": "https://usastaffingcorp.com",
+      "country": "United States"
+    },
+    "nominator": {
+      "name": "Tom Wilson",
+      "email": "roberttaylor@usastaffingcorp.com",
+      "company": "USA Staffing Corp",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "whyNominated": "Led innovative initiatives that transformed our approach to talent acquisition.",
+    "whyVoteForMe": "My leadership has resulted in team growth and exceptional performance metrics.",
+    "liveUrl": "jennifer-davis",
+    "status": "approved",
+    "uniqueKey": "top-staffing-influencer:jennifer-davis",
+    "createdAt": "2025-01-07T12:15:00.000Z",
+    "updatedAt": "2025-01-07T12:15:00.000Z"
+  },
+  {
+    "id": "nom-008",
+    "category": "Rising Star (Under 30)",
+    "type": "person",
+    "nominee": {
+      "name": "Fatima Al-Zahra",
+      "title": "Founder & CEO",
+      "country": "United Kingdom",
+      "linkedin": "https://www.linkedin.com/in/fatima-al-zahra",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Digital Staffing Pro",
+      "website": "https://digitalstaffingpro.com",
+      "country": "United Kingdom"
+    },
+    "nominator": {
+      "name": "Lisa Anderson",
+      "email": "klausweber@digitalstaffingpro.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "whyNominated": "Has consistently exceeded targets and built strong relationships with clients and candidates.",
+    "whyVoteForMe": "I've established industry networks and achieved consistent top performer status.",
+    "liveUrl": "fatima-al-zahra",
+    "status": "approved",
+    "uniqueKey": "rising-star-under-30:fatima-al-zahra",
+    "createdAt": "2025-01-08T12:30:00.000Z",
+    "updatedAt": "2025-01-08T12:30:00.000Z"
+  },
+  {
+    "id": "nom-009",
+    "category": "Rising Star (Under 30)",
+    "type": "person",
+    "nominee": {
+      "name": "Ahmed Hassan",
+      "title": "Chief Strategy Officer",
+      "country": "South Africa",
+      "linkedin": "https://www.linkedin.com/in/ahmed-hassan",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Asia Pacific Staffing",
+      "website": "https://asiapacificstaffing.com",
+      "country": "South Africa"
+    },
+    "nominator": {
+      "name": "Dr. Sarah Kim",
+      "email": "klausweber@asiapacificstaffing.com",
+      "company": "Asia Pacific Staffing",
+      "linkedin": "https://linkedin.com/in/ahmed-hassan"
+    },
+    "whyNominated": "Led innovative initiatives that transformed our approach to talent acquisition.",
+    "whyVoteForMe": "I bring extensive experience with proven results in talent acquisition and client satisfaction.",
+    "liveUrl": "ahmed-hassan",
+    "status": "approved",
+    "uniqueKey": "rising-star-under-30:ahmed-hassan",
+    "createdAt": "2025-01-09T13:45:00.000Z",
+    "updatedAt": "2025-01-09T13:45:00.000Z"
+  },
+  {
+    "id": "nom-010",
+    "category": "Rising Star (Under 30)",
+    "type": "person",
+    "nominee": {
+      "name": "Jennifer Davis",
+      "title": "Director of Recruiting",
+      "country": "France",
+      "linkedin": "https://www.linkedin.com/in/jennifer-davis",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Future of Work Institute",
+      "website": "https://futureofworkinstitute.com",
+      "country": "France"
+    },
+    "nominator": {
+      "name": "James Rodriguez",
+      "email": "rachelgreen@futureofworkinstitute.com",
+      "company": "Future of Work Institute",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "whyNominated": "Built extensive networks and achieved remarkable success in specialized recruitment.",
+    "whyVoteForMe": "My leadership has resulted in team growth and exceptional performance metrics.",
+    "liveUrl": "jennifer-davis",
+    "status": "approved",
+    "uniqueKey": "rising-star-under-30:jennifer-davis",
+    "createdAt": "2025-01-10T15:00:00.000Z",
+    "updatedAt": "2025-01-10T15:00:00.000Z"
+  },
+  {
+    "id": "nom-011",
+    "category": "Rising Star (Under 30)",
+    "type": "person",
+    "nominee": {
+      "name": "David Park",
+      "title": "European Recruitment Director",
+      "country": "France",
+      "linkedin": "https://www.linkedin.com/in/david-park",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "American Talent Solutions",
+      "website": "https://americantalentsolutions.com",
+      "country": "France"
+    },
+    "nominator": {
+      "name": "Lisa Anderson",
+      "email": "isabellaromano@americantalentsolutions.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "whyNominated": "Has consistently exceeded targets and built strong relationships with clients and candidates.",
+    "whyVoteForMe": "I bring extensive experience with proven results in talent acquisition and client satisfaction.",
+    "liveUrl": "david-park",
+    "status": "approved",
+    "uniqueKey": "rising-star-under-30:david-park",
+    "createdAt": "2025-01-11T16:15:00.000Z",
+    "updatedAt": "2025-01-11T16:15:00.000Z"
+  },
+  {
+    "id": "nom-012",
+    "category": "Top AI-Driven Staffing Platform",
+    "type": "company",
+    "nominee": {
+      "name": "Australian Talent Network",
+      "title": null,
+      "country": "Australia",
+      "linkedin": "https://www.linkedin.com/in/australian-talent-network",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Australian Talent Network",
+      "website": "https://australiantalentnetwork.com",
+      "country": "Australia"
+    },
+    "nominator": {
+      "name": "Jennifer Davis",
+      "email": "roberttaylor@australiantalentnetwork.com",
+      "company": "Australian Talent Network",
+      "linkedin": "https://linkedin.com/in/maria-gonzalez"
+    },
+    "whyNominated": "Built scalable processes and expanded successfully across multiple markets.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "australian-talent-network",
+    "status": "approved",
+    "uniqueKey": "top-ai-driven-staffing-platform:australian-talent-network",
+    "createdAt": "2025-01-12T04:30:00.000Z",
+    "updatedAt": "2025-01-12T04:30:00.000Z"
+  },
+  {
+    "id": "nom-013",
+    "category": "Top AI-Driven Staffing Platform",
+    "type": "company",
+    "nominee": {
+      "name": "EuroAI Staffing",
+      "title": null,
+      "country": "Netherlands",
+      "linkedin": "https://www.linkedin.com/in/euroai-staffing",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "EuroAI Staffing",
+      "website": "https://euroaistaffing.com",
+      "country": "Netherlands"
+    },
+    "nominator": {
+      "name": "Jennifer Davis",
+      "email": "fatimaalzahra@euroaistaffing.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/isabella-romano"
+    },
+    "whyNominated": "Demonstrated outstanding client service and achieved remarkable results.",
+    "whyVoteForMe": "We've built scalable processes that deliver consistent excellence across all markets.",
+    "liveUrl": "euroai-staffing",
+    "status": "approved",
+    "uniqueKey": "top-ai-driven-staffing-platform:euroai-staffing",
+    "createdAt": "2025-01-13T05:45:00.000Z",
+    "updatedAt": "2025-01-13T05:45:00.000Z"
+  },
+  {
+    "id": "nom-014",
+    "category": "Top AI-Driven Staffing Platform",
+    "type": "company",
+    "nominee": {
+      "name": "Middle East Global Staffing",
+      "title": null,
+      "country": "Australia",
+      "linkedin": "https://www.linkedin.com/in/middle-east-global-staffing",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Middle East Global Staffing",
+      "website": "https://middleeastglobalstaffing.com",
+      "country": "Australia"
+    },
+    "nominator": {
+      "name": "Emily Watson",
+      "email": "isabellaromano@middleeastglobalstaffing.com",
+      "company": "Middle East Global Staffing",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "whyNominated": "Demonstrated outstanding client service and achieved remarkable results.",
+    "whyVoteForMe": "We've achieved remarkable growth while maintaining the highest quality standards.",
+    "liveUrl": "middle-east-global-staffing",
+    "status": "approved",
+    "uniqueKey": "top-ai-driven-staffing-platform:middle-east-global-staffing",
+    "createdAt": "2025-01-14T07:00:00.000Z",
+    "updatedAt": "2025-01-14T07:00:00.000Z"
+  },
+  {
+    "id": "nom-015",
+    "category": "Top AI-Driven Staffing Platform",
+    "type": "company",
+    "nominee": {
+      "name": "EuroAI Staffing",
+      "title": null,
+      "country": "United States",
+      "linkedin": "https://www.linkedin.com/in/euroai-staffing",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "EuroAI Staffing",
+      "website": "https://euroaistaffing.com",
+      "country": "United States"
+    },
+    "nominator": {
+      "name": "Rachel Green",
+      "email": "tomwilson@euroaistaffing.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "whyNominated": "Pioneered innovative solutions that have transformed the industry.",
+    "whyVoteForMe": "Our team has achieved outstanding metrics and client satisfaction scores.",
+    "liveUrl": "euroai-staffing",
+    "status": "rejected",
+    "uniqueKey": "top-ai-driven-staffing-platform:euroai-staffing",
+    "createdAt": "2025-01-15T08:15:00.000Z",
+    "updatedAt": "2025-01-15T08:15:00.000Z",
+    "moderatorNote": "Auto-rejected duplicate during migration"
+  },
+  {
+    "id": "nom-016",
+    "category": "Top Digital Experience for Clients",
+    "type": "company",
+    "nominee": {
+      "name": "USA Staffing Corp",
+      "title": null,
+      "country": "Brazil",
+      "linkedin": "https://www.linkedin.com/in/usa-staffing-corp",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "USA Staffing Corp",
+      "website": "https://usastaffingcorp.com",
+      "country": "Brazil"
+    },
+    "nominator": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "drelizabethwarren@usastaffingcorp.com",
+      "company": "USA Staffing Corp",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "whyNominated": "Has achieved exceptional growth while maintaining high quality standards.",
+    "whyVoteForMe": "We've pioneered industry solutions and established market-leading practices.",
+    "liveUrl": "usa-staffing-corp",
+    "status": "approved",
+    "uniqueKey": "top-digital-experience-for-clients:usa-staffing-corp",
+    "createdAt": "2025-01-16T08:30:00.000Z",
+    "updatedAt": "2025-01-16T08:30:00.000Z"
+  },
+  {
+    "id": "nom-017",
+    "category": "Top Digital Experience for Clients",
+    "type": "company",
+    "nominee": {
+      "name": "American Talent Solutions",
+      "title": null,
+      "country": "Switzerland",
+      "linkedin": "https://www.linkedin.com/in/american-talent-solutions",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "American Talent Solutions",
+      "website": "https://americantalentsolutions.com",
+      "country": "Switzerland"
+    },
+    "nominator": {
+      "name": "Raj Kumar",
+      "email": "drmichaelroberts@americantalentsolutions.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/alex-thompson"
+    },
+    "whyNominated": "Demonstrated outstanding client service and achieved remarkable results.",
+    "whyVoteForMe": "We've pioneered industry solutions and established market-leading practices.",
+    "liveUrl": "american-talent-solutions",
+    "status": "approved",
+    "uniqueKey": "top-digital-experience-for-clients:american-talent-solutions",
+    "createdAt": "2025-01-17T09:45:00.000Z",
+    "updatedAt": "2025-01-17T09:45:00.000Z"
+  },
+  {
+    "id": "nom-018",
+    "category": "Top Women-Led Staffing Firm",
+    "type": "company",
+    "nominee": {
+      "name": "Aussie Talent Co",
+      "title": null,
+      "country": "Brazil",
+      "linkedin": "https://www.linkedin.com/in/aussie-talent-co",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Aussie Talent Co",
+      "website": "https://aussietalentco.com",
+      "country": "Brazil"
+    },
+    "nominator": {
+      "name": "Isabella Romano",
+      "email": "drelizabethwarren@aussietalentco.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/dr-sarah-kim"
+    },
+    "whyNominated": "Pioneered innovative solutions that have transformed the industry.",
+    "whyVoteForMe": "We've achieved remarkable growth while maintaining the highest quality standards.",
+    "liveUrl": "aussie-talent-co",
+    "status": "approved",
+    "uniqueKey": "top-women-led-staffing-firm:aussie-talent-co",
+    "createdAt": "2025-01-18T11:00:00.000Z",
+    "updatedAt": "2025-01-18T11:00:00.000Z"
+  },
+  {
+    "id": "nom-019",
+    "category": "Top Women-Led Staffing Firm",
+    "type": "company",
+    "nominee": {
+      "name": "Nordic Staffing Solutions",
+      "title": null,
+      "country": "Norway",
+      "linkedin": "https://www.linkedin.com/in/nordic-staffing-solutions",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Nordic Staffing Solutions",
+      "website": "https://nordicstaffingsolutions.com",
+      "country": "Norway"
+    },
+    "nominator": {
+      "name": "Ahmed Hassan",
+      "email": "sarahmitchell@nordicstaffingsolutions.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "whyNominated": "Pioneered innovative solutions that have transformed the industry.",
+    "whyVoteForMe": "We've achieved remarkable growth while maintaining the highest quality standards.",
+    "liveUrl": "nordic-staffing-solutions",
+    "status": "approved",
+    "uniqueKey": "top-women-led-staffing-firm:nordic-staffing-solutions",
+    "createdAt": "2025-01-19T12:15:00.000Z",
+    "updatedAt": "2025-01-19T12:15:00.000Z"
+  },
+  {
+    "id": "nom-020",
+    "category": "Top Women-Led Staffing Firm",
+    "type": "company",
+    "nominee": {
+      "name": "Digital Staffing Pro",
+      "title": null,
+      "country": "France",
+      "linkedin": "https://www.linkedin.com/in/digital-staffing-pro",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Digital Staffing Pro",
+      "website": "https://digitalstaffingpro.com",
+      "country": "France"
+    },
+    "nominator": {
+      "name": "Amanda Foster",
+      "email": "markjohnson@digitalstaffingpro.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "whyNominated": "Built scalable processes and expanded successfully across multiple markets.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "digital-staffing-pro",
+    "status": "approved",
+    "uniqueKey": "top-women-led-staffing-firm:digital-staffing-pro",
+    "createdAt": "2025-01-20T12:30:00.000Z",
+    "updatedAt": "2025-01-20T12:30:00.000Z"
+  },
+  {
+    "id": "nom-021",
+    "category": "Fastest Growing Staffing Firm",
+    "type": "company",
+    "nominee": {
+      "name": "African Talent Initiative",
+      "title": null,
+      "country": "Norway",
+      "linkedin": "https://www.linkedin.com/in/african-talent-initiative",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "African Talent Initiative",
+      "website": "https://africantalentinitiative.com",
+      "country": "Norway"
+    },
+    "nominator": {
+      "name": "David Park",
+      "email": "jessicamartinez@africantalentinitiative.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "whyNominated": "Built scalable processes and expanded successfully across multiple markets.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "african-talent-initiative",
+    "status": "approved",
+    "uniqueKey": "fastest-growing-staffing-firm:african-talent-initiative",
+    "createdAt": "2025-01-21T13:45:00.000Z",
+    "updatedAt": "2025-01-21T13:45:00.000Z"
+  },
+  {
+    "id": "nom-022",
+    "category": "Fastest Growing Staffing Firm",
+    "type": "company",
+    "nominee": {
+      "name": "Mediterranean Staffing",
+      "title": null,
+      "country": "Netherlands",
+      "linkedin": "https://www.linkedin.com/in/mediterranean-staffing",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Mediterranean Staffing",
+      "website": "https://mediterraneanstaffing.com",
+      "country": "Netherlands"
+    },
+    "nominator": {
+      "name": "Alex Thompson",
+      "email": "rachelgreen@mediterraneanstaffing.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/tom-wilson"
+    },
+    "whyNominated": "Established industry-leading practices and achieved consistent excellence.",
+    "whyVoteForMe": "We've achieved remarkable growth while maintaining the highest quality standards.",
+    "liveUrl": "mediterranean-staffing",
+    "status": "approved",
+    "uniqueKey": "fastest-growing-staffing-firm:mediterranean-staffing",
+    "createdAt": "2025-01-22T15:00:00.000Z",
+    "updatedAt": "2025-01-22T15:00:00.000Z"
+  },
+  {
+    "id": "nom-023",
+    "category": "Fastest Growing Staffing Firm",
+    "type": "company",
+    "nominee": {
+      "name": "Latin America Talent",
+      "title": null,
+      "country": "Australia",
+      "linkedin": "https://www.linkedin.com/in/latin-america-talent",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Latin America Talent",
+      "website": "https://latinamericatalent.com",
+      "country": "Australia"
+    },
+    "nominator": {
+      "name": "Dr. Emily Chen",
+      "email": "drelizabethwarren@latinamericatalent.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/sarah-mitchell"
+    },
+    "whyNominated": "Established industry-leading practices and achieved consistent excellence.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "latin-america-talent",
+    "status": "approved",
+    "uniqueKey": "fastest-growing-staffing-firm:latin-america-talent",
+    "createdAt": "2025-01-23T16:15:00.000Z",
+    "updatedAt": "2025-01-23T16:15:00.000Z"
+  },
+  {
+    "id": "nom-024",
+    "category": "Best Staffing Process at Scale",
+    "type": "company",
+    "nominee": {
+      "name": "TechTalent Solutions",
+      "title": null,
+      "country": "Sweden",
+      "linkedin": "https://www.linkedin.com/in/techtalent-solutions",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "TechTalent Solutions",
+      "website": "https://techtalentsolutions.com",
+      "country": "Sweden"
+    },
+    "nominator": {
+      "name": "Mark Johnson",
+      "email": "ahmedhassan@techtalentsolutions.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/james-rodriguez"
+    },
+    "whyNominated": "Demonstrated outstanding client service and achieved remarkable results.",
+    "whyVoteForMe": "Our team has achieved outstanding metrics and client satisfaction scores.",
+    "liveUrl": "techtalent-solutions",
+    "status": "approved",
+    "uniqueKey": "best-staffing-process-at-scale:techtalent-solutions",
+    "createdAt": "2025-01-24T04:30:00.000Z",
+    "updatedAt": "2025-01-24T04:30:00.000Z"
+  },
+  {
+    "id": "nom-025",
+    "category": "Best Staffing Process at Scale",
+    "type": "company",
+    "nominee": {
+      "name": "EuroAI Staffing",
+      "title": null,
+      "country": "Italy",
+      "linkedin": "https://www.linkedin.com/in/euroai-staffing",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "EuroAI Staffing",
+      "website": "https://euroaistaffing.com",
+      "country": "Italy"
+    },
+    "nominator": {
+      "name": "Dr. Sarah Kim",
+      "email": "rachelgreen@euroaistaffing.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/raj-kumar"
+    },
+    "whyNominated": "Pioneered innovative solutions that have transformed the industry.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "euroai-staffing",
+    "status": "approved",
+    "uniqueKey": "best-staffing-process-at-scale:euroai-staffing",
+    "createdAt": "2025-01-25T05:45:00.000Z",
+    "updatedAt": "2025-01-25T05:45:00.000Z"
+  },
+  {
+    "id": "nom-026",
+    "category": "Thought Leadership & Influence",
+    "type": "person",
+    "nominee": {
+      "name": "Dr. Sarah Kim",
+      "title": "Executive Search Consultant",
+      "country": "Spain",
+      "linkedin": "https://www.linkedin.com/in/dr-sarah-kim",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Mediterranean Staffing",
+      "website": "https://mediterraneanstaffing.com",
+      "country": "Spain"
+    },
+    "nominator": {
+      "name": "Emily Watson",
+      "email": "roberttaylor@mediterraneanstaffing.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "whyNominated": "Led innovative initiatives that transformed our approach to talent acquisition.",
+    "whyVoteForMe": "My leadership has resulted in team growth and exceptional performance metrics.",
+    "liveUrl": "dr-sarah-kim",
+    "status": "approved",
+    "uniqueKey": "thought-leadership-influence:dr-sarah-kim",
+    "createdAt": "2025-01-26T07:00:00.000Z",
+    "updatedAt": "2025-01-26T07:00:00.000Z"
+  },
+  {
+    "id": "nom-027",
+    "category": "Thought Leadership & Influence",
+    "type": "person",
+    "nominee": {
+      "name": "Maria Gonzalez",
+      "title": "Tech Recruitment Specialist",
+      "country": "Singapore",
+      "linkedin": "https://www.linkedin.com/in/maria-gonzalez",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Latin America Talent",
+      "website": "https://latinamericatalent.com",
+      "country": "Singapore"
+    },
+    "nominator": {
+      "name": "Dr. Emily Chen",
+      "email": "nelsonmandelajr@latinamericatalent.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "whyNominated": "Has consistently exceeded targets and built strong relationships with clients and candidates.",
+    "whyVoteForMe": "My track record includes thousands of successful placements and industry recognition.",
+    "liveUrl": "maria-gonzalez",
+    "status": "approved",
+    "uniqueKey": "thought-leadership-influence:maria-gonzalez",
+    "createdAt": "2025-01-27T08:15:00.000Z",
+    "updatedAt": "2025-01-27T08:15:00.000Z"
+  },
+  {
+    "id": "nom-028",
+    "category": "Thought Leadership & Influence",
+    "type": "person",
+    "nominee": {
+      "name": "Yuki Sato",
+      "title": "Junior Recruitment Consultant",
+      "country": "Switzerland",
+      "linkedin": "https://www.linkedin.com/in/yuki-sato",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Nordic Staffing Solutions",
+      "website": "https://nordicstaffingsolutions.com",
+      "country": "Switzerland"
+    },
+    "nominator": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "roberttaylor@nordicstaffingsolutions.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/alex-thompson"
+    },
+    "whyNominated": "Demonstrated exceptional leadership and mentored numerous team members.",
+    "whyVoteForMe": "My leadership has resulted in team growth and exceptional performance metrics.",
+    "liveUrl": "yuki-sato",
+    "status": "approved",
+    "uniqueKey": "thought-leadership-influence:yuki-sato",
+    "createdAt": "2025-01-28T08:30:00.000Z",
+    "updatedAt": "2025-01-28T08:30:00.000Z"
+  },
+  {
+    "id": "nom-029",
+    "category": "Thought Leadership & Influence",
+    "type": "person",
+    "nominee": {
+      "name": "Pierre Dubois",
+      "title": "Director of Recruiting",
+      "country": "United Kingdom",
+      "linkedin": "https://www.linkedin.com/in/pierre-dubois",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "European Talent Hub",
+      "website": "https://europeantalenthub.com",
+      "country": "United Kingdom"
+    },
+    "nominator": {
+      "name": "Robert Taylor",
+      "email": "markjohnson@europeantalenthub.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "whyNominated": "Led innovative initiatives that transformed our approach to talent acquisition.",
+    "whyVoteForMe": "My track record includes thousands of successful placements and industry recognition.",
+    "liveUrl": "pierre-dubois",
+    "status": "approved",
+    "uniqueKey": "thought-leadership-influence:pierre-dubois",
+    "createdAt": "2025-01-29T09:45:00.000Z",
+    "updatedAt": "2025-01-29T09:45:00.000Z"
+  },
+  {
+    "id": "nom-030",
+    "category": "Top Staffing Company - USA",
+    "type": "company",
+    "nominee": {
+      "name": "European Talent Hub",
+      "title": null,
+      "country": "Singapore",
+      "linkedin": "https://www.linkedin.com/in/european-talent-hub",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "European Talent Hub",
+      "website": "https://europeantalenthub.com",
+      "country": "Singapore"
+    },
+    "nominator": {
+      "name": "Jennifer Davis",
+      "email": "rachelgreen@europeantalenthub.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "whyNominated": "Pioneered innovative solutions that have transformed the industry.",
+    "whyVoteForMe": "We've pioneered industry solutions and established market-leading practices.",
+    "liveUrl": "european-talent-hub",
+    "status": "approved",
+    "uniqueKey": "top-staffing-company---usa:european-talent-hub",
+    "createdAt": "2025-01-30T11:00:00.000Z",
+    "updatedAt": "2025-01-30T11:00:00.000Z"
+  },
+  {
+    "id": "nom-031",
+    "category": "Top Staffing Company - USA",
+    "type": "company",
+    "nominee": {
+      "name": "Future of Work Institute",
+      "title": null,
+      "country": "India",
+      "linkedin": "https://www.linkedin.com/in/future-of-work-institute",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Future of Work Institute",
+      "website": "https://futureofworkinstitute.com",
+      "country": "India"
+    },
+    "nominator": {
+      "name": "Yuki Sato",
+      "email": "rachelgreen@futureofworkinstitute.com",
+      "company": "Future of Work Institute",
+      "linkedin": "https://linkedin.com/in/sophie-williams"
+    },
+    "whyNominated": "Pioneered innovative solutions that have transformed the industry.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "future-of-work-institute",
+    "status": "approved",
+    "uniqueKey": "top-staffing-company---usa:future-of-work-institute",
+    "createdAt": "2025-01-31T12:15:00.000Z",
+    "updatedAt": "2025-01-31T12:15:00.000Z"
+  },
+  {
+    "id": "nom-032",
+    "category": "Top Staffing Company - USA",
+    "type": "company",
+    "nominee": {
+      "name": "Nordic Staffing Solutions",
+      "title": null,
+      "country": "Brazil",
+      "linkedin": "https://www.linkedin.com/in/nordic-staffing-solutions",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Nordic Staffing Solutions",
+      "website": "https://nordicstaffingsolutions.com",
+      "country": "Brazil"
+    },
+    "nominator": {
+      "name": "Klaus Weber",
+      "email": "hiroshitanaka@nordicstaffingsolutions.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/raj-kumar"
+    },
+    "whyNominated": "Has achieved exceptional growth while maintaining high quality standards.",
+    "whyVoteForMe": "We've achieved remarkable growth while maintaining the highest quality standards.",
+    "liveUrl": "nordic-staffing-solutions",
+    "status": "approved",
+    "uniqueKey": "top-staffing-company---usa:nordic-staffing-solutions",
+    "createdAt": "2025-02-01T12:30:00.000Z",
+    "updatedAt": "2025-02-01T12:30:00.000Z"
+  },
+  {
+    "id": "nom-033",
+    "category": "Top Staffing Company - USA",
+    "type": "company",
+    "nominee": {
+      "name": "Global Talent Partners",
+      "title": null,
+      "country": "Switzerland",
+      "linkedin": "https://www.linkedin.com/in/global-talent-partners",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Global Talent Partners",
+      "website": "https://globaltalentpartners.com",
+      "country": "Switzerland"
+    },
+    "nominator": {
+      "name": "Michael Chen",
+      "email": "drelizabethwarren@globaltalentpartners.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "whyNominated": "Demonstrated outstanding client service and achieved remarkable results.",
+    "whyVoteForMe": "We've built scalable processes that deliver consistent excellence across all markets.",
+    "liveUrl": "global-talent-partners",
+    "status": "approved",
+    "uniqueKey": "top-staffing-company---usa:global-talent-partners",
+    "createdAt": "2025-02-02T13:45:00.000Z",
+    "updatedAt": "2025-02-02T13:45:00.000Z"
+  },
+  {
+    "id": "nom-034",
+    "category": "Top Recruiting Leader - USA",
+    "type": "person",
+    "nominee": {
+      "name": "Lisa Anderson",
+      "title": "CEO",
+      "country": "Netherlands",
+      "linkedin": "https://www.linkedin.com/in/lisa-anderson",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "EuroTalent Network",
+      "website": "https://eurotalentnetwork.com",
+      "country": "Netherlands"
+    },
+    "nominator": {
+      "name": "Emily Watson",
+      "email": "amandafoster@eurotalentnetwork.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "whyNominated": "Revolutionized our recruitment process and achieved outstanding placement rates.",
+    "whyVoteForMe": "I've built innovative processes that have improved efficiency and candidate experience.",
+    "liveUrl": "lisa-anderson",
+    "status": "approved",
+    "uniqueKey": "top-recruiting-leader---usa:lisa-anderson",
+    "createdAt": "2025-02-03T15:00:00.000Z",
+    "updatedAt": "2025-02-03T15:00:00.000Z"
+  },
+  {
+    "id": "nom-035",
+    "category": "Top Recruiting Leader - USA",
+    "type": "person",
+    "nominee": {
+      "name": "Nelson Mandela Jr",
+      "title": "Chief Revenue Officer",
+      "country": "Italy",
+      "linkedin": "https://www.linkedin.com/in/nelson-mandela-jr",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Australian Talent Network",
+      "website": "https://australiantalentnetwork.com",
+      "country": "Italy"
+    },
+    "nominator": {
+      "name": "Hiroshi Tanaka",
+      "email": "davidpark@australiantalentnetwork.com",
+      "company": "Australian Talent Network",
+      "linkedin": "https://linkedin.com/in/ahmed-hassan"
+    },
+    "whyNominated": "Led innovative initiatives that transformed our approach to talent acquisition.",
+    "whyVoteForMe": "My leadership has resulted in team growth and exceptional performance metrics.",
+    "liveUrl": "nelson-mandela-jr",
+    "status": "approved",
+    "uniqueKey": "top-recruiting-leader---usa:nelson-mandela-jr",
+    "createdAt": "2025-02-04T16:15:00.000Z",
+    "updatedAt": "2025-02-04T16:15:00.000Z"
+  },
+  {
+    "id": "nom-036",
+    "category": "Top AI-Driven Staffing Platform - USA",
+    "type": "company",
+    "nominee": {
+      "name": "MegaStaff Global",
+      "title": null,
+      "country": "Australia",
+      "linkedin": "https://www.linkedin.com/in/megastaff-global",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "MegaStaff Global",
+      "website": "https://megastaffglobal.com",
+      "country": "Australia"
+    },
+    "nominator": {
+      "name": "Sarah Mitchell",
+      "email": "drmichaelroberts@megastaffglobal.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/dr-elizabeth-warren"
+    },
+    "whyNominated": "Built scalable processes and expanded successfully across multiple markets.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "megastaff-global",
+    "status": "approved",
+    "uniqueKey": "top-ai-driven-staffing-platform---usa:megastaff-global",
+    "createdAt": "2025-02-05T04:30:00.000Z",
+    "updatedAt": "2025-02-05T04:30:00.000Z"
+  },
+  {
+    "id": "nom-037",
+    "category": "Top AI-Driven Staffing Platform - USA",
+    "type": "company",
+    "nominee": {
+      "name": "Digital Staffing Pro",
+      "title": null,
+      "country": "Singapore",
+      "linkedin": "https://www.linkedin.com/in/digital-staffing-pro",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Digital Staffing Pro",
+      "website": "https://digitalstaffingpro.com",
+      "country": "Singapore"
+    },
+    "nominator": {
+      "name": "Hans Mueller",
+      "email": "emilywatson@digitalstaffingpro.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "whyNominated": "Built scalable processes and expanded successfully across multiple markets.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "digital-staffing-pro",
+    "status": "approved",
+    "uniqueKey": "top-ai-driven-staffing-platform---usa:digital-staffing-pro",
+    "createdAt": "2025-02-06T05:45:00.000Z",
+    "updatedAt": "2025-02-06T05:45:00.000Z"
+  },
+  {
+    "id": "nom-038",
+    "category": "Top AI-Driven Staffing Platform - USA",
+    "type": "company",
+    "nominee": {
+      "name": "Nordic Staffing Solutions",
+      "title": null,
+      "country": "Australia",
+      "linkedin": "https://www.linkedin.com/in/nordic-staffing-solutions",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Nordic Staffing Solutions",
+      "website": "https://nordicstaffingsolutions.com",
+      "country": "Australia"
+    },
+    "nominator": {
+      "name": "Jessica Martinez",
+      "email": "pierredubois@nordicstaffingsolutions.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "whyNominated": "Pioneered innovative solutions that have transformed the industry.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "nordic-staffing-solutions",
+    "status": "approved",
+    "uniqueKey": "top-ai-driven-staffing-platform---usa:nordic-staffing-solutions",
+    "createdAt": "2025-02-07T07:00:00.000Z",
+    "updatedAt": "2025-02-07T07:00:00.000Z"
+  },
+  {
+    "id": "nom-039",
+    "category": "Top AI-Driven Staffing Platform - USA",
+    "type": "company",
+    "nominee": {
+      "name": "Asia Pacific Staffing",
+      "title": null,
+      "country": "Switzerland",
+      "linkedin": "https://www.linkedin.com/in/asia-pacific-staffing",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Asia Pacific Staffing",
+      "website": "https://asiapacificstaffing.com",
+      "country": "Switzerland"
+    },
+    "nominator": {
+      "name": "Hans Mueller",
+      "email": "jenniferdavis@asiapacificstaffing.com",
+      "company": "Asia Pacific Staffing",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "whyNominated": "Pioneered innovative solutions that have transformed the industry.",
+    "whyVoteForMe": "We've built scalable processes that deliver consistent excellence across all markets.",
+    "liveUrl": "asia-pacific-staffing",
+    "status": "approved",
+    "uniqueKey": "top-ai-driven-staffing-platform---usa:asia-pacific-staffing",
+    "createdAt": "2025-02-08T08:15:00.000Z",
+    "updatedAt": "2025-02-08T08:15:00.000Z"
+  },
+  {
+    "id": "nom-040",
+    "category": "Top Staffing Company - Europe",
+    "type": "company",
+    "nominee": {
+      "name": "EuroTalent Network",
+      "title": null,
+      "country": "Canada",
+      "linkedin": "https://www.linkedin.com/in/eurotalent-network",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "EuroTalent Network",
+      "website": "https://eurotalentnetwork.com",
+      "country": "Canada"
+    },
+    "nominator": {
+      "name": "Dr. Sarah Kim",
+      "email": "jenniferdavis@eurotalentnetwork.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "whyNominated": "Demonstrated outstanding client service and achieved remarkable results.",
+    "whyVoteForMe": "We've achieved remarkable growth while maintaining the highest quality standards.",
+    "liveUrl": "eurotalent-network",
+    "status": "approved",
+    "uniqueKey": "top-staffing-company---europe:eurotalent-network",
+    "createdAt": "2025-02-09T08:30:00.000Z",
+    "updatedAt": "2025-02-09T08:30:00.000Z"
+  },
+  {
+    "id": "nom-041",
+    "category": "Top Staffing Company - Europe",
+    "type": "company",
+    "nominee": {
+      "name": "MegaStaff Global",
+      "title": null,
+      "country": "United Kingdom",
+      "linkedin": "https://www.linkedin.com/in/megastaff-global",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "MegaStaff Global",
+      "website": "https://megastaffglobal.com",
+      "country": "United Kingdom"
+    },
+    "nominator": {
+      "name": "Jennifer Davis",
+      "email": "emilywatson@megastaffglobal.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "whyNominated": "Has achieved exceptional growth while maintaining high quality standards.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "megastaff-global",
+    "status": "approved",
+    "uniqueKey": "top-staffing-company---europe:megastaff-global",
+    "createdAt": "2025-02-10T09:45:00.000Z",
+    "updatedAt": "2025-02-10T09:45:00.000Z"
+  },
+  {
+    "id": "nom-042",
+    "category": "Top Recruiting Leader - Europe",
+    "type": "person",
+    "nominee": {
+      "name": "David Park",
+      "title": "Principal Recruiter",
+      "country": "Japan",
+      "linkedin": "https://www.linkedin.com/in/david-park",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "EuroTalent Network",
+      "website": "https://eurotalentnetwork.com",
+      "country": "Japan"
+    },
+    "nominator": {
+      "name": "Yuki Sato",
+      "email": "tomwilson@eurotalentnetwork.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/isabella-romano"
+    },
+    "whyNominated": "Revolutionized our recruitment process and achieved outstanding placement rates.",
+    "whyVoteForMe": "I bring extensive experience with proven results in talent acquisition and client satisfaction.",
+    "liveUrl": "david-park",
+    "status": "approved",
+    "uniqueKey": "top-recruiting-leader---europe:david-park",
+    "createdAt": "2025-02-11T11:00:00.000Z",
+    "updatedAt": "2025-02-11T11:00:00.000Z"
+  },
+  {
+    "id": "nom-043",
+    "category": "Top Recruiting Leader - Europe",
+    "type": "person",
+    "nominee": {
+      "name": "Rachel Green",
+      "title": "VP of National Recruitment",
+      "country": "Germany",
+      "linkedin": "https://www.linkedin.com/in/rachel-green",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "EuroAI Staffing",
+      "website": "https://euroaistaffing.com",
+      "country": "Germany"
+    },
+    "nominator": {
+      "name": "Sarah Mitchell",
+      "email": "rachelgreen@euroaistaffing.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/ahmed-hassan"
+    },
+    "whyNominated": "Has consistently exceeded targets and built strong relationships with clients and candidates.",
+    "whyVoteForMe": "My track record includes thousands of successful placements and industry recognition.",
+    "liveUrl": "rachel-green",
+    "status": "approved",
+    "uniqueKey": "top-recruiting-leader---europe:rachel-green",
+    "createdAt": "2025-02-12T12:15:00.000Z",
+    "updatedAt": "2025-02-12T12:15:00.000Z"
+  },
+  {
+    "id": "nom-044",
+    "category": "Top Recruiting Leader - Europe",
+    "type": "person",
+    "nominee": {
+      "name": "Dr. Marie Leclerc",
+      "title": "Senior Technical Recruiter",
+      "country": "United States",
+      "linkedin": "https://www.linkedin.com/in/dr-marie-leclerc",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Canadian Workforce Solutions",
+      "website": "https://canadianworkforcesolutions.com",
+      "country": "United States"
+    },
+    "nominator": {
+      "name": "Jennifer Davis",
+      "email": "mariagonzalez@canadianworkforcesolutions.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/maria-gonzalez"
+    },
+    "whyNominated": "Has consistently exceeded targets and built strong relationships with clients and candidates.",
+    "whyVoteForMe": "I bring extensive experience with proven results in talent acquisition and client satisfaction.",
+    "liveUrl": "dr-marie-leclerc",
+    "status": "approved",
+    "uniqueKey": "top-recruiting-leader---europe:dr-marie-leclerc",
+    "createdAt": "2025-02-13T12:30:00.000Z",
+    "updatedAt": "2025-02-13T12:30:00.000Z"
+  },
+  {
+    "id": "nom-045",
+    "category": "Top AI-Driven Staffing Platform - Europe",
+    "type": "company",
+    "nominee": {
+      "name": "Latin America Talent",
+      "title": null,
+      "country": "Mexico",
+      "linkedin": "https://www.linkedin.com/in/latin-america-talent",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Latin America Talent",
+      "website": "https://latinamericatalent.com",
+      "country": "Mexico"
+    },
+    "nominator": {
+      "name": "Dr. Emily Chen",
+      "email": "sophiewilliams@latinamericatalent.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/klaus-weber"
+    },
+    "whyNominated": "Has achieved exceptional growth while maintaining high quality standards.",
+    "whyVoteForMe": "We've achieved remarkable growth while maintaining the highest quality standards.",
+    "liveUrl": "latin-america-talent",
+    "status": "approved",
+    "uniqueKey": "top-ai-driven-staffing-platform---europe:latin-america-talent",
+    "createdAt": "2025-02-14T13:45:00.000Z",
+    "updatedAt": "2025-02-14T13:45:00.000Z"
+  },
+  {
+    "id": "nom-046",
+    "category": "Top AI-Driven Staffing Platform - Europe",
+    "type": "company",
+    "nominee": {
+      "name": "Latin America Talent",
+      "title": null,
+      "country": "France",
+      "linkedin": "https://www.linkedin.com/in/latin-america-talent",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Latin America Talent",
+      "website": "https://latinamericatalent.com",
+      "country": "France"
+    },
+    "nominator": {
+      "name": "Rachel Green",
+      "email": "hansmueller@latinamericatalent.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/priya-patel"
+    },
+    "whyNominated": "Established industry-leading practices and achieved consistent excellence.",
+    "whyVoteForMe": "Our innovative platform serves thousands of clients with industry-leading results.",
+    "liveUrl": "latin-america-talent",
+    "status": "rejected",
+    "uniqueKey": "top-ai-driven-staffing-platform---europe:latin-america-talent",
+    "createdAt": "2025-02-15T15:00:00.000Z",
+    "updatedAt": "2025-02-15T15:00:00.000Z",
+    "moderatorNote": "Auto-rejected duplicate during migration"
+  },
+  {
+    "id": "nom-047",
+    "category": "Top AI-Driven Staffing Platform - Europe",
+    "type": "company",
+    "nominee": {
+      "name": "EuroAI Staffing",
+      "title": null,
+      "country": "United Arab Emirates",
+      "linkedin": "https://www.linkedin.com/in/euroai-staffing",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "EuroAI Staffing",
+      "website": "https://euroaistaffing.com",
+      "country": "United Arab Emirates"
+    },
+    "nominator": {
+      "name": "Rachel Green",
+      "email": "rachelgreen@euroaistaffing.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "whyNominated": "Pioneered innovative solutions that have transformed the industry.",
+    "whyVoteForMe": "Our team has achieved outstanding metrics and client satisfaction scores.",
+    "liveUrl": "euroai-staffing",
+    "status": "approved",
+    "uniqueKey": "top-ai-driven-staffing-platform---europe:euroai-staffing",
+    "createdAt": "2025-02-16T16:15:00.000Z",
+    "updatedAt": "2025-02-16T16:15:00.000Z"
+  },
+  {
+    "id": "nom-048",
+    "category": "Top Global Recruiter",
+    "type": "person",
+    "nominee": {
+      "name": "Jessica Martinez",
+      "title": "Director of Recruiting",
+      "country": "Germany",
+      "linkedin": "https://www.linkedin.com/in/jessica-martinez",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Women in Work Solutions",
+      "website": "https://womeninworksolutions.com",
+      "country": "Germany"
+    },
+    "nominator": {
+      "name": "Jennifer Davis",
+      "email": "ahmedhassan@womeninworksolutions.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/maria-gonzalez"
+    },
+    "whyNominated": "Has consistently exceeded targets and built strong relationships with clients and candidates.",
+    "whyVoteForMe": "My track record includes thousands of successful placements and industry recognition.",
+    "liveUrl": "jessica-martinez",
+    "status": "approved",
+    "uniqueKey": "top-global-recruiter:jessica-martinez",
+    "createdAt": "2025-02-17T04:30:00.000Z",
+    "updatedAt": "2025-02-17T04:30:00.000Z"
+  },
+  {
+    "id": "nom-049",
+    "category": "Top Global Recruiter",
+    "type": "person",
+    "nominee": {
+      "name": "James Rodriguez",
+      "title": "CEO",
+      "country": "France",
+      "linkedin": "https://www.linkedin.com/in/james-rodriguez",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "African Talent Initiative",
+      "website": "https://africantalentinitiative.com",
+      "country": "France"
+    },
+    "nominator": {
+      "name": "Jessica Martinez",
+      "email": "roberttaylor@africantalentinitiative.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "whyNominated": "Demonstrated exceptional leadership and mentored numerous team members.",
+    "whyVoteForMe": "My leadership has resulted in team growth and exceptional performance metrics.",
+    "liveUrl": "james-rodriguez",
+    "status": "approved",
+    "uniqueKey": "top-global-recruiter:james-rodriguez",
+    "createdAt": "2025-02-18T05:45:00.000Z",
+    "updatedAt": "2025-02-18T05:45:00.000Z"
+  },
+  {
+    "id": "nom-050",
+    "category": "Top Global Recruiter",
+    "type": "person",
+    "nominee": {
+      "name": "Rachel Green",
+      "title": "VP of Talent Acquisition",
+      "country": "United Arab Emirates",
+      "linkedin": "https://www.linkedin.com/in/rachel-green",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Future of Work Institute",
+      "website": "https://futureofworkinstitute.com",
+      "country": "United Arab Emirates"
+    },
+    "nominator": {
+      "name": "Lisa Anderson",
+      "email": "jenniferdavis@futureofworkinstitute.com",
+      "company": "Future of Work Institute",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "whyNominated": "Demonstrated exceptional leadership and mentored numerous team members.",
+    "whyVoteForMe": "I've established industry networks and achieved consistent top performer status.",
+    "liveUrl": "rachel-green",
+    "status": "approved",
+    "uniqueKey": "top-global-recruiter:rachel-green",
+    "createdAt": "2025-02-19T07:00:00.000Z",
+    "updatedAt": "2025-02-19T07:00:00.000Z"
+  },
+  {
+    "id": "nom-051",
+    "category": "Top Global Recruiter",
+    "type": "person",
+    "nominee": {
+      "name": "Carlos Martinez",
+      "title": "Executive Search Consultant",
+      "country": "Denmark",
+      "linkedin": "https://www.linkedin.com/in/carlos-martinez",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Middle East Global Staffing",
+      "website": "https://middleeastglobalstaffing.com",
+      "country": "Denmark"
+    },
+    "nominator": {
+      "name": "Sophie Williams",
+      "email": "pierredubois@middleeastglobalstaffing.com",
+      "company": "Middle East Global Staffing",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "whyNominated": "Led innovative initiatives that transformed our approach to talent acquisition.",
+    "whyVoteForMe": "My leadership has resulted in team growth and exceptional performance metrics.",
+    "liveUrl": "carlos-martinez",
+    "status": "approved",
+    "uniqueKey": "top-global-recruiter:carlos-martinez",
+    "createdAt": "2025-02-20T08:15:00.000Z",
+    "updatedAt": "2025-02-20T08:15:00.000Z"
+  },
+  {
+    "id": "nom-052",
+    "category": "Top Global Staffing Leader",
+    "type": "person",
+    "nominee": {
+      "name": "Fatima Al-Zahra",
+      "title": "VP of Talent Acquisition",
+      "country": "United States",
+      "linkedin": "https://www.linkedin.com/in/fatima-al-zahra",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Aussie Talent Co",
+      "website": "https://aussietalentco.com",
+      "country": "United States"
+    },
+    "nominator": {
+      "name": "Michael Chen",
+      "email": "carlosmartinez@aussietalentco.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "whyNominated": "Has consistently exceeded targets and built strong relationships with clients and candidates.",
+    "whyVoteForMe": "My track record includes thousands of successful placements and industry recognition.",
+    "liveUrl": "fatima-al-zahra",
+    "status": "approved",
+    "uniqueKey": "top-global-staffing-leader:fatima-al-zahra",
+    "createdAt": "2025-02-21T08:30:00.000Z",
+    "updatedAt": "2025-02-21T08:30:00.000Z"
+  },
+  {
+    "id": "nom-053",
+    "category": "Top Global Staffing Leader",
+    "type": "person",
+    "nominee": {
+      "name": "Klaus Weber",
+      "title": "Director of Recruiting",
+      "country": "Brazil",
+      "linkedin": "https://www.linkedin.com/in/klaus-weber",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Latin America Talent",
+      "website": "https://latinamericatalent.com",
+      "country": "Brazil"
+    },
+    "nominator": {
+      "name": "Maria Gonzalez",
+      "email": "jamesrodriguez@latinamericatalent.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "whyNominated": "Revolutionized our recruitment process and achieved outstanding placement rates.",
+    "whyVoteForMe": "I bring extensive experience with proven results in talent acquisition and client satisfaction.",
+    "liveUrl": "klaus-weber",
+    "status": "approved",
+    "uniqueKey": "top-global-staffing-leader:klaus-weber",
+    "createdAt": "2025-02-22T09:45:00.000Z",
+    "updatedAt": "2025-02-22T09:45:00.000Z"
+  },
+  {
+    "id": "nom-054",
+    "category": "Top Global Staffing Leader",
+    "type": "person",
+    "nominee": {
+      "name": "Isabella Romano",
+      "title": "Director of Recruiting",
+      "country": "Denmark",
+      "linkedin": "https://www.linkedin.com/in/isabella-romano",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "Mediterranean Staffing",
+      "website": "https://mediterraneanstaffing.com",
+      "country": "Denmark"
+    },
+    "nominator": {
+      "name": "Dr. Michael Roberts",
+      "email": "hiroshitanaka@mediterraneanstaffing.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/ahmed-hassan"
+    },
+    "whyNominated": "Led innovative initiatives that transformed our approach to talent acquisition.",
+    "whyVoteForMe": "My track record includes thousands of successful placements and industry recognition.",
+    "liveUrl": "isabella-romano",
+    "status": "approved",
+    "uniqueKey": "top-global-staffing-leader:isabella-romano",
+    "createdAt": "2025-02-23T11:00:00.000Z",
+    "updatedAt": "2025-02-23T11:00:00.000Z"
+  },
+  {
+    "id": "nom-055",
+    "category": "Special Recognition",
+    "type": "person",
+    "nominee": {
+      "name": "Rachel Green",
+      "title": "Senior Technical Recruiter",
+      "country": "Sweden",
+      "linkedin": "https://www.linkedin.com/in/rachel-green",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "American Talent Solutions",
+      "website": "https://americantalentsolutions.com",
+      "country": "Sweden"
+    },
+    "nominator": {
+      "name": "David Park",
+      "email": "klausweber@americantalentsolutions.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "whyNominated": "Demonstrated exceptional leadership and mentored numerous team members.",
+    "whyVoteForMe": "I've built innovative processes that have improved efficiency and candidate experience.",
+    "liveUrl": "rachel-green",
+    "status": "approved",
+    "uniqueKey": "special-recognition:rachel-green",
+    "createdAt": "2025-02-24T12:15:00.000Z",
+    "updatedAt": "2025-02-24T12:15:00.000Z"
+  },
+  {
+    "id": "nom-056",
+    "category": "Special Recognition",
+    "type": "person",
+    "nominee": {
+      "name": "Fatima Al-Zahra",
+      "title": "Global Operations Director",
+      "country": "United Arab Emirates",
+      "linkedin": "https://www.linkedin.com/in/fatima-al-zahra",
+      "imageUrl": null
+    },
+    "company": {
+      "name": "European Talent Hub",
+      "website": "https://europeantalenthub.com",
+      "country": "United Arab Emirates"
+    },
+    "nominator": {
+      "name": "Emily Watson",
+      "email": "drmichaelroberts@europeantalenthub.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/dr-elizabeth-warren"
+    },
+    "whyNominated": "Built extensive networks and achieved remarkable success in specialized recruitment.",
+    "whyVoteForMe": "I bring extensive experience with proven results in talent acquisition and client satisfaction.",
+    "liveUrl": "fatima-al-zahra",
+    "status": "approved",
+    "uniqueKey": "special-recognition:fatima-al-zahra",
+    "createdAt": "2025-02-25T12:30:00.000Z",
+    "updatedAt": "2025-02-25T12:30:00.000Z"
+  },
+  {
+    "id": "fbdd9942-fd4c-4737-b886-0476f1b184ae",
+    "category": "Top Executive Leader",
+    "type": "person",
+    "nominator": {
+      "firstName": "Test",
+      "lastName": "test",
+      "email": "Test@Kumarrrr.com",
+      "linkedin": "https://www.linkedin.com/in/nikolettjaksa",
+      "name": "Test test"
+    },
+    "nominee": {
+      "firstName": "Vivek",
+      "lastName": "Vineet",
+      "email": "vivek@vineet.com",
+      "title": "CEO",
+      "country": "United States",
+      "linkedin": "https://www.linkedin.com/in/hatice-sultan-ghostwriter",
+      "imageUrl": "/uploads/headshots/nominee-1756126756824.jpg",
+      "whyVoteForMe": "India India India India ",
+      "name": "Vivek Vineet"
+    },
+    "liveUrl": "/nominee/vivek-vineet",
+    "status": "approved",
+    "createdAt": "2025-08-25T12:59:52.211Z",
+    "uniqueKey": "top executive leader__https://www.linkedin.com/in/hatice-sultan-ghostwriter",
+    "whyVoteForMe": "India India India India ",
+    "imageUrl": "/uploads/headshots/nominee-1756126756824.jpg",
+    "moderatedAt": "2025-08-25T13:37:43.935Z"
+  },
+  {
+    "id": "e84abee0-a4e8-475a-a01f-90d1a114cfdd",
+    "category": "Top Recruiter",
+    "type": "person",
+    "nominator": {
+      "firstName": "Rupesh",
+      "lastName": "Kumar",
+      "email": "gebomo5307@amcret.com",
+      "linkedin": "https://www.linkedin.com/in/tara-bachleder-b217328",
+      "name": "Rupesh Kumar"
+    },
+    "nominee": {
+      "firstName": "Vineet",
+      "lastName": "Vikram",
+      "email": "qqyqg@powerscrews.com",
+      "title": "CEO",
+      "country": "India",
+      "linkedin": "https://www.linkedin.com/in/josephpmurray",
+      "imageUrl": "/uploads/headshots/nominee-1756131193470.jpg",
+      "whyVoteForMe": " India India India India India",
+      "name": "Vineet Vikram"
+    },
+    "liveUrl": "/nominee/vineet-vikram",
+    "status": "pending",
+    "createdAt": "2025-08-25T14:13:19.062Z",
+    "uniqueKey": "top recruiter__https://www.linkedin.com/in/josephpmurray",
+    "whyVoteForMe": " India India India India India",
+    "imageUrl": "/uploads/headshots/nominee-1756131193470.jpg"
+  },
+  {
+    "id": "657de27b-c72a-408e-8de3-26c258c3ae79",
+    "category": "Top Staffing Influencer",
+    "type": "person",
+    "nominator": {
+      "firstName": "Rupesh ",
+      "lastName": "Kumar",
+      "email": "wopare9629@ahanim.com",
+      "linkedin": "https://www.linkedin.com/in/itskriswright",
+      "name": "Rupesh  Kumar"
+    },
+    "nominee": {
+      "firstName": "Vineet",
+      "lastName": "Bikram",
+      "email": "tasty.swift.jlky@rapidletter.net",
+      "title": "CEO",
+      "country": "India",
+      "linkedin": "https://www.linkedin.com/in/heidi-o-neill-6616b04",
+      "imageUrl": "/uploads/headshots/nominee-1756132922474.jpg",
+      "whyVoteForMe": " India India India India",
+      "name": "Vineet Bikram"
+    },
+    "liveUrl": "/nominee/vineet-bikram",
+    "status": "approved",
+    "createdAt": "2025-08-25T14:42:06.414Z",
+    "uniqueKey": "top staffing influencer__https://www.linkedin.com/in/heidi-o-neill-6616b04",
+    "whyVoteForMe": " India India India India",
+    "imageUrl": "/uploads/headshots/nominee-1756132922474.jpg",
+    "moderatedAt": "2025-08-25T14:42:26.021Z"
+  },
+  {
+    "id": "17fc9cc0-0a82-4b0b-a946-231a9a6a4c81",
+    "category": "Top Executive Leader",
+    "type": "person",
+    "nominator": {
+      "firstName": "Ranjit",
+      "lastName": "Kumar",
+      "email": "tedac51025@amcret.com",
+      "linkedin": "https://www.linkedin.com/in/g-scott-uzzell-3985b33",
+      "name": "Ranjit Kumar"
+    },
+    "nominee": {
+      "firstName": "Mayank",
+      "lastName": "Raj",
+      "email": "lrn46@powerscrews.com",
+      "title": "CEO",
+      "country": "India",
+      "linkedin": "https://www.linkedin.com/in/heidi-o-neill-6616b04",
+      "imageUrl": "/uploads/headshots/nominee-1756134083891.jpg",
+      "whyVoteForMe": "India India India India India",
+      "name": "Mayank Raj"
+    },
+    "liveUrl": "/nominee/mayank-raj",
+    "status": "approved",
+    "createdAt": "2025-08-25T15:01:27.004Z",
+    "uniqueKey": "top executive leader__https://www.linkedin.com/in/heidi-o-neill-6616b04",
+    "whyVoteForMe": "India India India India India",
+    "imageUrl": "/uploads/headshots/nominee-1756134083891.jpg",
+    "moderatedAt": "2025-08-25T15:01:38.062Z"
+  }
+]

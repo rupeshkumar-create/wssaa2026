@@ -1,0 +1,2587 @@
+[
+  {
+    "id": "vote-001",
+    "nomineeId": "nom-001",
+    "voter": {
+      "name": "Dr. Sarah Kim",
+      "email": "ahmedhassan@usastaffingcorp.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/sarah-mitchell"
+    },
+    "createdAt": "2025-01-15T05:37:00.000Z"
+  },
+  {
+    "id": "vote-002",
+    "nomineeId": "nom-002",
+    "voter": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "dremilychen@usastaffingcorp.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/pierre-dubois"
+    },
+    "createdAt": "2025-01-15T06:44:00.000Z"
+  },
+  {
+    "id": "vote-003",
+    "nomineeId": "nom-002",
+    "voter": {
+      "name": "Rachel Green",
+      "email": "klausweber@techtalentsolutions.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/pierre-dubois"
+    },
+    "createdAt": "2025-01-15T07:51:00.000Z"
+  },
+  {
+    "id": "vote-004",
+    "nomineeId": "nom-002",
+    "voter": {
+      "name": "Priya Patel",
+      "email": "dremilychen@mediterraneanstaffing.com",
+      "company": "USA Staffing Corp",
+      "linkedin": "https://linkedin.com/in/dr-sarah-kim"
+    },
+    "createdAt": "2025-01-15T08:58:00.000Z"
+  },
+  {
+    "id": "vote-005",
+    "nomineeId": "nom-002",
+    "voter": {
+      "name": "Mark Johnson",
+      "email": "isabellaromano@middleeastglobalstaffing.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-01-15T10:05:00.000Z"
+  },
+  {
+    "id": "vote-006",
+    "nomineeId": "nom-002",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "alexthompson@talentaisolutions.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/ahmed-hassan"
+    },
+    "createdAt": "2025-01-15T11:12:00.000Z"
+  },
+  {
+    "id": "vote-007",
+    "nomineeId": "nom-002",
+    "voter": {
+      "name": "Tom Wilson",
+      "email": "isabellaromano@globaltalentbridge.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-15T12:19:00.000Z"
+  },
+  {
+    "id": "vote-008",
+    "nomineeId": "nom-002",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "lisaanderson@asiapacificstaffing.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/hiroshi-tanaka"
+    },
+    "createdAt": "2025-01-15T13:26:00.000Z"
+  },
+  {
+    "id": "vote-009",
+    "nomineeId": "nom-002",
+    "voter": {
+      "name": "Dr. Sarah Kim",
+      "email": "jenniferdavis@latinamericatalent.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/emily-watson"
+    },
+    "createdAt": "2025-01-15T13:33:00.000Z"
+  },
+  {
+    "id": "vote-010",
+    "nomineeId": "nom-003",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "carlosmartinez@mediterraneanstaffing.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/amanda-foster"
+    },
+    "createdAt": "2025-01-16T14:40:00.000Z"
+  },
+  {
+    "id": "vote-011",
+    "nomineeId": "nom-003",
+    "voter": {
+      "name": "Dr. Sarah Kim",
+      "email": "jamesrodriguez@aussietalentco.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "createdAt": "2025-01-16T15:47:00.000Z"
+  },
+  {
+    "id": "vote-012",
+    "nomineeId": "nom-003",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "hansmueller@talentaisolutions.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-01-16T04:54:00.000Z"
+  },
+  {
+    "id": "vote-013",
+    "nomineeId": "nom-003",
+    "voter": {
+      "name": "Amanda Foster",
+      "email": "isabellaromano@futureofworkinstitute.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/sophie-williams"
+    },
+    "createdAt": "2025-01-16T06:01:00.000Z"
+  },
+  {
+    "id": "vote-014",
+    "nomineeId": "nom-003",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "tomwilson@medstaffglobal.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/sophie-williams"
+    },
+    "createdAt": "2025-01-16T07:08:00.000Z"
+  },
+  {
+    "id": "vote-015",
+    "nomineeId": "nom-003",
+    "voter": {
+      "name": "Dr. Emily Chen",
+      "email": "alexthompson@rocketstaff.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "createdAt": "2025-01-16T08:15:00.000Z"
+  },
+  {
+    "id": "vote-016",
+    "nomineeId": "nom-003",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "dremilychen@europeantalenthub.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-01-16T09:22:00.000Z"
+  },
+  {
+    "id": "vote-017",
+    "nomineeId": "nom-003",
+    "voter": {
+      "name": "Dr. Emily Chen",
+      "email": "rachelgreen@latinamericatalent.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-01-16T10:29:00.000Z"
+  },
+  {
+    "id": "vote-018",
+    "nomineeId": "nom-004",
+    "voter": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "michaelchen@europeantalenthub.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-01-16T10:36:00.000Z"
+  },
+  {
+    "id": "vote-019",
+    "nomineeId": "nom-004",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "mariagonzalez@canadianworkforcesolutions.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/michael-chen"
+    },
+    "createdAt": "2025-01-16T11:43:00.000Z"
+  },
+  {
+    "id": "vote-020",
+    "nomineeId": "nom-004",
+    "voter": {
+      "name": "James Rodriguez",
+      "email": "isabellaromano@megastaffglobal.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "createdAt": "2025-01-17T12:50:00.000Z"
+  },
+  {
+    "id": "vote-021",
+    "nomineeId": "nom-004",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "drmichaelroberts@airecruitusa.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/james-rodriguez"
+    },
+    "createdAt": "2025-01-17T13:57:00.000Z"
+  },
+  {
+    "id": "vote-022",
+    "nomineeId": "nom-005",
+    "voter": {
+      "name": "Mark Johnson",
+      "email": "ahmedhassan@medstaffglobal.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-01-17T15:04:00.000Z"
+  },
+  {
+    "id": "vote-023",
+    "nomineeId": "nom-006",
+    "voter": {
+      "name": "Nelson Mandela Jr",
+      "email": "drmarieleclerc@mediterraneanstaffing.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/alex-thompson"
+    },
+    "createdAt": "2025-01-17T16:11:00.000Z"
+  },
+  {
+    "id": "vote-024",
+    "nomineeId": "nom-006",
+    "voter": {
+      "name": "Alex Thompson",
+      "email": "drmichaelroberts@digitalstaffingpro.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-01-17T05:18:00.000Z"
+  },
+  {
+    "id": "vote-025",
+    "nomineeId": "nom-006",
+    "voter": {
+      "name": "Sarah Mitchell",
+      "email": "lisaanderson@australiantalentnetwork.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/amanda-foster"
+    },
+    "createdAt": "2025-01-17T06:25:00.000Z"
+  },
+  {
+    "id": "vote-026",
+    "nomineeId": "nom-006",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "fatimaalzahra@rocketstaff.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/isabella-romano"
+    },
+    "createdAt": "2025-01-17T06:32:00.000Z"
+  },
+  {
+    "id": "vote-027",
+    "nomineeId": "nom-006",
+    "voter": {
+      "name": "Nelson Mandela Jr",
+      "email": "drsarahkim@australiantalentnetwork.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "createdAt": "2025-01-17T07:39:00.000Z"
+  },
+  {
+    "id": "vote-028",
+    "nomineeId": "nom-007",
+    "voter": {
+      "name": "Lisa Anderson",
+      "email": "carlosmartinez@europeantalenthub.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/nelson-mandela-jr"
+    },
+    "createdAt": "2025-01-17T08:46:00.000Z"
+  },
+  {
+    "id": "vote-029",
+    "nomineeId": "nom-007",
+    "voter": {
+      "name": "Carlos Martinez",
+      "email": "michaelchen@australiantalentnetwork.com",
+      "company": "Global Talent Bridge",
+      "linkedin": "https://linkedin.com/in/tom-wilson"
+    },
+    "createdAt": "2025-01-17T09:53:00.000Z"
+  },
+  {
+    "id": "vote-030",
+    "nomineeId": "nom-007",
+    "voter": {
+      "name": "Rachel Green",
+      "email": "alexthompson@europeantalenthub.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/amanda-foster"
+    },
+    "createdAt": "2025-01-18T11:00:00.000Z"
+  },
+  {
+    "id": "vote-031",
+    "nomineeId": "nom-008",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "drmichaelroberts@womeninworksolutions.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/james-rodriguez"
+    },
+    "createdAt": "2025-01-18T12:07:00.000Z"
+  },
+  {
+    "id": "vote-032",
+    "nomineeId": "nom-008",
+    "voter": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "davidpark@middleeastglobalstaffing.com",
+      "company": "AI Recruit USA",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-01-18T13:14:00.000Z"
+  },
+  {
+    "id": "vote-033",
+    "nomineeId": "nom-008",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "lisaanderson@megastaffglobal.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/james-rodriguez"
+    },
+    "createdAt": "2025-01-18T14:21:00.000Z"
+  },
+  {
+    "id": "vote-034",
+    "nomineeId": "nom-008",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "hansmueller@megastaffglobal.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/klaus-weber"
+    },
+    "createdAt": "2025-01-18T15:28:00.000Z"
+  },
+  {
+    "id": "vote-035",
+    "nomineeId": "nom-008",
+    "voter": {
+      "name": "Ahmed Hassan",
+      "email": "isabellaromano@megastaffglobal.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "createdAt": "2025-01-18T15:35:00.000Z"
+  },
+  {
+    "id": "vote-036",
+    "nomineeId": "nom-008",
+    "voter": {
+      "name": "Tom Wilson",
+      "email": "lisaanderson@globaltalentbridge.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/dr-sarah-kim"
+    },
+    "createdAt": "2025-01-18T04:42:00.000Z"
+  },
+  {
+    "id": "vote-037",
+    "nomineeId": "nom-008",
+    "voter": {
+      "name": "Carlos Martinez",
+      "email": "jessicamartinez@futureofworkinstitute.com",
+      "company": "TalentAI Solutions",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-18T05:49:00.000Z"
+  },
+  {
+    "id": "vote-038",
+    "nomineeId": "nom-008",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "alexthompson@middleeastglobalstaffing.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/david-park"
+    },
+    "createdAt": "2025-01-18T06:56:00.000Z"
+  },
+  {
+    "id": "vote-039",
+    "nomineeId": "nom-009",
+    "voter": {
+      "name": "Rachel Green",
+      "email": "hiroshitanaka@mediterraneanstaffing.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/pierre-dubois"
+    },
+    "createdAt": "2025-01-18T08:03:00.000Z"
+  },
+  {
+    "id": "vote-040",
+    "nomineeId": "nom-009",
+    "voter": {
+      "name": "Alex Thompson",
+      "email": "drmarieleclerc@mumbaitechstaffing.com",
+      "company": "Australian Talent Network",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-01-19T09:10:00.000Z"
+  },
+  {
+    "id": "vote-041",
+    "nomineeId": "nom-009",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "fatimaalzahra@euroaistaffing.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/emily-watson"
+    },
+    "createdAt": "2025-01-19T10:17:00.000Z"
+  },
+  {
+    "id": "vote-042",
+    "nomineeId": "nom-010",
+    "voter": {
+      "name": "Robert Taylor",
+      "email": "jenniferdavis@euroaistaffing.com",
+      "company": "USA Staffing Corp",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-01-19T11:24:00.000Z"
+  },
+  {
+    "id": "vote-043",
+    "nomineeId": "nom-010",
+    "voter": {
+      "name": "Carlos Martinez",
+      "email": "isabellaromano@middleeastglobalstaffing.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-01-19T11:31:00.000Z"
+  },
+  {
+    "id": "vote-044",
+    "nomineeId": "nom-010",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "alexthompson@womeninworksolutions.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/nelson-mandela-jr"
+    },
+    "createdAt": "2025-01-19T12:38:00.000Z"
+  },
+  {
+    "id": "vote-045",
+    "nomineeId": "nom-010",
+    "voter": {
+      "name": "Michael Chen",
+      "email": "fatimaalzahra@megastaffglobal.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/michael-chen"
+    },
+    "createdAt": "2025-01-19T13:45:00.000Z"
+  },
+  {
+    "id": "vote-046",
+    "nomineeId": "nom-010",
+    "voter": {
+      "name": "Amanda Foster",
+      "email": "fatimaalzahra@airecruitusa.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/klaus-weber"
+    },
+    "createdAt": "2025-01-19T14:52:00.000Z"
+  },
+  {
+    "id": "vote-047",
+    "nomineeId": "nom-010",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "hiroshitanaka@africantalentinitiative.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-19T15:59:00.000Z"
+  },
+  {
+    "id": "vote-048",
+    "nomineeId": "nom-010",
+    "voter": {
+      "name": "Nelson Mandela Jr",
+      "email": "lisaanderson@europeantalenthub.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/tom-wilson"
+    },
+    "createdAt": "2025-01-19T05:06:00.000Z"
+  },
+  {
+    "id": "vote-049",
+    "nomineeId": "nom-010",
+    "voter": {
+      "name": "Priya Patel",
+      "email": "jessicamartinez@eurotalentnetwork.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/nelson-mandela-jr"
+    },
+    "createdAt": "2025-01-19T06:13:00.000Z"
+  },
+  {
+    "id": "vote-050",
+    "nomineeId": "nom-011",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "davidpark@nordicstaffingsolutions.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/david-park"
+    },
+    "createdAt": "2025-01-20T07:20:00.000Z"
+  },
+  {
+    "id": "vote-051",
+    "nomineeId": "nom-011",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "fatimaalzahra@europeantalenthub.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/dr-elizabeth-warren"
+    },
+    "createdAt": "2025-01-20T08:27:00.000Z"
+  },
+  {
+    "id": "vote-052",
+    "nomineeId": "nom-011",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "rachelgreen@techtalentsolutions.com",
+      "company": "Asia Pacific Staffing",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "createdAt": "2025-01-20T08:34:00.000Z"
+  },
+  {
+    "id": "vote-053",
+    "nomineeId": "nom-011",
+    "voter": {
+      "name": "Raj Kumar",
+      "email": "jessicamartinez@techtalentsolutions.com",
+      "company": "Australian Talent Network",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-01-20T09:41:00.000Z"
+  },
+  {
+    "id": "vote-054",
+    "nomineeId": "nom-012",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "davidpark@asiapacificstaffing.com",
+      "company": "MedStaff Global",
+      "linkedin": "https://linkedin.com/in/nelson-mandela-jr"
+    },
+    "createdAt": "2025-01-20T10:48:00.000Z"
+  },
+  {
+    "id": "vote-055",
+    "nomineeId": "nom-012",
+    "voter": {
+      "name": "Alex Thompson",
+      "email": "hiroshitanaka@australiantalentnetwork.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/dr-michael-roberts"
+    },
+    "createdAt": "2025-01-20T11:55:00.000Z"
+  },
+  {
+    "id": "vote-056",
+    "nomineeId": "nom-012",
+    "voter": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "dremilychen@globaltalentbridge.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/ahmed-hassan"
+    },
+    "createdAt": "2025-01-20T13:02:00.000Z"
+  },
+  {
+    "id": "vote-057",
+    "nomineeId": "nom-012",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "isabellaromano@africantalentinitiative.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "createdAt": "2025-01-20T14:09:00.000Z"
+  },
+  {
+    "id": "vote-058",
+    "nomineeId": "nom-012",
+    "voter": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "sophiewilliams@aussietalentco.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/dr-michael-roberts"
+    },
+    "createdAt": "2025-01-20T15:16:00.000Z"
+  },
+  {
+    "id": "vote-059",
+    "nomineeId": "nom-012",
+    "voter": {
+      "name": "David Park",
+      "email": "fatimaalzahra@airecruitusa.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-01-20T16:23:00.000Z"
+  },
+  {
+    "id": "vote-060",
+    "nomineeId": "nom-012",
+    "voter": {
+      "name": "Alex Thompson",
+      "email": "yukisato@megastaffglobal.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/michael-chen"
+    },
+    "createdAt": "2025-01-21T04:30:00.000Z"
+  },
+  {
+    "id": "vote-061",
+    "nomineeId": "nom-012",
+    "voter": {
+      "name": "Mark Johnson",
+      "email": "ahmedhassan@talentaisolutions.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "createdAt": "2025-01-21T05:37:00.000Z"
+  },
+  {
+    "id": "vote-062",
+    "nomineeId": "nom-013",
+    "voter": {
+      "name": "Jessica Martinez",
+      "email": "priyapatel@talentaisolutions.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-21T06:44:00.000Z"
+  },
+  {
+    "id": "vote-063",
+    "nomineeId": "nom-014",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "ahmedhassan@mediterraneanstaffing.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/raj-kumar"
+    },
+    "createdAt": "2025-01-21T07:51:00.000Z"
+  },
+  {
+    "id": "vote-064",
+    "nomineeId": "nom-014",
+    "voter": {
+      "name": "Sophie Williams",
+      "email": "pierredubois@asiapacificstaffing.com",
+      "company": "MedStaff Global",
+      "linkedin": "https://linkedin.com/in/maria-gonzalez"
+    },
+    "createdAt": "2025-01-21T08:58:00.000Z"
+  },
+  {
+    "id": "vote-065",
+    "nomineeId": "nom-014",
+    "voter": {
+      "name": "Nelson Mandela Jr",
+      "email": "ahmedhassan@europeantalenthub.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-01-21T10:05:00.000Z"
+  },
+  {
+    "id": "vote-066",
+    "nomineeId": "nom-015",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "drmarieleclerc@canadianworkforcesolutions.com",
+      "company": "Asia Pacific Staffing",
+      "linkedin": "https://linkedin.com/in/nelson-mandela-jr"
+    },
+    "createdAt": "2025-01-21T11:12:00.000Z"
+  },
+  {
+    "id": "vote-067",
+    "nomineeId": "nom-015",
+    "voter": {
+      "name": "Maria Gonzalez",
+      "email": "jenniferdavis@africantalentinitiative.com",
+      "company": "TalentAI Solutions",
+      "linkedin": "https://linkedin.com/in/isabella-romano"
+    },
+    "createdAt": "2025-01-21T12:19:00.000Z"
+  },
+  {
+    "id": "vote-068",
+    "nomineeId": "nom-016",
+    "voter": {
+      "name": "Hans Mueller",
+      "email": "pierredubois@eurotalentnetwork.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/priya-patel"
+    },
+    "createdAt": "2025-01-21T13:26:00.000Z"
+  },
+  {
+    "id": "vote-069",
+    "nomineeId": "nom-016",
+    "voter": {
+      "name": "Isabella Romano",
+      "email": "pierredubois@globaltalentpartners.com",
+      "company": "Global Talent Bridge",
+      "linkedin": "https://linkedin.com/in/james-rodriguez"
+    },
+    "createdAt": "2025-01-21T13:33:00.000Z"
+  },
+  {
+    "id": "vote-070",
+    "nomineeId": "nom-016",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "rajkumar@mediterraneanstaffing.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "createdAt": "2025-01-22T14:40:00.000Z"
+  },
+  {
+    "id": "vote-071",
+    "nomineeId": "nom-016",
+    "voter": {
+      "name": "Michael Chen",
+      "email": "rachelgreen@mumbaitechstaffing.com",
+      "company": "Middle East Global Staffing",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-01-22T15:47:00.000Z"
+  },
+  {
+    "id": "vote-072",
+    "nomineeId": "nom-016",
+    "voter": {
+      "name": "Dr. Michael Roberts",
+      "email": "drmarieleclerc@rocketstaff.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-01-22T04:54:00.000Z"
+  },
+  {
+    "id": "vote-073",
+    "nomineeId": "nom-016",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "priyapatel@americantalentsolutions.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-01-22T06:01:00.000Z"
+  },
+  {
+    "id": "vote-074",
+    "nomineeId": "nom-016",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "jamesrodriguez@talentaisolutions.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "createdAt": "2025-01-22T07:08:00.000Z"
+  },
+  {
+    "id": "vote-075",
+    "nomineeId": "nom-017",
+    "voter": {
+      "name": "Jessica Martinez",
+      "email": "pierredubois@americantalentsolutions.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "createdAt": "2025-01-22T08:15:00.000Z"
+  },
+  {
+    "id": "vote-076",
+    "nomineeId": "nom-017",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "drmarieleclerc@americantalentsolutions.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "createdAt": "2025-01-22T09:22:00.000Z"
+  },
+  {
+    "id": "vote-077",
+    "nomineeId": "nom-017",
+    "voter": {
+      "name": "Tom Wilson",
+      "email": "tomwilson@globaltalentbridge.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-22T10:29:00.000Z"
+  },
+  {
+    "id": "vote-078",
+    "nomineeId": "nom-017",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "lisaanderson@techtalentsolutions.com",
+      "company": "USA Staffing Corp",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-22T10:36:00.000Z"
+  },
+  {
+    "id": "vote-079",
+    "nomineeId": "nom-017",
+    "voter": {
+      "name": "Jessica Martinez",
+      "email": "michaelchen@latinamericatalent.com",
+      "company": "USA Staffing Corp",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-22T11:43:00.000Z"
+  },
+  {
+    "id": "vote-080",
+    "nomineeId": "nom-017",
+    "voter": {
+      "name": "Sarah Mitchell",
+      "email": "drmichaelroberts@airecruitusa.com",
+      "company": "Asia Pacific Staffing",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "createdAt": "2025-01-23T12:50:00.000Z"
+  },
+  {
+    "id": "vote-081",
+    "nomineeId": "nom-017",
+    "voter": {
+      "name": "Dr. Michael Roberts",
+      "email": "dremilychen@techtalentsolutions.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "createdAt": "2025-01-23T13:57:00.000Z"
+  },
+  {
+    "id": "vote-082",
+    "nomineeId": "nom-017",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "jenniferdavis@globaltalentbridge.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "createdAt": "2025-01-23T15:04:00.000Z"
+  },
+  {
+    "id": "vote-083",
+    "nomineeId": "nom-018",
+    "voter": {
+      "name": "Raj Kumar",
+      "email": "dremilychen@globaltalentbridge.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-23T16:11:00.000Z"
+  },
+  {
+    "id": "vote-084",
+    "nomineeId": "nom-018",
+    "voter": {
+      "name": "Michael Chen",
+      "email": "markjohnson@globaltalentpartners.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/michael-chen"
+    },
+    "createdAt": "2025-01-23T05:18:00.000Z"
+  },
+  {
+    "id": "vote-085",
+    "nomineeId": "nom-019",
+    "voter": {
+      "name": "Dr. Michael Roberts",
+      "email": "drmarieleclerc@megastaffglobal.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-23T06:25:00.000Z"
+  },
+  {
+    "id": "vote-086",
+    "nomineeId": "nom-019",
+    "voter": {
+      "name": "Dr. Marie Leclerc",
+      "email": "carlosmartinez@americantalentsolutions.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/emily-watson"
+    },
+    "createdAt": "2025-01-23T06:32:00.000Z"
+  },
+  {
+    "id": "vote-087",
+    "nomineeId": "nom-019",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "hansmueller@latinamericatalent.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "createdAt": "2025-01-23T07:39:00.000Z"
+  },
+  {
+    "id": "vote-088",
+    "nomineeId": "nom-020",
+    "voter": {
+      "name": "James Rodriguez",
+      "email": "jenniferdavis@techtalentsolutions.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/nelson-mandela-jr"
+    },
+    "createdAt": "2025-01-23T08:46:00.000Z"
+  },
+  {
+    "id": "vote-089",
+    "nomineeId": "nom-020",
+    "voter": {
+      "name": "Dr. Sarah Kim",
+      "email": "jessicamartinez@africantalentinitiative.com",
+      "company": "MedStaff Global",
+      "linkedin": "https://linkedin.com/in/hiroshi-tanaka"
+    },
+    "createdAt": "2025-01-23T09:53:00.000Z"
+  },
+  {
+    "id": "vote-090",
+    "nomineeId": "nom-020",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "rajkumar@medstaffglobal.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/yuki-sato"
+    },
+    "createdAt": "2025-01-24T11:00:00.000Z"
+  },
+  {
+    "id": "vote-091",
+    "nomineeId": "nom-020",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "mariagonzalez@rocketstaff.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/priya-patel"
+    },
+    "createdAt": "2025-01-24T12:07:00.000Z"
+  },
+  {
+    "id": "vote-092",
+    "nomineeId": "nom-020",
+    "voter": {
+      "name": "Hans Mueller",
+      "email": "amandafoster@futureofworkinstitute.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "createdAt": "2025-01-24T13:14:00.000Z"
+  },
+  {
+    "id": "vote-093",
+    "nomineeId": "nom-020",
+    "voter": {
+      "name": "James Rodriguez",
+      "email": "priyapatel@futureofworkinstitute.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "createdAt": "2025-01-24T14:21:00.000Z"
+  },
+  {
+    "id": "vote-094",
+    "nomineeId": "nom-020",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "rajkumar@futureofworkinstitute.com",
+      "company": "USA Staffing Corp",
+      "linkedin": "https://linkedin.com/in/dr-sarah-kim"
+    },
+    "createdAt": "2025-01-24T15:28:00.000Z"
+  },
+  {
+    "id": "vote-095",
+    "nomineeId": "nom-021",
+    "voter": {
+      "name": "Mark Johnson",
+      "email": "klausweber@talentaisolutions.com",
+      "company": "AI Recruit USA",
+      "linkedin": "https://linkedin.com/in/priya-patel"
+    },
+    "createdAt": "2025-01-24T15:35:00.000Z"
+  },
+  {
+    "id": "vote-096",
+    "nomineeId": "nom-021",
+    "voter": {
+      "name": "Alex Thompson",
+      "email": "dremilychen@digitalstaffingpro.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-24T04:42:00.000Z"
+  },
+  {
+    "id": "vote-097",
+    "nomineeId": "nom-021",
+    "voter": {
+      "name": "Sarah Mitchell",
+      "email": "rachelgreen@globaltalentpartners.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-01-24T05:49:00.000Z"
+  },
+  {
+    "id": "vote-098",
+    "nomineeId": "nom-021",
+    "voter": {
+      "name": "Jessica Martinez",
+      "email": "jessicamartinez@globaltalentpartners.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/hiroshi-tanaka"
+    },
+    "createdAt": "2025-01-24T06:56:00.000Z"
+  },
+  {
+    "id": "vote-099",
+    "nomineeId": "nom-021",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "jamesrodriguez@airecruitusa.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-01-24T08:03:00.000Z"
+  },
+  {
+    "id": "vote-100",
+    "nomineeId": "nom-021",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "alexthompson@talentaisolutions.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-01-25T09:10:00.000Z"
+  },
+  {
+    "id": "vote-101",
+    "nomineeId": "nom-022",
+    "voter": {
+      "name": "James Rodriguez",
+      "email": "alexthompson@rocketstaff.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-01-25T10:17:00.000Z"
+  },
+  {
+    "id": "vote-102",
+    "nomineeId": "nom-023",
+    "voter": {
+      "name": "Alex Thompson",
+      "email": "amandafoster@euroaistaffing.com",
+      "company": "MedStaff Global",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-01-25T11:24:00.000Z"
+  },
+  {
+    "id": "vote-103",
+    "nomineeId": "nom-024",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "lisaanderson@airecruitusa.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/david-park"
+    },
+    "createdAt": "2025-01-25T11:31:00.000Z"
+  },
+  {
+    "id": "vote-104",
+    "nomineeId": "nom-024",
+    "voter": {
+      "name": "Robert Taylor",
+      "email": "michaelchen@airecruitusa.com",
+      "company": "MedStaff Global",
+      "linkedin": "https://linkedin.com/in/priya-patel"
+    },
+    "createdAt": "2025-01-25T12:38:00.000Z"
+  },
+  {
+    "id": "vote-105",
+    "nomineeId": "nom-024",
+    "voter": {
+      "name": "Rachel Green",
+      "email": "tomwilson@digitalstaffingpro.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-25T13:45:00.000Z"
+  },
+  {
+    "id": "vote-106",
+    "nomineeId": "nom-024",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "alexthompson@digitalstaffingpro.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/yuki-sato"
+    },
+    "createdAt": "2025-01-25T14:52:00.000Z"
+  },
+  {
+    "id": "vote-107",
+    "nomineeId": "nom-025",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "lisaanderson@eurotalentnetwork.com",
+      "company": "Australian Talent Network",
+      "linkedin": "https://linkedin.com/in/michael-chen"
+    },
+    "createdAt": "2025-01-25T15:59:00.000Z"
+  },
+  {
+    "id": "vote-108",
+    "nomineeId": "nom-025",
+    "voter": {
+      "name": "Nelson Mandela Jr",
+      "email": "pierredubois@globaltalentbridge.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/maria-gonzalez"
+    },
+    "createdAt": "2025-01-25T05:06:00.000Z"
+  },
+  {
+    "id": "vote-109",
+    "nomineeId": "nom-026",
+    "voter": {
+      "name": "Rachel Green",
+      "email": "roberttaylor@euroaistaffing.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "createdAt": "2025-01-25T06:13:00.000Z"
+  },
+  {
+    "id": "vote-110",
+    "nomineeId": "nom-026",
+    "voter": {
+      "name": "Sarah Mitchell",
+      "email": "sarahmitchell@middleeastglobalstaffing.com",
+      "company": "Asia Pacific Staffing",
+      "linkedin": "https://linkedin.com/in/ahmed-hassan"
+    },
+    "createdAt": "2025-01-26T07:20:00.000Z"
+  },
+  {
+    "id": "vote-111",
+    "nomineeId": "nom-026",
+    "voter": {
+      "name": "Robert Taylor",
+      "email": "lisaanderson@mumbaitechstaffing.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/david-park"
+    },
+    "createdAt": "2025-01-26T08:27:00.000Z"
+  },
+  {
+    "id": "vote-112",
+    "nomineeId": "nom-027",
+    "voter": {
+      "name": "Hans Mueller",
+      "email": "tomwilson@australiantalentnetwork.com",
+      "company": "AI Recruit USA",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-01-26T08:34:00.000Z"
+  },
+  {
+    "id": "vote-113",
+    "nomineeId": "nom-027",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "nelsonmandelajr@aussietalentco.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "createdAt": "2025-01-26T09:41:00.000Z"
+  },
+  {
+    "id": "vote-114",
+    "nomineeId": "nom-028",
+    "voter": {
+      "name": "David Park",
+      "email": "davidpark@aussietalentco.com",
+      "company": "TalentAI Solutions",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "createdAt": "2025-01-26T10:48:00.000Z"
+  },
+  {
+    "id": "vote-115",
+    "nomineeId": "nom-028",
+    "voter": {
+      "name": "Sarah Mitchell",
+      "email": "drmichaelroberts@mediterraneanstaffing.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "createdAt": "2025-01-26T11:55:00.000Z"
+  },
+  {
+    "id": "vote-116",
+    "nomineeId": "nom-028",
+    "voter": {
+      "name": "Dr. Marie Leclerc",
+      "email": "yukisato@mediterraneanstaffing.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-01-26T13:02:00.000Z"
+  },
+  {
+    "id": "vote-117",
+    "nomineeId": "nom-029",
+    "voter": {
+      "name": "Dr. Sarah Kim",
+      "email": "emilywatson@airecruitusa.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-26T14:09:00.000Z"
+  },
+  {
+    "id": "vote-118",
+    "nomineeId": "nom-029",
+    "voter": {
+      "name": "James Rodriguez",
+      "email": "sophiewilliams@airecruitusa.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/emily-watson"
+    },
+    "createdAt": "2025-01-26T15:16:00.000Z"
+  },
+  {
+    "id": "vote-119",
+    "nomineeId": "nom-029",
+    "voter": {
+      "name": "Carlos Martinez",
+      "email": "emilywatson@airecruitusa.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/amanda-foster"
+    },
+    "createdAt": "2025-01-26T16:23:00.000Z"
+  },
+  {
+    "id": "vote-120",
+    "nomineeId": "nom-029",
+    "voter": {
+      "name": "Sarah Mitchell",
+      "email": "jamesrodriguez@digitalstaffingpro.com",
+      "company": "AI Recruit USA",
+      "linkedin": "https://linkedin.com/in/pierre-dubois"
+    },
+    "createdAt": "2025-01-27T04:30:00.000Z"
+  },
+  {
+    "id": "vote-121",
+    "nomineeId": "nom-030",
+    "voter": {
+      "name": "Rachel Green",
+      "email": "michaelchen@womeninworksolutions.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-01-27T05:37:00.000Z"
+  },
+  {
+    "id": "vote-122",
+    "nomineeId": "nom-030",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "sarahmitchell@rocketstaff.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-01-27T06:44:00.000Z"
+  },
+  {
+    "id": "vote-123",
+    "nomineeId": "nom-030",
+    "voter": {
+      "name": "Dr. Sarah Kim",
+      "email": "mariagonzalez@globaltalentbridge.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/dr-michael-roberts"
+    },
+    "createdAt": "2025-01-27T07:51:00.000Z"
+  },
+  {
+    "id": "vote-124",
+    "nomineeId": "nom-030",
+    "voter": {
+      "name": "Nelson Mandela Jr",
+      "email": "lisaanderson@europeantalenthub.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/sarah-mitchell"
+    },
+    "createdAt": "2025-01-27T08:58:00.000Z"
+  },
+  {
+    "id": "vote-125",
+    "nomineeId": "nom-030",
+    "voter": {
+      "name": "Maria Gonzalez",
+      "email": "dremilychen@megastaffglobal.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-01-27T10:05:00.000Z"
+  },
+  {
+    "id": "vote-126",
+    "nomineeId": "nom-030",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "yukisato@medstaffglobal.com",
+      "company": "TalentAI Solutions",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-01-27T11:12:00.000Z"
+  },
+  {
+    "id": "vote-127",
+    "nomineeId": "nom-031",
+    "voter": {
+      "name": "Dr. Michael Roberts",
+      "email": "jenniferdavis@latinamericatalent.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-01-27T12:19:00.000Z"
+  },
+  {
+    "id": "vote-128",
+    "nomineeId": "nom-031",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "markjohnson@usastaffingcorp.com",
+      "company": "Middle East Global Staffing",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "createdAt": "2025-01-27T13:26:00.000Z"
+  },
+  {
+    "id": "vote-129",
+    "nomineeId": "nom-031",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "yukisato@eurotalentnetwork.com",
+      "company": "Global Talent Bridge",
+      "linkedin": "https://linkedin.com/in/alex-thompson"
+    },
+    "createdAt": "2025-01-27T13:33:00.000Z"
+  },
+  {
+    "id": "vote-130",
+    "nomineeId": "nom-031",
+    "voter": {
+      "name": "Maria Gonzalez",
+      "email": "jenniferdavis@mediterraneanstaffing.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/hiroshi-tanaka"
+    },
+    "createdAt": "2025-01-28T14:40:00.000Z"
+  },
+  {
+    "id": "vote-131",
+    "nomineeId": "nom-031",
+    "voter": {
+      "name": "Nelson Mandela Jr",
+      "email": "jamesrodriguez@futureofworkinstitute.com",
+      "company": "Asia Pacific Staffing",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-28T15:47:00.000Z"
+  },
+  {
+    "id": "vote-132",
+    "nomineeId": "nom-032",
+    "voter": {
+      "name": "Amanda Foster",
+      "email": "rachelgreen@megastaffglobal.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "createdAt": "2025-01-28T04:54:00.000Z"
+  },
+  {
+    "id": "vote-133",
+    "nomineeId": "nom-032",
+    "voter": {
+      "name": "Carlos Martinez",
+      "email": "jamesrodriguez@canadianworkforcesolutions.com",
+      "company": "Global Talent Bridge",
+      "linkedin": "https://linkedin.com/in/raj-kumar"
+    },
+    "createdAt": "2025-01-28T06:01:00.000Z"
+  },
+  {
+    "id": "vote-134",
+    "nomineeId": "nom-032",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "michaelchen@nordicstaffingsolutions.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "createdAt": "2025-01-28T07:08:00.000Z"
+  },
+  {
+    "id": "vote-135",
+    "nomineeId": "nom-032",
+    "voter": {
+      "name": "Alex Thompson",
+      "email": "roberttaylor@rocketstaff.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-28T08:15:00.000Z"
+  },
+  {
+    "id": "vote-136",
+    "nomineeId": "nom-033",
+    "voter": {
+      "name": "Isabella Romano",
+      "email": "jenniferdavis@australiantalentnetwork.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/tom-wilson"
+    },
+    "createdAt": "2025-01-28T09:22:00.000Z"
+  },
+  {
+    "id": "vote-137",
+    "nomineeId": "nom-034",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "davidpark@megastaffglobal.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-01-28T10:29:00.000Z"
+  },
+  {
+    "id": "vote-138",
+    "nomineeId": "nom-035",
+    "voter": {
+      "name": "James Rodriguez",
+      "email": "michaelchen@americantalentsolutions.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/sophie-williams"
+    },
+    "createdAt": "2025-01-28T10:36:00.000Z"
+  },
+  {
+    "id": "vote-139",
+    "nomineeId": "nom-035",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "sarahmitchell@globaltalentbridge.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/dr-michael-roberts"
+    },
+    "createdAt": "2025-01-28T11:43:00.000Z"
+  },
+  {
+    "id": "vote-140",
+    "nomineeId": "nom-035",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "sarahmitchell@americantalentsolutions.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-01-29T12:50:00.000Z"
+  },
+  {
+    "id": "vote-141",
+    "nomineeId": "nom-035",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "jenniferdavis@futureofworkinstitute.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/alex-thompson"
+    },
+    "createdAt": "2025-01-29T13:57:00.000Z"
+  },
+  {
+    "id": "vote-142",
+    "nomineeId": "nom-036",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "jenniferdavis@middleeastglobalstaffing.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/david-park"
+    },
+    "createdAt": "2025-01-29T15:04:00.000Z"
+  },
+  {
+    "id": "vote-143",
+    "nomineeId": "nom-036",
+    "voter": {
+      "name": "Ahmed Hassan",
+      "email": "amandafoster@megastaffglobal.com",
+      "company": "Australian Talent Network",
+      "linkedin": "https://linkedin.com/in/raj-kumar"
+    },
+    "createdAt": "2025-01-29T16:11:00.000Z"
+  },
+  {
+    "id": "vote-144",
+    "nomineeId": "nom-036",
+    "voter": {
+      "name": "David Park",
+      "email": "hansmueller@europeantalenthub.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-29T05:18:00.000Z"
+  },
+  {
+    "id": "vote-145",
+    "nomineeId": "nom-036",
+    "voter": {
+      "name": "Amanda Foster",
+      "email": "carlosmartinez@middleeastglobalstaffing.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/tom-wilson"
+    },
+    "createdAt": "2025-01-29T06:25:00.000Z"
+  },
+  {
+    "id": "vote-146",
+    "nomineeId": "nom-037",
+    "voter": {
+      "name": "Sophie Williams",
+      "email": "amandafoster@nordicstaffingsolutions.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-29T06:32:00.000Z"
+  },
+  {
+    "id": "vote-147",
+    "nomineeId": "nom-037",
+    "voter": {
+      "name": "Dr. Michael Roberts",
+      "email": "tomwilson@africantalentinitiative.com",
+      "company": "MedStaff Global",
+      "linkedin": "https://linkedin.com/in/alex-thompson"
+    },
+    "createdAt": "2025-01-29T07:39:00.000Z"
+  },
+  {
+    "id": "vote-148",
+    "nomineeId": "nom-037",
+    "voter": {
+      "name": "Hiroshi Tanaka",
+      "email": "drsarahkim@nordicstaffingsolutions.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-01-29T08:46:00.000Z"
+  },
+  {
+    "id": "vote-149",
+    "nomineeId": "nom-038",
+    "voter": {
+      "name": "Raj Kumar",
+      "email": "lisaanderson@middleeastglobalstaffing.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/michael-chen"
+    },
+    "createdAt": "2025-01-29T09:53:00.000Z"
+  },
+  {
+    "id": "vote-150",
+    "nomineeId": "nom-038",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "yukisato@mediterraneanstaffing.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/emily-watson"
+    },
+    "createdAt": "2025-01-30T11:00:00.000Z"
+  },
+  {
+    "id": "vote-151",
+    "nomineeId": "nom-039",
+    "voter": {
+      "name": "Dr. Emily Chen",
+      "email": "lisaanderson@usastaffingcorp.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/dr-elizabeth-warren"
+    },
+    "createdAt": "2025-01-30T12:07:00.000Z"
+  },
+  {
+    "id": "vote-152",
+    "nomineeId": "nom-039",
+    "voter": {
+      "name": "James Rodriguez",
+      "email": "isabellaromano@eurotalentnetwork.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "createdAt": "2025-01-30T13:14:00.000Z"
+  },
+  {
+    "id": "vote-153",
+    "nomineeId": "nom-039",
+    "voter": {
+      "name": "Alex Thompson",
+      "email": "hiroshitanaka@asiapacificstaffing.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/emily-watson"
+    },
+    "createdAt": "2025-01-30T14:21:00.000Z"
+  },
+  {
+    "id": "vote-154",
+    "nomineeId": "nom-039",
+    "voter": {
+      "name": "Maria Gonzalez",
+      "email": "rajkumar@medstaffglobal.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-30T15:28:00.000Z"
+  },
+  {
+    "id": "vote-155",
+    "nomineeId": "nom-039",
+    "voter": {
+      "name": "Dr. Sarah Kim",
+      "email": "jessicamartinez@eurotalentnetwork.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-30T15:35:00.000Z"
+  },
+  {
+    "id": "vote-156",
+    "nomineeId": "nom-039",
+    "voter": {
+      "name": "Maria Gonzalez",
+      "email": "jenniferdavis@eurotalentnetwork.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-01-30T04:42:00.000Z"
+  },
+  {
+    "id": "vote-157",
+    "nomineeId": "nom-040",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "roberttaylor@techtalentsolutions.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-01-30T05:49:00.000Z"
+  },
+  {
+    "id": "vote-158",
+    "nomineeId": "nom-040",
+    "voter": {
+      "name": "Nelson Mandela Jr",
+      "email": "dremilychen@globaltalentbridge.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-01-30T06:56:00.000Z"
+  },
+  {
+    "id": "vote-159",
+    "nomineeId": "nom-040",
+    "voter": {
+      "name": "Rachel Green",
+      "email": "sarahmitchell@futureofworkinstitute.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-30T08:03:00.000Z"
+  },
+  {
+    "id": "vote-160",
+    "nomineeId": "nom-040",
+    "voter": {
+      "name": "Sophie Williams",
+      "email": "fatimaalzahra@euroaistaffing.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-01-31T09:10:00.000Z"
+  },
+  {
+    "id": "vote-161",
+    "nomineeId": "nom-040",
+    "voter": {
+      "name": "Amanda Foster",
+      "email": "dremilychen@techtalentsolutions.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/yuki-sato"
+    },
+    "createdAt": "2025-01-31T10:17:00.000Z"
+  },
+  {
+    "id": "vote-162",
+    "nomineeId": "nom-040",
+    "voter": {
+      "name": "Rachel Green",
+      "email": "rajkumar@airecruitusa.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "createdAt": "2025-01-31T11:24:00.000Z"
+  },
+  {
+    "id": "vote-163",
+    "nomineeId": "nom-040",
+    "voter": {
+      "name": "Priya Patel",
+      "email": "carlosmartinez@globaltalentpartners.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/isabella-romano"
+    },
+    "createdAt": "2025-01-31T11:31:00.000Z"
+  },
+  {
+    "id": "vote-164",
+    "nomineeId": "nom-041",
+    "voter": {
+      "name": "Mark Johnson",
+      "email": "jamesrodriguez@globaltalentbridge.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-01-31T12:38:00.000Z"
+  },
+  {
+    "id": "vote-165",
+    "nomineeId": "nom-041",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "rachelgreen@futureofworkinstitute.com",
+      "company": "TalentAI Solutions",
+      "linkedin": "https://linkedin.com/in/ahmed-hassan"
+    },
+    "createdAt": "2025-01-31T13:45:00.000Z"
+  },
+  {
+    "id": "vote-166",
+    "nomineeId": "nom-041",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "drsarahkim@canadianworkforcesolutions.com",
+      "company": "Latin America Talent",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-01-31T14:52:00.000Z"
+  },
+  {
+    "id": "vote-167",
+    "nomineeId": "nom-041",
+    "voter": {
+      "name": "Ahmed Hassan",
+      "email": "tomwilson@airecruitusa.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/dr-elizabeth-warren"
+    },
+    "createdAt": "2025-01-31T15:59:00.000Z"
+  },
+  {
+    "id": "vote-168",
+    "nomineeId": "nom-042",
+    "voter": {
+      "name": "Dr. Marie Leclerc",
+      "email": "yukisato@rocketstaff.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-01-31T05:06:00.000Z"
+  },
+  {
+    "id": "vote-169",
+    "nomineeId": "nom-042",
+    "voter": {
+      "name": "David Park",
+      "email": "jessicamartinez@rocketstaff.com",
+      "company": "TalentAI Solutions",
+      "linkedin": "https://linkedin.com/in/robert-taylor"
+    },
+    "createdAt": "2025-01-31T06:13:00.000Z"
+  },
+  {
+    "id": "vote-170",
+    "nomineeId": "nom-042",
+    "voter": {
+      "name": "Priya Patel",
+      "email": "amandafoster@euroaistaffing.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-02-01T07:20:00.000Z"
+  },
+  {
+    "id": "vote-171",
+    "nomineeId": "nom-042",
+    "voter": {
+      "name": "Sarah Mitchell",
+      "email": "markjohnson@megastaffglobal.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-02-01T08:27:00.000Z"
+  },
+  {
+    "id": "vote-172",
+    "nomineeId": "nom-042",
+    "voter": {
+      "name": "Mark Johnson",
+      "email": "yukisato@aussietalentco.com",
+      "company": "AI Recruit USA",
+      "linkedin": "https://linkedin.com/in/sarah-mitchell"
+    },
+    "createdAt": "2025-02-01T08:34:00.000Z"
+  },
+  {
+    "id": "vote-173",
+    "nomineeId": "nom-043",
+    "voter": {
+      "name": "Carlos Martinez",
+      "email": "sarahmitchell@talentaisolutions.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-02-01T09:41:00.000Z"
+  },
+  {
+    "id": "vote-174",
+    "nomineeId": "nom-043",
+    "voter": {
+      "name": "Hans Mueller",
+      "email": "jenniferdavis@digitalstaffingpro.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/mark-johnson"
+    },
+    "createdAt": "2025-02-01T10:48:00.000Z"
+  },
+  {
+    "id": "vote-175",
+    "nomineeId": "nom-043",
+    "voter": {
+      "name": "Priya Patel",
+      "email": "priyapatel@eurotalentnetwork.com",
+      "company": "TalentAI Solutions",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-02-01T11:55:00.000Z"
+  },
+  {
+    "id": "vote-176",
+    "nomineeId": "nom-043",
+    "voter": {
+      "name": "Dr. Michael Roberts",
+      "email": "markjohnson@megastaffglobal.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-02-01T13:02:00.000Z"
+  },
+  {
+    "id": "vote-177",
+    "nomineeId": "nom-043",
+    "voter": {
+      "name": "Mark Johnson",
+      "email": "yukisato@latinamericatalent.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/yuki-sato"
+    },
+    "createdAt": "2025-02-01T14:09:00.000Z"
+  },
+  {
+    "id": "vote-178",
+    "nomineeId": "nom-043",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "hiroshitanaka@canadianworkforcesolutions.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-02-01T15:16:00.000Z"
+  },
+  {
+    "id": "vote-179",
+    "nomineeId": "nom-043",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "jenniferdavis@middleeastglobalstaffing.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/sarah-mitchell"
+    },
+    "createdAt": "2025-02-01T16:23:00.000Z"
+  },
+  {
+    "id": "vote-180",
+    "nomineeId": "nom-043",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "yukisato@globaltalentpartners.com",
+      "company": "Australian Talent Network",
+      "linkedin": "https://linkedin.com/in/dr-sarah-kim"
+    },
+    "createdAt": "2025-02-02T04:30:00.000Z"
+  },
+  {
+    "id": "vote-181",
+    "nomineeId": "nom-044",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "klausweber@mediterraneanstaffing.com",
+      "company": "AI Recruit USA",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-02-02T05:37:00.000Z"
+  },
+  {
+    "id": "vote-182",
+    "nomineeId": "nom-044",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "klausweber@megastaffglobal.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/alex-thompson"
+    },
+    "createdAt": "2025-02-02T06:44:00.000Z"
+  },
+  {
+    "id": "vote-183",
+    "nomineeId": "nom-044",
+    "voter": {
+      "name": "Dr. Emily Chen",
+      "email": "nelsonmandelajr@womeninworksolutions.com",
+      "company": "American Talent Solutions",
+      "linkedin": "https://linkedin.com/in/dr-elizabeth-warren"
+    },
+    "createdAt": "2025-02-02T07:51:00.000Z"
+  },
+  {
+    "id": "vote-184",
+    "nomineeId": "nom-044",
+    "voter": {
+      "name": "Ahmed Hassan",
+      "email": "davidpark@usastaffingcorp.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "createdAt": "2025-02-02T08:58:00.000Z"
+  },
+  {
+    "id": "vote-185",
+    "nomineeId": "nom-044",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "fatimaalzahra@nordicstaffingsolutions.com",
+      "company": "Future of Work Institute",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-02-02T10:05:00.000Z"
+  },
+  {
+    "id": "vote-186",
+    "nomineeId": "nom-045",
+    "voter": {
+      "name": "Dr. Emily Chen",
+      "email": "lisaanderson@latinamericatalent.com",
+      "company": "Middle East Global Staffing",
+      "linkedin": "https://linkedin.com/in/david-park"
+    },
+    "createdAt": "2025-02-02T11:12:00.000Z"
+  },
+  {
+    "id": "vote-187",
+    "nomineeId": "nom-045",
+    "voter": {
+      "name": "Tom Wilson",
+      "email": "tomwilson@futureofworkinstitute.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/sophie-williams"
+    },
+    "createdAt": "2025-02-02T12:19:00.000Z"
+  },
+  {
+    "id": "vote-188",
+    "nomineeId": "nom-045",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "ahmedhassan@asiapacificstaffing.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/lisa-anderson"
+    },
+    "createdAt": "2025-02-02T13:26:00.000Z"
+  },
+  {
+    "id": "vote-189",
+    "nomineeId": "nom-045",
+    "voter": {
+      "name": "Amanda Foster",
+      "email": "amandafoster@africantalentinitiative.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/sophie-williams"
+    },
+    "createdAt": "2025-02-02T13:33:00.000Z"
+  },
+  {
+    "id": "vote-190",
+    "nomineeId": "nom-046",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "jessicamartinez@mumbaitechstaffing.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-02-03T14:40:00.000Z"
+  },
+  {
+    "id": "vote-191",
+    "nomineeId": "nom-047",
+    "voter": {
+      "name": "Lisa Anderson",
+      "email": "dremilychen@latinamericatalent.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/yuki-sato"
+    },
+    "createdAt": "2025-02-03T15:47:00.000Z"
+  },
+  {
+    "id": "vote-192",
+    "nomineeId": "nom-047",
+    "voter": {
+      "name": "Yuki Sato",
+      "email": "jessicamartinez@eurotalentnetwork.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/sarah-mitchell"
+    },
+    "createdAt": "2025-02-03T04:54:00.000Z"
+  },
+  {
+    "id": "vote-193",
+    "nomineeId": "nom-047",
+    "voter": {
+      "name": "Maria Gonzalez",
+      "email": "hiroshitanaka@usastaffingcorp.com",
+      "company": "AI Recruit USA",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-02-03T06:01:00.000Z"
+  },
+  {
+    "id": "vote-194",
+    "nomineeId": "nom-047",
+    "voter": {
+      "name": "Pierre Dubois",
+      "email": "mariagonzalez@megastaffglobal.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/tom-wilson"
+    },
+    "createdAt": "2025-02-03T07:08:00.000Z"
+  },
+  {
+    "id": "vote-195",
+    "nomineeId": "nom-047",
+    "voter": {
+      "name": "James Rodriguez",
+      "email": "nelsonmandelajr@womeninworksolutions.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/james-rodriguez"
+    },
+    "createdAt": "2025-02-03T08:15:00.000Z"
+  },
+  {
+    "id": "vote-196",
+    "nomineeId": "nom-047",
+    "voter": {
+      "name": "Rachel Green",
+      "email": "drsarahkim@digitalstaffingpro.com",
+      "company": "EuroAI Staffing",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "createdAt": "2025-02-03T09:22:00.000Z"
+  },
+  {
+    "id": "vote-197",
+    "nomineeId": "nom-048",
+    "voter": {
+      "name": "Dr. Marie Leclerc",
+      "email": "ahmedhassan@talentaisolutions.com",
+      "company": "TalentAI Solutions",
+      "linkedin": "https://linkedin.com/in/emily-watson"
+    },
+    "createdAt": "2025-02-03T10:29:00.000Z"
+  },
+  {
+    "id": "vote-198",
+    "nomineeId": "nom-048",
+    "voter": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "rachelgreen@mumbaitechstaffing.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/sophie-williams"
+    },
+    "createdAt": "2025-02-03T10:36:00.000Z"
+  },
+  {
+    "id": "vote-199",
+    "nomineeId": "nom-049",
+    "voter": {
+      "name": "Dr. Marie Leclerc",
+      "email": "klausweber@asiapacificstaffing.com",
+      "company": "Asia Pacific Staffing",
+      "linkedin": "https://linkedin.com/in/nelson-mandela-jr"
+    },
+    "createdAt": "2025-02-03T11:43:00.000Z"
+  },
+  {
+    "id": "vote-200",
+    "nomineeId": "nom-049",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "mariagonzalez@eurotalentnetwork.com",
+      "company": "Australian Talent Network",
+      "linkedin": "https://linkedin.com/in/james-rodriguez"
+    },
+    "createdAt": "2025-02-04T12:50:00.000Z"
+  },
+  {
+    "id": "vote-201",
+    "nomineeId": "nom-050",
+    "voter": {
+      "name": "Hans Mueller",
+      "email": "amandafoster@aussietalentco.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/raj-kumar"
+    },
+    "createdAt": "2025-02-04T13:57:00.000Z"
+  },
+  {
+    "id": "vote-202",
+    "nomineeId": "nom-050",
+    "voter": {
+      "name": "Raj Kumar",
+      "email": "michaelchen@mediterraneanstaffing.com",
+      "company": "Middle East Global Staffing",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-02-04T15:04:00.000Z"
+  },
+  {
+    "id": "vote-203",
+    "nomineeId": "nom-050",
+    "voter": {
+      "name": "Robert Taylor",
+      "email": "jessicamartinez@globaltalentpartners.com",
+      "company": "Nordic Staffing Solutions",
+      "linkedin": "https://linkedin.com/in/hiroshi-tanaka"
+    },
+    "createdAt": "2025-02-04T16:11:00.000Z"
+  },
+  {
+    "id": "vote-204",
+    "nomineeId": "nom-050",
+    "voter": {
+      "name": "Tom Wilson",
+      "email": "roberttaylor@womeninworksolutions.com",
+      "company": "African Talent Initiative",
+      "linkedin": "https://linkedin.com/in/priya-patel"
+    },
+    "createdAt": "2025-02-04T05:18:00.000Z"
+  },
+  {
+    "id": "vote-205",
+    "nomineeId": "nom-050",
+    "voter": {
+      "name": "Lisa Anderson",
+      "email": "fatimaalzahra@womeninworksolutions.com",
+      "company": "Australian Talent Network",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-02-04T06:25:00.000Z"
+  },
+  {
+    "id": "vote-206",
+    "nomineeId": "nom-050",
+    "voter": {
+      "name": "Jessica Martinez",
+      "email": "sarahmitchell@canadianworkforcesolutions.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/dr-marie-leclerc"
+    },
+    "createdAt": "2025-02-04T06:32:00.000Z"
+  },
+  {
+    "id": "vote-207",
+    "nomineeId": "nom-050",
+    "voter": {
+      "name": "Jessica Martinez",
+      "email": "klausweber@europeantalenthub.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/pierre-dubois"
+    },
+    "createdAt": "2025-02-04T07:39:00.000Z"
+  },
+  {
+    "id": "vote-208",
+    "nomineeId": "nom-051",
+    "voter": {
+      "name": "Michael Chen",
+      "email": "carlosmartinez@airecruitusa.com",
+      "company": "RocketStaff",
+      "linkedin": "https://linkedin.com/in/klaus-weber"
+    },
+    "createdAt": "2025-02-04T08:46:00.000Z"
+  },
+  {
+    "id": "vote-209",
+    "nomineeId": "nom-051",
+    "voter": {
+      "name": "Nelson Mandela Jr",
+      "email": "hansmueller@techtalentsolutions.com",
+      "company": "European Talent Hub",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-02-04T09:53:00.000Z"
+  },
+  {
+    "id": "vote-210",
+    "nomineeId": "nom-052",
+    "voter": {
+      "name": "Emily Watson",
+      "email": "rajkumar@medstaffglobal.com",
+      "company": "Digital Staffing Pro",
+      "linkedin": "https://linkedin.com/in/dr-emily-chen"
+    },
+    "createdAt": "2025-02-05T11:00:00.000Z"
+  },
+  {
+    "id": "vote-211",
+    "nomineeId": "nom-052",
+    "voter": {
+      "name": "Dr. Sarah Kim",
+      "email": "tomwilson@middleeastglobalstaffing.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/carlos-martinez"
+    },
+    "createdAt": "2025-02-05T12:07:00.000Z"
+  },
+  {
+    "id": "vote-212",
+    "nomineeId": "nom-052",
+    "voter": {
+      "name": "Ahmed Hassan",
+      "email": "rajkumar@australiantalentnetwork.com",
+      "company": "AI Recruit USA",
+      "linkedin": "https://linkedin.com/in/david-park"
+    },
+    "createdAt": "2025-02-05T13:14:00.000Z"
+  },
+  {
+    "id": "vote-213",
+    "nomineeId": "nom-052",
+    "voter": {
+      "name": "Raj Kumar",
+      "email": "drmichaelroberts@womeninworksolutions.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/pierre-dubois"
+    },
+    "createdAt": "2025-02-05T14:21:00.000Z"
+  },
+  {
+    "id": "vote-214",
+    "nomineeId": "nom-052",
+    "voter": {
+      "name": "Hiroshi Tanaka",
+      "email": "amandafoster@europeantalenthub.com",
+      "company": "USA Staffing Corp",
+      "linkedin": "https://linkedin.com/in/jessica-martinez"
+    },
+    "createdAt": "2025-02-05T15:28:00.000Z"
+  },
+  {
+    "id": "vote-215",
+    "nomineeId": "nom-052",
+    "voter": {
+      "name": "Maria Gonzalez",
+      "email": "fatimaalzahra@usastaffingcorp.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-02-05T15:35:00.000Z"
+  },
+  {
+    "id": "vote-216",
+    "nomineeId": "nom-052",
+    "voter": {
+      "name": "Dr. Elizabeth Warren",
+      "email": "jenniferdavis@mediterraneanstaffing.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/james-rodriguez"
+    },
+    "createdAt": "2025-02-05T04:42:00.000Z"
+  },
+  {
+    "id": "vote-217",
+    "nomineeId": "nom-052",
+    "voter": {
+      "name": "Priya Patel",
+      "email": "priyapatel@airecruitusa.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/ahmed-hassan"
+    },
+    "createdAt": "2025-02-05T05:49:00.000Z"
+  },
+  {
+    "id": "vote-218",
+    "nomineeId": "nom-053",
+    "voter": {
+      "name": "Dr. Sarah Kim",
+      "email": "isabellaromano@womeninworksolutions.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/hiroshi-tanaka"
+    },
+    "createdAt": "2025-02-05T06:56:00.000Z"
+  },
+  {
+    "id": "vote-219",
+    "nomineeId": "nom-053",
+    "voter": {
+      "name": "James Rodriguez",
+      "email": "drmichaelroberts@australiantalentnetwork.com",
+      "company": "Canadian Workforce Solutions",
+      "linkedin": "https://linkedin.com/in/tom-wilson"
+    },
+    "createdAt": "2025-02-05T08:03:00.000Z"
+  },
+  {
+    "id": "vote-220",
+    "nomineeId": "nom-053",
+    "voter": {
+      "name": "Raj Kumar",
+      "email": "davidpark@middleeastglobalstaffing.com",
+      "company": "Mediterranean Staffing",
+      "linkedin": "https://linkedin.com/in/priya-patel"
+    },
+    "createdAt": "2025-02-06T09:10:00.000Z"
+  },
+  {
+    "id": "vote-221",
+    "nomineeId": "nom-053",
+    "voter": {
+      "name": "Jennifer Davis",
+      "email": "nelsonmandelajr@megastaffglobal.com",
+      "company": "USA Staffing Corp",
+      "linkedin": "https://linkedin.com/in/yuki-sato"
+    },
+    "createdAt": "2025-02-06T10:17:00.000Z"
+  },
+  {
+    "id": "vote-222",
+    "nomineeId": "nom-053",
+    "voter": {
+      "name": "Mark Johnson",
+      "email": "jessicamartinez@talentaisolutions.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/hans-mueller"
+    },
+    "createdAt": "2025-02-06T11:24:00.000Z"
+  },
+  {
+    "id": "vote-223",
+    "nomineeId": "nom-054",
+    "voter": {
+      "name": "Fatima Al-Zahra",
+      "email": "jenniferdavis@womeninworksolutions.com",
+      "company": "TechTalent Solutions",
+      "linkedin": "https://linkedin.com/in/david-park"
+    },
+    "createdAt": "2025-02-06T11:31:00.000Z"
+  },
+  {
+    "id": "vote-224",
+    "nomineeId": "nom-054",
+    "voter": {
+      "name": "Sarah Mitchell",
+      "email": "hansmueller@futureofworkinstitute.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/dr-michael-roberts"
+    },
+    "createdAt": "2025-02-06T12:38:00.000Z"
+  },
+  {
+    "id": "vote-225",
+    "nomineeId": "nom-054",
+    "voter": {
+      "name": "Isabella Romano",
+      "email": "lisaanderson@euroaistaffing.com",
+      "company": "Aussie Talent Co",
+      "linkedin": "https://linkedin.com/in/michael-chen"
+    },
+    "createdAt": "2025-02-06T13:45:00.000Z"
+  },
+  {
+    "id": "vote-226",
+    "nomineeId": "nom-055",
+    "voter": {
+      "name": "Priya Patel",
+      "email": "drsarahkim@middleeastglobalstaffing.com",
+      "company": "Middle East Global Staffing",
+      "linkedin": "https://linkedin.com/in/hiroshi-tanaka"
+    },
+    "createdAt": "2025-02-06T14:52:00.000Z"
+  },
+  {
+    "id": "vote-227",
+    "nomineeId": "nom-055",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "mariagonzalez@medstaffglobal.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/tom-wilson"
+    },
+    "createdAt": "2025-02-06T15:59:00.000Z"
+  },
+  {
+    "id": "vote-228",
+    "nomineeId": "nom-056",
+    "voter": {
+      "name": "Robert Taylor",
+      "email": "emilywatson@megastaffglobal.com",
+      "company": "Mumbai Tech Staffing",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-02-06T05:06:00.000Z"
+  },
+  {
+    "id": "vote-229",
+    "nomineeId": "nom-056",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "pierredubois@futureofworkinstitute.com",
+      "company": "Asia Pacific Staffing",
+      "linkedin": "https://linkedin.com/in/rachel-green"
+    },
+    "createdAt": "2025-02-06T06:13:00.000Z"
+  },
+  {
+    "id": "vote-230",
+    "nomineeId": "nom-056",
+    "voter": {
+      "name": "Mark Johnson",
+      "email": "drmarieleclerc@europeantalenthub.com",
+      "company": "EuroTalent Network",
+      "linkedin": "https://linkedin.com/in/amanda-foster"
+    },
+    "createdAt": "2025-02-07T07:20:00.000Z"
+  },
+  {
+    "id": "vote-231",
+    "nomineeId": "nom-056",
+    "voter": {
+      "name": "Klaus Weber",
+      "email": "jenniferdavis@womeninworksolutions.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/jennifer-davis"
+    },
+    "createdAt": "2025-02-07T08:27:00.000Z"
+  },
+  {
+    "id": "vote-232",
+    "nomineeId": "nom-056",
+    "voter": {
+      "name": "Hiroshi Tanaka",
+      "email": "drsarahkim@techtalentsolutions.com",
+      "company": "Global Talent Partners",
+      "linkedin": "https://linkedin.com/in/dr-michael-roberts"
+    },
+    "createdAt": "2025-02-07T08:34:00.000Z"
+  },
+  {
+    "id": "vote-233",
+    "nomineeId": "nom-056",
+    "voter": {
+      "name": "Michael Chen",
+      "email": "sarahmitchell@airecruitusa.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/nelson-mandela-jr"
+    },
+    "createdAt": "2025-02-07T09:41:00.000Z"
+  },
+  {
+    "id": "vote-234",
+    "nomineeId": "nom-056",
+    "voter": {
+      "name": "Carlos Martinez",
+      "email": "jamesrodriguez@europeantalenthub.com",
+      "company": "MegaStaff Global",
+      "linkedin": "https://linkedin.com/in/dr-sarah-kim"
+    },
+    "createdAt": "2025-02-07T10:48:00.000Z"
+  },
+  {
+    "id": "vote-235",
+    "nomineeId": "nom-056",
+    "voter": {
+      "name": "David Park",
+      "email": "amandafoster@globaltalentbridge.com",
+      "company": "Women in Work Solutions",
+      "linkedin": "https://linkedin.com/in/fatima-al-zahra"
+    },
+    "createdAt": "2025-02-07T11:55:00.000Z"
+  }
+]
