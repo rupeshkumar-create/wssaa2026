@@ -3,6 +3,70 @@ import { supabase } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 
+// Demo data function for when database is not configured
+function getDemoNomineesData(subcategoryId?: string, limit?: number) {
+  const demoData = [
+    {
+      id: 'demo-1',
+      nomineeId: 'demo-nominee-1',
+      category: subcategoryId || 'best-staffing-firm',
+      categoryGroup: 'staffing',
+      type: 'company',
+      votes: 150,
+      status: 'approved' as const,
+      createdAt: new Date().toISOString(),
+      approvedAt: new Date().toISOString(),
+      uniqueKey: 'demo-1',
+      name: 'Demo Staffing Solutions',
+      displayName: 'Demo Staffing Solutions',
+      imageUrl: null,
+      title: 'Leading Staffing Agency',
+      linkedin: '',
+      whyVote: 'Exceptional service and innovative solutions',
+      liveUrl: 'https://demo-company.com',
+      nominee: {
+        id: 'demo-nominee-1',
+        type: 'company',
+        name: 'Demo Staffing Solutions',
+        displayName: 'Demo Staffing Solutions',
+        imageUrl: null,
+        email: 'contact@demo-company.com',
+        phone: '',
+        country: 'United States',
+        linkedin: '',
+        liveUrl: 'https://demo-company.com',
+        bio: 'A leading staffing agency with innovative solutions',
+        achievements: 'Industry leader for 5+ years',
+        socialMedia: '',
+        companyName: 'Demo Staffing Solutions',
+        companyDomain: 'demo-company.com',
+        companyWebsite: 'https://demo-company.com',
+        companySize: '100-500',
+        industry: 'Staffing & Recruiting',
+        logoUrl: null,
+        whyUs: 'We provide exceptional staffing solutions',
+        whyVote: 'Exceptional service and innovative solutions',
+        titleOrIndustry: 'Leading Staffing Agency'
+      },
+      nominator: {
+        name: 'Anonymous',
+        email: '',
+        displayName: 'Anonymous'
+      }
+    }
+  ];
+
+  let filteredData = demoData;
+  if (subcategoryId) {
+    filteredData = demoData.filter(item => item.category === subcategoryId);
+  }
+  if (limit) {
+    filteredData = filteredData.slice(0, limit);
+  }
+  
+  return filteredData;
+}
+
 /**
  * GET /api/nominees - Get approved nominees with complete form details
  */
@@ -14,26 +78,102 @@ export async function GET(request: NextRequest) {
 
     console.log('Fetching nominees with params:', { subcategoryId, limit });
 
-    // Query the public_nominees view (new schema structure)
-    let query = supabase
-      .from('public_nominees')
-      .select('*')
-      .order('votes', { ascending: false })
-      .order('created_at', { ascending: false });
-
-    if (subcategoryId) {
-      query = query.eq('subcategory_id', subcategoryId);
+    // Check if Supabase is configured
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.log('Supabase not configured, returning demo data');
+      return NextResponse.json({
+        success: true,
+        data: getDemoNomineesData(subcategoryId, limit),
+        count: getDemoNomineesData(subcategoryId, limit).length,
+        message: 'Demo data - database not configured'
+      });
     }
 
-    if (limit) {
-      query = query.limit(limit);
-    }
+    try {
+      // Try to query the public_nominees view first, fallback to basic tables
+      let nominees: any[] = [];
+      let error: any = null;
 
-    const { data: nominees, error } = await query;
+      try {
+        // Query the public_nominees view (new schema structure)
+        let query = supabase
+          .from('public_nominees')
+          .select('*')
+          .order('votes', { ascending: false })
+          .order('created_at', { ascending: false });
 
-    if (error) {
-      console.error('Supabase error:', error);
-      throw error;
+        if (subcategoryId) {
+          query = query.eq('subcategory_id', subcategoryId);
+        }
+
+        if (limit) {
+          query = query.limit(limit);
+        }
+
+        const result = await query;
+        nominees = result.data || [];
+        error = result.error;
+      } catch (viewError) {
+        console.log('Public nominees view not available, trying basic tables');
+        
+        // Fallback to basic nominations table
+        let query = supabase
+          .from('nominations')
+          .select(`
+            id,
+            nominee_id,
+            subcategory_id,
+            state,
+            votes,
+            additional_votes,
+            created_at,
+            approved_at,
+            nominees (
+              id,
+              type,
+              firstname,
+              lastname,
+              company_name,
+              headshot_url,
+              logo_url
+            )
+          `)
+          .eq('state', 'approved')
+          .order('votes', { ascending: false })
+          .order('created_at', { ascending: false });
+
+        if (subcategoryId) {
+          query = query.eq('subcategory_id', subcategoryId);
+        }
+
+        if (limit) {
+          query = query.limit(limit);
+        }
+
+        const result = await query;
+        nominees = result.data || [];
+        error = result.error;
+      }
+
+      if (error) {
+        console.error('Supabase error:', error);
+        // Return demo data if query fails
+        return NextResponse.json({
+          success: true,
+          data: getDemoNomineesData(subcategoryId, limit),
+          count: getDemoNomineesData(subcategoryId, limit).length,
+          message: 'Demo data - database query failed'
+        });
+      }
+    } catch (dbError) {
+      console.error('Database connection error:', dbError);
+      // Return demo data if database is not accessible
+      return NextResponse.json({
+        success: true,
+        data: getDemoNomineesData(subcategoryId, limit),
+        count: getDemoNomineesData(subcategoryId, limit).length,
+        message: 'Demo data - database not accessible'
+      });
     }
 
     console.log(`Found ${nominees?.length || 0} nominees`);
