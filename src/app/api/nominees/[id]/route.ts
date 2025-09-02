@@ -55,9 +55,11 @@ export async function GET(
           .eq('status', 'approved');
         
         if (allNominees && !allError) {
-          nominee = allNominees.find(n => {
+          nominee = allNominees.find((n: any) => {
             const nomineeData = n.nominee_data as any;
-            const displayName = nomineeData?.displayName || nomineeData?.name || nomineeData?.firstName + ' ' + nomineeData?.lastName || '';
+            const displayName = nomineeData?.displayName || nomineeData?.name || 
+                               (nomineeData?.firstName && nomineeData?.lastName ? 
+                                `${nomineeData.firstName} ${nomineeData.lastName}` : '') || '';
             const nameSlug = displayName
               .toLowerCase()
               .replace(/[^a-z0-9\s-]/g, '')
@@ -82,12 +84,14 @@ export async function GET(
       );
     }
     const nomineeData = nominee.nominee_data as any;
-    const companyData = nominee.company_data as any;
-    const nominatorData = nominee.nominator_data as any;
     
     console.log('✅ Found nominee:', nomineeData?.displayName || nomineeData?.name);
 
     // Transform nominee data to match expected format
+    const displayName = nomineeData?.displayName || nomineeData?.name || 
+                       (nomineeData?.firstName && nomineeData?.lastName ? 
+                        `${nomineeData.firstName} ${nomineeData.lastName}` : '') || '';
+
     const transformedNominee = {
       // Basic nomination info
       id: nominee.id,
@@ -98,13 +102,13 @@ export async function GET(
       status: nominee.status,
       createdAt: nominee.created_at,
       approvedAt: nominee.moderated_at,
-      uniqueKey: nominee.unique_key,
+      uniqueKey: nominee.id,
 
       // Display fields
-      name: nomineeData?.displayName || nomineeData?.name || nomineeData?.firstName + ' ' + nomineeData?.lastName || '',
-      displayName: nomineeData?.displayName || nomineeData?.name || nomineeData?.firstName + ' ' + nomineeData?.lastName || '',
+      name: displayName,
+      displayName: displayName,
       imageUrl: nominee.image_url || nomineeData?.headshotUrl || nomineeData?.logoUrl || '',
-      title: nomineeData?.jobTitle || nomineeData?.title || companyData?.industry || '',
+      title: nomineeData?.jobTitle || nomineeData?.title || '',
       linkedin: nomineeData?.linkedin || '',
       whyVote: nominee.why_vote_for_me || nomineeData?.whyVoteForMe || nomineeData?.whyMe || nomineeData?.whyUs || '',
       liveUrl: nominee.live_url || '',
@@ -113,8 +117,8 @@ export async function GET(
       nominee: {
         id: nominee.id,
         type: nominee.type,
-        name: nomineeData?.displayName || nomineeData?.name || nomineeData?.firstName + ' ' + nomineeData?.lastName || '',
-        displayName: nomineeData?.displayName || nomineeData?.name || nomineeData?.firstName + ' ' + nomineeData?.lastName || '',
+        name: displayName,
+        displayName: displayName,
         imageUrl: nominee.image_url || nomineeData?.headshotUrl || nomineeData?.logoUrl || '',
         
         // Contact details
@@ -133,8 +137,7 @@ export async function GET(
           lastName: nomineeData?.lastName || '',
           jobTitle: nomineeData?.jobTitle || nomineeData?.title || '',
           title: nomineeData?.jobTitle || nomineeData?.title || '',
-          jobtitle: nomineeData?.jobTitle || nomineeData?.title || '',
-          company: companyData?.name || companyData?.companyName || '',
+          company: nomineeData?.company || '',
           headshotUrl: nomineeData?.headshotUrl || nominee.image_url || '',
           whyMe: nomineeData?.whyMe || nomineeData?.whyVoteForMe || '',
           whyVoteForMe: nomineeData?.whyMe || nomineeData?.whyVoteForMe || ''
@@ -168,7 +171,7 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data: transformedNominee,
-      message: `Found nominee: ${nominee.display_name}`
+      message: `Found nominee: ${displayName}`
     });
 
   } catch (error) {
