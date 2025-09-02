@@ -17,7 +17,7 @@ export function Navigation() {
   }, []);
   
   // Prevent hydration mismatch by showing default text until mounted and loaded
-  const navText = !mounted || nominationStatus.loading ? "Vote" : (nominationStatus.enabled ? "Nominate" : "Vote");
+  const showNominate = !mounted || nominationStatus.loading ? false : nominationStatus.enabled;
   const buttonText = !mounted || nominationStatus.loading ? "Vote Now" : (nominationStatus.enabled ? "Submit Nomination" : "Vote Now");
   const buttonHref = !mounted || nominationStatus.loading ? "/directory" : (nominationStatus.enabled ? "/nominate" : "/directory");
 
@@ -47,32 +47,49 @@ export function Navigation() {
             >
               Home
             </Link>
-            <Link 
-              href="/nominate" 
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isActive("/nominate") ? "text-primary" : "text-muted-foreground"
-              }`}
-            >
-              {navText}
-            </Link>
+            {showNominate && (
+              <Link 
+                href="/nominate" 
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isActive("/nominate") ? "text-primary" : "text-muted-foreground"
+                }`}
+              >
+                Nominate
+              </Link>
+            )}
             <Link 
               href="/directory" 
               className={`text-sm font-medium transition-colors hover:text-primary ${
                 isActive("/directory") ? "text-primary" : "text-muted-foreground"
               }`}
             >
-              Directory
+              {showNominate ? "Vote" : "Directory"}
             </Link>
 
           </div>
 
           {/* CTA Button */}
           <div className="flex items-center gap-2 sm:gap-4">
-            <Button asChild className="hidden sm:inline-flex">
-              <Link href={buttonHref}>
-                {buttonText}
-              </Link>
-            </Button>
+            {showNominate ? (
+              <div className="hidden sm:flex items-center gap-2">
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/directory">
+                    Vote
+                  </Link>
+                </Button>
+                <Button asChild size="sm">
+                  <Link href="/nominate">
+                    Nominate
+                  </Link>
+                </Button>
+              </div>
+            ) : (
+              <Button asChild className="hidden sm:inline-flex">
+                <Link href="/directory">
+                  Vote Now
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
       </div>

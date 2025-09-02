@@ -73,7 +73,7 @@ export function NominationToggle({ className }: NominationToggleProps) {
         const result = await response.json();
         if (result.success) {
           setNominationsEnabled(enabled);
-          setSuccess(`Voting ${enabled ? 'enabled' : 'disabled'} successfully`);
+          setSuccess(`Nominations ${enabled ? 'enabled' : 'disabled'} successfully`);
           
           // Clear success message after 3 seconds
           setTimeout(() => setSuccess(null), 3000);
@@ -155,10 +155,10 @@ export function NominationToggle({ className }: NominationToggleProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Settings className="h-5 w-5" />
-          Voting Control
+          Nomination Control
         </CardTitle>
         <CardDescription>
-          Control whether voting is open or closed to the public
+          Control whether nominations are open or closed to the public
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -186,8 +186,8 @@ export function NominationToggle({ className }: NominationToggleProps) {
             </Label>
             <p className="text-sm text-muted-foreground">
               {nominationsEnabled 
-                ? 'Voting is currently open and accepting submissions'
-                : 'Voting is currently closed - form will be disabled'
+                ? 'Nominations are currently open and accepting submissions'
+                : 'Nominations are currently closed - form will be disabled'
               }
             </p>
           </div>
@@ -211,13 +211,13 @@ export function NominationToggle({ className }: NominationToggleProps) {
             Closed Message
           </Label>
           <p className="text-sm text-muted-foreground">
-            Message shown to users when voting is closed
+            Message shown to users when nominations are closed
           </p>
           <Textarea
             id="close-message"
             value={closeMessage}
             onChange={(e) => setCloseMessage(e.target.value)}
-            placeholder="Enter the message to show when voting is closed..."
+            placeholder="Enter the message to show when nominations are closed..."
             className="min-h-[100px]"
             maxLength={500}
           />
@@ -251,7 +251,7 @@ export function NominationToggle({ className }: NominationToggleProps) {
           <h4 className="font-medium mb-2">Current Configuration</h4>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span>Voting:</span>
+              <span>Nominations:</span>
               <span className={`font-medium ${nominationsEnabled ? 'text-green-600' : 'text-red-600'}`}>
                 {nominationsEnabled ? 'OPEN' : 'CLOSED'}
               </span>

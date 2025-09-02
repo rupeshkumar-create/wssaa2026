@@ -542,7 +542,7 @@ export default function AdminPage() {
                       id="status-filter"
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value as any)}
-                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                     >
                       <option value="all">All Statuses</option>
                       <option value="submitted">Pending Review</option>
@@ -557,7 +557,7 @@ export default function AdminPage() {
                       id="type-filter"
                       value={typeFilter}
                       onChange={(e) => setTypeFilter(e.target.value as any)}
-                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
                     >
                       <option value="all">All Types</option>
                       <option value="person">Person</option>
