@@ -57,29 +57,34 @@ export function SimplePodium() {
   const [selectedCategory, setSelectedCategory] = useState('top-recruiter');
   const [isAnimating, setIsAnimating] = useState(false);
   const [fadeClass, setFadeClass] = useState('opacity-100 translate-y-0');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     const fetchPodiumData = async () => {
       try {
-        setLoading(true);
+        // Only show loading spinner on initial load, not on category switches
+        if (isInitialLoad) {
+          setLoading(true);
+        }
+        
         setIsAnimating(true);
-        setFadeClass('opacity-0 translate-y-4');
+        setFadeClass('opacity-0 translate-y-2');
         
         const response = await fetch(`/api/podium?category=${selectedCategory}`);
         const data = await response.json();
         
         if (response.ok) {
-          // Enhanced smooth animation with staggered timing
+          // Smooth instant transition without loading text
           setTimeout(() => {
             setPodiumData(data.items || []);
             setError(null);
             setFadeClass('opacity-100 translate-y-0');
             
-            // Stagger the card animations
+            // Quick animation completion
             setTimeout(() => {
               setIsAnimating(false);
-            }, 150);
-          }, 200);
+            }, 100);
+          }, isInitialLoad ? 300 : 150); // Faster for category switches
         } else {
           setError(data.error || 'Failed to load podium data');
           setIsAnimating(false);
@@ -91,12 +96,17 @@ export function SimplePodium() {
         setIsAnimating(false);
         setFadeClass('opacity-100 translate-y-0');
       } finally {
-        setTimeout(() => setLoading(false), 100);
+        if (isInitialLoad) {
+          setTimeout(() => {
+            setLoading(false);
+            setIsInitialLoad(false);
+          }, 200);
+        }
       }
     };
 
     fetchPodiumData();
-  }, [selectedCategory]);
+  }, [selectedCategory, isInitialLoad]);
 
   const handleGroupChange = (groupId: string) => {
     if (groupId === selectedGroup) return; // Prevent unnecessary re-renders
@@ -165,12 +175,12 @@ export function SimplePodium() {
         className={`
           ${cardSizes[rank as keyof typeof cardSizes]} 
           mx-auto relative
-          transform transition-all duration-500 ease-out
-          ${isAnimating ? 'scale-90 opacity-30 translate-y-8' : 'scale-100 opacity-100 translate-y-0'}
+          transform transition-all duration-300 ease-out
+          ${isAnimating ? 'scale-95 opacity-60 translate-y-4' : 'scale-100 opacity-100 translate-y-0'}
           hover:scale-105 hover:-translate-y-2 hover:shadow-2xl
         `}
         style={{
-          transitionDelay: isAnimating ? '0ms' : `${rank * 100}ms`
+          transitionDelay: isAnimating ? '0ms' : `${rank * 50}ms`
         }}
       >
         {/* Rank Badge */}
@@ -382,7 +392,7 @@ export function SimplePodium() {
 
         {/* Podium Content */}
         <div className="relative">
-          {loading && (
+          {loading && isInitialLoad && (
             <div className="text-center py-16">
               <div className="inline-flex items-center gap-3">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
@@ -406,10 +416,10 @@ export function SimplePodium() {
             </div>
           )}
 
-          {!loading && !error && (
+          {(!loading || !isInitialLoad) && !error && (
             <div className={`
               flex items-end justify-center gap-8 min-h-[500px]
-              transition-all duration-500 ease-out transform
+              transition-all duration-300 ease-out transform
               ${fadeClass}
             `}>
               {/* 2nd Place - Silver */}
@@ -430,9 +440,9 @@ export function SimplePodium() {
           )}
 
           {/* Category Info */}
-          {!loading && !error && (
+          {(!loading || !isInitialLoad) && !error && (
             <div className={`
-              text-center mt-12 transition-all duration-500 ease-out transform
+              text-center mt-12 transition-all duration-300 ease-out transform
               ${fadeClass}
             `}>
               <div className="inline-flex items-center gap-3 bg-white/90 backdrop-blur-sm rounded-full px-8 py-4 border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
