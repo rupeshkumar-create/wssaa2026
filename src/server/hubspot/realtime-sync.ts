@@ -82,8 +82,8 @@ export async function syncNominatorToHubSpot(data: NominatorData): Promise<{
       wsa_source: 'World Staffing Awards',
       wsa_nominator_status: 'submitted',
       wsa_submission_date: new Date().toISOString(),
-      wsa_tags: 'Nominator 2026', // Ensure tags field is set
-      wsa_contact_tag: 'Nominator 2026', // Ensure dropdown tag is set
+      wsa_tags: 'WSA2026 Nominator', // Ensure tags field is set
+      wsa_contact_tag: 'WSA2026 Nominator', // Ensure dropdown tag is set
     };
 
     // Add optional fields if provided
@@ -270,7 +270,7 @@ export async function syncNomineeToHubSpot(data: NomineeData): Promise<{
             wsa_nominee_status: 'approved',
             wsa_category: data.subcategoryId,
             wsa_nomination_id: data.nominationId,
-            wsa_company_tag: 'Nominator 2026', // Company tag as specified
+            wsa_company_tag: 'WSA2026 Nominator', // Company tag as specified
           };
 
           if (data.companyWebsite) {
@@ -455,7 +455,7 @@ async function addContactTags(contactId: string, role: 'Nominator' | 'Nominee_Pe
     // Map roles to your HubSpot dropdown tags (matching exact values in HubSpot)
     switch (role) {
       case 'Nominator':
-        properties.wsa_contact_tag = 'Nominator 2026';
+        properties.wsa_contact_tag = 'WSA2026 Nominator'; // Fixed: no space, matches HubSpot
         break;
       case 'Nominee_Person':
       case 'Nominee_Company':
@@ -589,7 +589,7 @@ export async function setupHubSpotCustomProperties(): Promise<{
     { name: 'wsa_year', label: 'WSA Year', type: 'string' },
     { name: 'wsa_source', label: 'WSA Source', type: 'string' },
     { name: 'wsa_tags', label: 'WSA Tags', type: 'string' },
-    { name: 'wsa_contact_tag', label: 'WSA Contact Tag', type: 'enumeration', options: ['Nominator 2026', 'WSA 2026 Nominees', 'WSA 2026 Voters'] },
+    { name: 'wsa_contact_tag', label: 'WSA Contact Tag', type: 'enumeration', options: ['WSA2026 Nominator', 'WSA 2026 Nominees', 'WSA 2026 Voters'] },
     { name: 'wsa_linkedin', label: 'WSA LinkedIn', type: 'string' },
     { name: 'wsa_company', label: 'WSA Company', type: 'string' },
     { name: 'wsa_job_title', label: 'WSA Job Title', type: 'string' },
@@ -620,7 +620,7 @@ export async function setupHubSpotCustomProperties(): Promise<{
     { name: 'wsa_nominee_status', label: 'WSA Nominee Status', type: 'enumeration', options: ['submitted', 'approved', 'rejected'] },
     { name: 'wsa_category', label: 'WSA Nomination Category', type: 'string' },
     { name: 'wsa_nomination_id', label: 'WSA Nomination ID', type: 'string' },
-    { name: 'wsa_company_tag', label: 'WSA Company Tag', type: 'enumeration', options: ['Nominator 2026'] },
+    { name: 'wsa_company_tag', label: 'WSA Company Tag', type: 'enumeration', options: ['WSA2026 Nominator'] },
   ];
 
   const created: string[] = [];
