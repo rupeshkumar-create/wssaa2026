@@ -15,37 +15,37 @@ type PodiumItem = {
   live_slug: string;
 };
 
-// Category groups for the tabs - reordered with Top Recruiters first
+// Generate category groups dynamically from constants
 const categoryGroups = [
   {
-    id: 'role-specific',
+    id: 'role-specific-excellence',
     label: 'Role-Specific Excellence',
-    categories: ['top-recruiter', 'top-executive-leader', 'rising-star-under-30', 'top-staffing-influencer', 'best-sourcer']
+    categories: CATEGORIES.filter(c => c.group === 'role-specific-excellence').map(c => c.id)
   },
   {
-    id: 'innovation',
+    id: 'innovation-technology',
     label: 'Innovation & Technology',
-    categories: ['innovation-technology-leader', 'diversity-inclusion-champion']
+    categories: CATEGORIES.filter(c => c.group === 'innovation-technology').map(c => c.id)
   },
   {
-    id: 'culture',
+    id: 'culture-impact',
     label: 'Culture & Impact',
-    categories: ['culture-impact-leader', 'community-impact-leader']
+    categories: CATEGORIES.filter(c => c.group === 'culture-impact').map(c => c.id)
   },
   {
-    id: 'growth',
+    id: 'growth-performance',
     label: 'Growth & Performance',
-    categories: ['growth-performance-leader', 'client-success-champion']
+    categories: CATEGORIES.filter(c => c.group === 'growth-performance').map(c => c.id)
   },
   {
-    id: 'geographic',
+    id: 'geographic-excellence',
     label: 'Geographic Excellence',
-    categories: ['regional-excellence-north-america', 'regional-excellence-europe', 'regional-excellence-asia-pacific', 'regional-excellence-latin-america', 'regional-excellence-middle-east-africa']
+    categories: CATEGORIES.filter(c => c.group === 'geographic-excellence').map(c => c.id)
   },
   {
-    id: 'special',
+    id: 'special-recognition',
     label: 'Special Recognition',
-    categories: ['lifetime-achievement', 'industry-game-changer', 'thought-leadership']
+    categories: CATEGORIES.filter(c => c.group === 'special-recognition').map(c => c.id)
   }
 ];
 
@@ -53,46 +53,91 @@ export function SimplePodium() {
   const [podiumData, setPodiumData] = useState<PodiumItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedGroup, setSelectedGroup] = useState('role-specific');
-  const [selectedCategory, setSelectedCategory] = useState('top-recruiter');
+  const [selectedGroup, setSelectedGroup] = useState('innovation-technology');
+  const [selectedCategory, setSelectedCategory] = useState('top-ai-driven-staffing-platform');
   const [isAnimating, setIsAnimating] = useState(false);
   const [fadeClass, setFadeClass] = useState('opacity-100 translate-y-0');
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [dataCache, setDataCache] = useState<Record<string, PodiumItem[]>>({});
 
   useEffect(() => {
     const fetchPodiumData = async () => {
       try {
-        // Only show loading spinner on initial load, not on category switches
+        // Check cache first for instant loading
+        if (dataCache[selectedCategory] && !isInitialLoad) {
+          console.log('Using cached data for:', selectedCategory);
+          setIsAnimating(true);
+          setFadeClass('opacity-70 translate-y-1');
+          
+          setTimeout(() => {
+            setPodiumData(dataCache[selectedCategory]);
+            setError(null);
+            setFadeClass('opacity-100 translate-y-0');
+            setIsAnimating(false);
+          }, 25); // Super fast for cached data
+          return;
+        }
+
+        // Only show loading spinner on initial load
         if (isInitialLoad) {
           setLoading(true);
         }
         
+        // Start fade animation
         setIsAnimating(true);
-        setFadeClass('opacity-0 translate-y-2');
+        setFadeClass('opacity-70 translate-y-1');
         
-        const response = await fetch(`/api/podium?category=${selectedCategory}`);
+        // Fetch data with shorter timeout for faster response
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+        
+        const response = await fetch(`/api/podium?category=${selectedCategory}`, {
+          signal: controller.signal,
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        });
+        
+        clearTimeout(timeoutId);
         const data = await response.json();
         
         if (response.ok) {
-          // Smooth instant transition without loading text
+          const newData = data.items || [];
+          
+          // Cache the data for future use
+          setDataCache(prev => ({
+            ...prev,
+            [selectedCategory]: newData
+          }));
+          
+          // Update UI with minimal delay
+          const delay = isInitialLoad ? 150 : 25; // Much faster for switches
+          
           setTimeout(() => {
-            setPodiumData(data.items || []);
+            setPodiumData(newData);
             setError(null);
             setFadeClass('opacity-100 translate-y-0');
             
-            // Quick animation completion
+            // Complete animation quickly
             setTimeout(() => {
               setIsAnimating(false);
-            }, 100);
-          }, isInitialLoad ? 300 : 150); // Faster for category switches
+            }, 25);
+          }, delay);
         } else {
+          console.error('API Error:', data);
           setError(data.error || 'Failed to load podium data');
           setIsAnimating(false);
           setFadeClass('opacity-100 translate-y-0');
         }
       } catch (err) {
-        console.error('Fetch error:', err);
-        setError('Network error');
+        if (err instanceof Error && err.name === 'AbortError') {
+          console.warn('Request timeout for category:', selectedCategory);
+          setError('Request timeout - please try again');
+        } else {
+          console.error('Fetch error:', err);
+          setError('Network error');
+        }
         setIsAnimating(false);
         setFadeClass('opacity-100 translate-y-0');
       } finally {
@@ -100,27 +145,38 @@ export function SimplePodium() {
           setTimeout(() => {
             setLoading(false);
             setIsInitialLoad(false);
-          }, 200);
+          }, 50);
         }
       }
     };
 
     fetchPodiumData();
-  }, [selectedCategory, isInitialLoad]);
+  }, [selectedCategory, isInitialLoad, dataCache]);
 
   const handleGroupChange = (groupId: string) => {
     if (groupId === selectedGroup) return; // Prevent unnecessary re-renders
     
+    console.log('Switching to group:', groupId);
     setSelectedGroup(groupId);
     const group = categoryGroups.find(g => g.id === groupId);
     if (group && group.categories.length > 0) {
-      setSelectedCategory(group.categories[0]);
+      const firstCategory = group.categories[0];
+      console.log('Setting first category:', firstCategory);
+      setSelectedCategory(firstCategory);
+      
+      // Clear cache for smooth transition
+      setDataCache(prev => {
+        const newCache = { ...prev };
+        delete newCache[firstCategory];
+        return newCache;
+      });
     }
   };
 
   const handleCategoryChange = (categoryId: string) => {
     if (categoryId === selectedCategory) return; // Prevent unnecessary re-renders
     
+    console.log('Switching to category:', categoryId);
     setSelectedCategory(categoryId);
   };
 
@@ -175,12 +231,12 @@ export function SimplePodium() {
         className={`
           ${cardSizes[rank as keyof typeof cardSizes]} 
           mx-auto relative
-          transform transition-all duration-300 ease-out
-          ${isAnimating ? 'scale-95 opacity-60 translate-y-4' : 'scale-100 opacity-100 translate-y-0'}
+          transform transition-all duration-200 ease-out
+          ${isAnimating ? 'scale-98 opacity-70 translate-y-1' : 'scale-100 opacity-100 translate-y-0'}
           hover:scale-105 hover:-translate-y-2 hover:shadow-2xl
         `}
         style={{
-          transitionDelay: isAnimating ? '0ms' : `${rank * 50}ms`
+          transitionDelay: isAnimating ? '0ms' : `${rank * 25}ms`
         }}
       >
         {/* Rank Badge */}
@@ -258,7 +314,7 @@ export function SimplePodium() {
                   text-gray-600 mb-3 leading-tight
                   ${isGold ? 'text-sm' : 'text-xs'}
                 `}>
-                  {CATEGORIES.find(c => c.id === nominee.category)?.name || nominee.category}
+                  {CATEGORIES.find(c => c.id === nominee.category)?.label || nominee.category}
                 </p>
 
                 {/* Votes */}
@@ -341,7 +397,7 @@ export function SimplePodium() {
           </p>
         </div>
 
-        {/* Specific Category Tabs - Moved to Top */}
+        {/* Specific Category Tabs - TOP SECTION */}
         <div className="mb-6">
           <div className="flex flex-wrap justify-center gap-2 mb-4">
             {availableCategories.map((categoryId) => {
@@ -353,7 +409,7 @@ export function SimplePodium() {
                   key={categoryId}
                   onClick={() => handleCategoryChange(categoryId)}
                   className={`
-                    px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300
+                    px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200
                     transform hover:scale-105 hover:shadow-lg
                     ${selectedCategory === categoryId
                       ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg ring-2 ring-orange-200'
@@ -361,14 +417,14 @@ export function SimplePodium() {
                     }
                   `}
                 >
-                  {category.name}
+                  {category.label}
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* Category Group Tabs - Moved Below */}
+        {/* Category Group Tabs - BELOW SUBCATEGORIES */}
         <div className="mb-8">
           <div className="flex flex-wrap justify-center gap-2">
             {categoryGroups.map((group) => (
@@ -376,7 +432,7 @@ export function SimplePodium() {
                 key={group.id}
                 onClick={() => handleGroupChange(group.id)}
                 className={`
-                  px-4 py-2 rounded-lg text-xs font-medium transition-all duration-300
+                  px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200
                   transform hover:scale-105
                   ${selectedGroup === group.id
                     ? 'bg-gradient-to-r from-gray-700 to-gray-800 text-white shadow-md'
@@ -419,7 +475,7 @@ export function SimplePodium() {
           {(!loading || !isInitialLoad) && !error && (
             <div className={`
               flex items-end justify-center gap-8 min-h-[500px]
-              transition-all duration-300 ease-out transform
+              transition-all duration-200 ease-out transform
               ${fadeClass}
             `}>
               {/* 2nd Place - Silver */}
@@ -442,13 +498,13 @@ export function SimplePodium() {
           {/* Category Info */}
           {(!loading || !isInitialLoad) && !error && (
             <div className={`
-              text-center mt-12 transition-all duration-300 ease-out transform
+              text-center mt-12 transition-all duration-200 ease-out transform
               ${fadeClass}
             `}>
               <div className="inline-flex items-center gap-3 bg-white/90 backdrop-blur-sm rounded-full px-8 py-4 border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <Award className="h-6 w-6 text-orange-500" />
                 <span className="font-semibold text-gray-700 text-lg">
-                  {CATEGORIES.find(c => c.id === selectedCategory)?.name || selectedCategory}
+                  {CATEGORIES.find(c => c.id === selectedCategory)?.label || selectedCategory}
                 </span>
               </div>
             </div>

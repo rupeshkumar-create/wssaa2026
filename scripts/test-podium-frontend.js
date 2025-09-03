@@ -3,75 +3,75 @@
 const puppeteer = require('puppeteer');
 
 async function testPodiumFrontend() {
+  console.log('Testing Podium Frontend Category Switching...\n');
+  
   let browser;
   try {
-    console.log('Testing podium on frontend...');
-    
     browser = await puppeteer.launch({ 
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      headless: false,
+      defaultViewport: { width: 1200, height: 800 }
     });
     
     const page = await browser.newPage();
     
     // Navigate to home page
-    console.log('1. Navigating to home page...');
-    await page.goto('http://localhost:3000', { 
-      waitUntil: 'networkidle2',
-      timeout: 30000 
-    });
+    console.log('📱 Navigating to home page...');
+    await page.goto('http://localhost:3000', { waitUntil: 'networkidle0' });
     
     // Wait for podium section to load
-    console.log('2. Waiting for podium section...');
-    await page.waitForSelector('[data-testid="podium-section"], .podium, h2:contains("Top 3 Podium")', { 
-      timeout: 10000 
-    });
+    console.log('⏳ Waiting for podium to load...');
+    await page.waitForSelector('[data-testid="podium-section"]', { timeout: 10000 });
     
-    // Check if podium cards are present
-    console.log('3. Checking for podium cards...');
-    const podiumCards = await page.$$eval('div[class*="grid"] div[class*="Card"], .podium-card', 
-      cards => cards.length
+    // Test category group switching
+    console.log('🔄 Testing category group switching...');
+    
+    // Click on "Role-Specific Excellence" group
+    await page.click('button:has-text("Role-Specific Excellence")');
+    await page.waitForTimeout(1000);
+    
+    // Check if subcategories are visible
+    const subcategories = await page.$$eval('button', buttons => 
+      buttons.filter(btn => btn.textContent.includes('Top Recruiter')).length
     );
     
-    console.log(`✓ Found ${podiumCards} podium-related elements`);
-    
-    // Check for category selector
-    console.log('4. Checking for category selector...');
-    const categoryButtons = await page.$$eval('button', 
-      buttons => buttons.filter(btn => 
-        btn.textContent && (
-          btn.textContent.includes('Excellence') || 
-          btn.textContent.includes('Innovation') ||
-          btn.textContent.includes('Culture') ||
-          btn.textContent.includes('Growth') ||
-          btn.textContent.includes('Geographic') ||
-          btn.textContent.includes('Special')
-        )
-      ).length
-    );
-    
-    console.log(`✓ Found ${categoryButtons} category buttons`);
-    
-    // Check for "Top 3 Podium" heading
-    console.log('5. Checking for podium heading...');
-    const podiumHeading = await page.$eval('h2', 
-      heading => heading.textContent.includes('Top 3 Podium') || heading.textContent.includes('Podium')
-    ).catch(() => false);
-    
-    if (podiumHeading) {
-      console.log('✓ Found podium heading');
+    if (subcategories > 0) {
+      console.log('✅ Role-Specific Excellence subcategories loaded');
     } else {
-      console.log('⚠ Podium heading not found');
+      console.log('❌ Role-Specific Excellence subcategories not found');
     }
     
-    // Take a screenshot for debugging
-    await page.screenshot({ path: 'podium-test.png', fullPage: true });
-    console.log('✓ Screenshot saved as podium-test.png');
+    // Click on "Innovation & Technology" group
+    await page.click('button:has-text("Innovation & Technology")');
+    await page.waitForTimeout(1000);
     
-    console.log('\n✅ Podium frontend test completed successfully!');
+    // Check if Innovation & Technology subcategories are visible
+    const innovationSubcategories = await page.$$eval('button', buttons => 
+      buttons.filter(btn => btn.textContent.includes('AI-Driven')).length
+    );
+    
+    if (innovationSubcategories > 0) {
+      console.log('✅ Innovation & Technology subcategories loaded');
+    } else {
+      console.log('❌ Innovation & Technology subcategories not found');
+    }
+    
+    // Test subcategory switching within Innovation & Technology
+    console.log('🔄 Testing subcategory switching...');
+    
+    // Click on "Top Digital Experience for Clients"
+    const digitalExperienceButton = await page.$('button:has-text("Top Digital Experience for Clients")');
+    if (digitalExperienceButton) {
+      await digitalExperienceButton.click();
+      await page.waitForTimeout(2000);
+      console.log('✅ Switched to Digital Experience category');
+    } else {
+      console.log('❌ Digital Experience button not found');
+    }
+    
+    console.log('✅ Frontend test completed successfully!');
     
   } catch (error) {
-    console.error('❌ Podium frontend test failed:', error.message);
+    console.error('❌ Frontend test failed:', error.message);
   } finally {
     if (browser) {
       await browser.close();
@@ -79,4 +79,4 @@ async function testPodiumFrontend() {
   }
 }
 
-testPodiumFrontend();
+testPodiumFrontend().catch(console.error);
