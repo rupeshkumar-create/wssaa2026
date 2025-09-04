@@ -205,10 +205,20 @@ export function Step10ReviewSubmit({
         </div>
 
         <div className="flex justify-between">
-          <Button type="button" variant="outline" onClick={onBack} disabled={isSubmitting}>
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={onBack} 
+            disabled={isSubmitting}
+            className="transition-all duration-200"
+          >
             Back
           </Button>
-          <Button onClick={onSubmit} disabled={isSubmitting}>
+          <Button 
+            onClick={onSubmit} 
+            disabled={isSubmitting}
+            className="transition-all duration-200 min-w-[140px]"
+          >
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

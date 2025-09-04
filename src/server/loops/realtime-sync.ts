@@ -106,8 +106,9 @@ export async function syncNominatorToLoops(data: LoopsNominatorData): Promise<{
       }
     }
 
-    // Set user group as custom property
+    // Set user group as custom property and add to appropriate list
     const userGroup = data.nomineeLink ? 'Nominator Live' : 'Nominator';
+    const listId = data.nomineeLink ? loopsClient.LIST_IDS.NOMINATOR_LIVE : loopsClient.LIST_IDS.NOMINATORS;
     
     // Update contact with user group property
     try {
@@ -121,6 +122,18 @@ export async function syncNominatorToLoops(data: LoopsNominatorData): Promise<{
       console.log(`✅ Set userGroup property to "${userGroup}": ${data.email}`);
     } catch (updateError) {
       console.warn(`⚠️ Failed to set userGroup property: ${updateError}`);
+    }
+
+    // Add to appropriate list
+    try {
+      const listResult = await loopsClient.addToList(data.email.toLowerCase(), listId);
+      if (listResult.success) {
+        console.log(`✅ Added nominator to ${userGroup} list: ${data.email}`);
+      } else {
+        console.warn(`⚠️ Failed to add nominator to list: ${listResult.error}`);
+      }
+    } catch (listError) {
+      console.warn(`⚠️ Failed to add nominator to list: ${listError}`);
     }
 
     console.log(`✅ Nominator synced to Loops: ${data.email}`);
@@ -208,6 +221,18 @@ export async function syncNomineeToLoops(data: LoopsNomineeData): Promise<{
         console.warn(`⚠️ Failed to set userGroup property: ${updateError}`);
       }
 
+      // Add to Nominees list
+      try {
+        const listResult = await loopsClient.addToList(data.email.toLowerCase(), loopsClient.LIST_IDS.NOMINEES);
+        if (listResult.success) {
+          console.log(`✅ Added person nominee to Nominees list: ${data.email}`);
+        } else {
+          console.warn(`⚠️ Failed to add person nominee to list: ${listResult.error}`);
+        }
+      } catch (listError) {
+        console.warn(`⚠️ Failed to add person nominee to list: ${listError}`);
+      }
+
       console.log(`✅ Person nominee synced to Loops: ${data.email}`);
 
       return {
@@ -269,6 +294,18 @@ export async function syncNomineeToLoops(data: LoopsNomineeData): Promise<{
         console.log(`✅ Set userGroup property to "Nominess": ${data.companyName}`);
       } catch (updateError) {
         console.warn(`⚠️ Failed to set userGroup property: ${updateError}`);
+      }
+
+      // Add to Nominees list
+      try {
+        const listResult = await loopsClient.addToList(companyEmail, loopsClient.LIST_IDS.NOMINEES);
+        if (listResult.success) {
+          console.log(`✅ Added company nominee to Nominees list: ${data.companyName}`);
+        } else {
+          console.warn(`⚠️ Failed to add company nominee to list: ${listResult.error}`);
+        }
+      } catch (listError) {
+        console.warn(`⚠️ Failed to add company nominee to list: ${listError}`);
       }
 
       console.log(`✅ Company nominee synced to Loops: ${data.companyName}`);
@@ -350,6 +387,18 @@ export async function syncVoterToLoops(data: LoopsVoterData): Promise<{
       console.warn(`⚠️ Failed to set userGroup property: ${updateError}`);
     }
 
+    // Add to Voters list
+    try {
+      const listResult = await loopsClient.addToList(data.email.toLowerCase(), loopsClient.LIST_IDS.VOTERS);
+      if (listResult.success) {
+        console.log(`✅ Added voter to Voters list: ${data.email}`);
+      } else {
+        console.warn(`⚠️ Failed to add voter to list: ${listResult.error}`);
+      }
+    } catch (listError) {
+      console.warn(`⚠️ Failed to add voter to list: ${listError}`);
+    }
+
     console.log(`✅ Voter synced to Loops: ${data.email}`);
 
     return {
@@ -392,7 +441,22 @@ export async function updateNominatorToLive(
 
     console.log(`✅ Updated contact to "Nominator Live" with nominee link: ${nominatorEmail}`);
 
-    // The userGroup property will distinguish between regular and live nominators
+    // Move from regular Nominators list to Nominator Live list
+    try {
+      // Remove from regular Nominators list
+      await loopsClient.removeFromList(nominatorEmail.toLowerCase(), loopsClient.LIST_IDS.NOMINATORS);
+      console.log(`✅ Removed nominator from regular Nominators list: ${nominatorEmail}`);
+      
+      // Add to Nominator Live list
+      const listResult = await loopsClient.addToList(nominatorEmail.toLowerCase(), loopsClient.LIST_IDS.NOMINATOR_LIVE);
+      if (listResult.success) {
+        console.log(`✅ Added nominator to Nominator Live list: ${nominatorEmail}`);
+      } else {
+        console.warn(`⚠️ Failed to add nominator to Nominator Live list: ${listResult.error}`);
+      }
+    } catch (listError) {
+      console.warn(`⚠️ Failed to update nominator list membership: ${listError}`);
+    }
 
     console.log(`✅ Nominator updated to "Nominator Live": ${nominatorEmail}`);
 

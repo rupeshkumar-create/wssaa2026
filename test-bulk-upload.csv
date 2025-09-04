@@ -1,0 +1,3 @@
+type,category,name,email,company,country,nominator_name,nominator_email
+person,top-recruiter,Test Person,test.person@example.com,Test Company,United States,Test Nominator,test.nominator@example.com
+company,top-staffing-company-usa,Test Company Inc,test.company@example.com,,United States,Test Nominator,test.nominator@example.com

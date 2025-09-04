@@ -5,7 +5,6 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { MotionProvider } from "@/components/animations/MotionProvider";
-// Removed theme provider - using light mode only
 
 const inter = Inter({
   subsets: ["latin"],

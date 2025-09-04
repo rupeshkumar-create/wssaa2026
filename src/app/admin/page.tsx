@@ -14,7 +14,8 @@ import { ApprovalDialog } from "@/components/admin/ApprovalDialog";
 import { NominationToggle } from "@/components/admin/NominationToggle";
 import { ManualVoteUpdate } from "@/components/admin/ManualVoteUpdate";
 import { TopNomineesPanel } from "@/components/admin/TopNomineesPanel";
-import { BulkUploadPanel } from "@/components/admin/BulkUploadPanel";
+
+// Bulk upload components temporarily removed
 import { triggerAdminDataRefresh } from "@/lib/utils/data-sync";
 import { CATEGORIES } from "@/lib/constants";
 
@@ -517,9 +518,8 @@ export default function AdminPage() {
           {/* Main Content Area (65%) */}
           <div className="lg:col-span-7">
             <Tabs defaultValue="nominations" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-5">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="nominations">Nominations</TabsTrigger>
-                <TabsTrigger value="bulk-upload">Bulk Upload</TabsTrigger>
                 <TabsTrigger value="manual-votes">Manual Votes</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
                 <TabsTrigger value="stats">Analytics</TabsTrigger>
@@ -738,13 +738,13 @@ export default function AdminPage() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="bulk-upload">
-            <BulkUploadPanel />
-          </TabsContent>
+          {/* Bulk upload functionality temporarily removed */}
 
           <TabsContent value="manual-votes">
             <ManualVoteUpdate nominations={nominations} onVoteUpdate={fetchData} />
           </TabsContent>
+
+
 
           <TabsContent value="settings">
             <div className="space-y-6">

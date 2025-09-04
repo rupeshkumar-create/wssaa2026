@@ -4,10 +4,18 @@ import { NominationSubmitSchema } from '@/lib/zod/nomination';
 import { z } from 'zod';
 
 export async function POST(request: NextRequest) {
+  const startTime = Date.now();
+  
   try {
-    const body = await request.json();
+    // Parse JSON with timeout
+    const body = await Promise.race([
+      request.json(),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Request parsing timeout')), 5000)
+      )
+    ]);
     
-    // Validate input
+    // Fast validation
     const validatedData = NominationSubmitSchema.parse(body);
     
     console.log('Processing nomination submission:', {
@@ -302,13 +310,15 @@ export async function POST(request: NextRequest) {
       console.warn('Loops outbox not available (non-blocking):', loopsOutboxError);
     }
 
-    console.log('Nomination submitted successfully:', nomination.id);
+    const totalTime = Date.now() - startTime;
+    console.log(`Nomination submitted successfully: ${nomination.id} (${totalTime}ms)`);
 
     return NextResponse.json({
       nominationId: nomination.id,
       nominatorId: nominator.id,
       nomineeId: nominee.id,
       state: 'submitted',
+      processingTime: totalTime,
       hubspotSync: {
         nominatorSynced: nominatorSyncSuccess,
         nomineeSynced: nomineeSyncSuccess,

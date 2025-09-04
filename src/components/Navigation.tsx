@@ -36,11 +36,11 @@ export function Navigation() {
 
   return (
     <>
-      <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="border-b theme-nav-header backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl">
+            <Link href="/" className="flex items-center gap-2 font-bold text-xl theme-nav-header">
               <Award className="h-6 w-6 text-primary" />
               World Staffing Awards 2026
             </Link>
@@ -49,8 +49,8 @@ export function Navigation() {
             <div className="hidden md:flex items-center gap-6">
               <Link 
                 href="/" 
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive("/") ? "text-primary" : "text-muted-foreground"
+                className={`text-sm font-medium transition-colors theme-nav-menu-item hover:theme-nav-menu-item ${
+                  isActive("/") ? "theme-nav-menu-item active" : "theme-nav-menu-item"
                 }`}
               >
                 Home
@@ -59,8 +59,8 @@ export function Navigation() {
               {showNominate && (
                 <Link 
                   href="/nominate" 
-                  className={`text-sm font-medium transition-colors hover:text-primary ${
-                    isActive("/nominate") ? "text-primary" : "text-muted-foreground"
+                  className={`text-sm font-medium transition-colors theme-nav-menu-item hover:theme-nav-menu-item ${
+                    isActive("/nominate") ? "theme-nav-menu-item active" : "theme-nav-menu-item"
                   }`}
                 >
                   Nominate
@@ -70,15 +70,15 @@ export function Navigation() {
               {!showNominate && !nominationStatus.loading && (
                 <button
                   onClick={handleNominateClick}
-                  className="text-sm font-medium transition-colors hover:text-primary text-muted-foreground"
+                  className="text-sm font-medium transition-colors theme-nav-menu-item hover:theme-nav-menu-item"
                 >
                   Nominate
                 </button>
               )}
               <Link 
                 href="/directory" 
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive("/directory") ? "text-primary" : "text-muted-foreground"
+                className={`text-sm font-medium transition-colors theme-nav-menu-item hover:theme-nav-menu-item ${
+                  isActive("/directory") ? "theme-nav-menu-item active" : "theme-nav-menu-item"
                 }`}
               >
                 Directory

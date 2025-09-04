@@ -76,7 +76,7 @@ export async function syncNominatorToHubSpot(data: NominatorData): Promise<{
       lastname: data.lastname,
       lifecyclestage: 'lead',
       
-      // Custom WSA properties
+      // Custom WSA properties - FIXED: Remove problematic boolean property
       wsa_role: 'Nominator',
       wsa_year: '2026',
       wsa_source: 'World Staffing Awards',

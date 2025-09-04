@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,9 +21,11 @@ export function Step6PersonHeadshot({ imageUrl, personName, onNext, onBack }: St
   const [uploadedUrl, setUploadedUrl] = useState<string>(imageUrl);
   const [error, setError] = useState<string>("");
   const [uploading, setUploading] = useState<boolean>(false);
+  const [isDragOver, setIsDragOver] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<File | null>(null);
   const previewUrlRef = useRef<string | null>(null);
+  const dropZoneRef = useRef<HTMLDivElement>(null);
 
   // Generate slug-safe path
   const generateSlug = (name: string) => {
@@ -40,22 +42,19 @@ export function Step6PersonHeadshot({ imageUrl, personName, onNext, onBack }: St
       || 'nominee-' + Date.now(); // Fallback if empty after processing
   };
 
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
+  const validateAndProcessFile = useCallback(async (file: File) => {
     setError("");
 
     // Validate file type
     if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
       setError("Upload JPG, PNG, or SVG only");
-      return;
+      return false;
     }
 
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
       setError("Max 5MB");
-      return;
+      return false;
     }
 
     // Store file reference
@@ -68,7 +67,7 @@ export function Step6PersonHeadshot({ imageUrl, personName, onNext, onBack }: St
     previewUrlRef.current = URL.createObjectURL(file);
     setPreview(previewUrlRef.current);
 
-    // Upload to server in background
+    // Upload to server with optimized request
     setUploading(true);
     try {
       const slug = generateSlug(personName);
@@ -77,11 +76,16 @@ export function Step6PersonHeadshot({ imageUrl, personName, onNext, onBack }: St
       formData.append('kind', 'headshot');
       formData.append('slug', slug);
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
       const response = await fetch('/api/uploads/image', {
         method: 'POST',
         body: formData,
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       const result = await response.json();
 
       if (!result.ok) {
@@ -89,16 +93,54 @@ export function Step6PersonHeadshot({ imageUrl, personName, onNext, onBack }: St
       }
 
       setUploadedUrl(result.url);
-      // Keep preview URL until component unmounts or new file selected
-      // Don't switch to uploaded URL to maintain stable preview
+      return true;
     } catch (uploadError) {
       console.error('Upload error:', uploadError);
-      setError(uploadError instanceof Error ? uploadError.message : 'Upload failed');
-      // Keep preview on error - user can try again
+      if (uploadError instanceof Error && uploadError.name === 'AbortError') {
+        setError('Upload timeout - please try again');
+      } else {
+        setError(uploadError instanceof Error ? uploadError.message : 'Upload failed');
+      }
+      return false;
     } finally {
       setUploading(false);
     }
+  }, [personName]);
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    await validateAndProcessFile(file);
   };
+
+  // Drag and drop handlers
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+  }, []);
+
+  const handleDrop = useCallback(async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+
+    const files = Array.from(e.dataTransfer.files);
+    const imageFile = files.find(file => ALLOWED_IMAGE_TYPES.includes(file.type));
+    
+    if (!imageFile) {
+      setError("Please drop a valid image file (JPG, PNG, or SVG)");
+      return;
+    }
+
+    await validateAndProcessFile(imageFile);
+  }, [validateAndProcessFile]);
 
   const handleRemove = () => {
     if (previewUrlRef.current) {
@@ -122,13 +164,13 @@ export function Step6PersonHeadshot({ imageUrl, personName, onNext, onBack }: St
     };
   }, []);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (!uploadedUrl) {
       setError("Professional headshot is required to continue");
       return;
     }
     onNext(uploadedUrl);
-  };
+  }, [uploadedUrl, onNext]);
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
@@ -157,19 +199,37 @@ export function Step6PersonHeadshot({ imageUrl, personName, onNext, onBack }: St
                 size="sm"
                 className="absolute top-2 right-2"
                 onClick={handleRemove}
+                disabled={uploading}
               >
                 <X className="h-4 w-4" />
               </Button>
             </div>
           ) : (
-            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8">
+            <div 
+              ref={dropZoneRef}
+              className={`border-2 border-dashed rounded-lg p-8 transition-colors cursor-pointer ${
+                isDragOver 
+                  ? 'border-primary bg-primary/5' 
+                  : 'border-muted-foreground/25 hover:border-muted-foreground/50'
+              }`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+            >
               <div className="text-center space-y-4">
-                <div className="mx-auto w-16 h-16 bg-muted rounded-full flex items-center justify-center">
-                  <User className="h-8 w-8 text-muted-foreground" />
+                <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center transition-colors ${
+                  isDragOver ? 'bg-primary/10' : 'bg-muted'
+                }`}>
+                  {uploading ? (
+                    <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                  ) : (
+                    <Upload className={`h-8 w-8 ${isDragOver ? 'text-primary' : 'text-muted-foreground'}`} />
+                  )}
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Click to upload or drag and drop
+                  <p className={`text-sm mb-2 ${isDragOver ? 'text-primary' : 'text-muted-foreground'}`}>
+                    {isDragOver ? 'Drop your image here' : 'Click to upload or drag and drop'}
                   </p>
                   <p className="text-xs text-muted-foreground">
                     JPG, PNG or SVG (max {MAX_FILE_SIZE / (1024 * 1024)}MB)
