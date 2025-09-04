@@ -3,49 +3,51 @@
 import { Users, Zap, Heart, TrendingUp, Globe, Star } from "lucide-react";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { CategoryCard } from "@/components/animations/CategoryCard";
+import { CATEGORIES } from "@/lib/constants";
 
+// Create category groups with proper ID mapping
 const categories = [
   {
     title: "Role-Specific Excellence",
     description: "Recognizing outstanding individual contributors",
     icon: Users,
     gradient: "bg-slate-700",
-    badges: ["Top Recruiter", "Top Executive Leader", "Rising Star (Under 30)", "Top Staffing Influencer"]
+    badges: CATEGORIES.filter(c => c.group === 'role-specific-excellence').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Innovation & Technology", 
     description: "Leading the future of staffing technology",
     icon: Zap,
     gradient: "bg-slate-700",
-    badges: ["Top AI-Driven Staffing Platform", "Top Digital Experience for Clients"]
+    badges: CATEGORIES.filter(c => c.group === 'innovation-technology').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Culture & Impact",
     description: "Making a positive difference in the industry", 
     icon: Heart,
     gradient: "bg-slate-700",
-    badges: ["Top Women-Led Staffing Firm", "Fastest Growing Staffing Firm"]
+    badges: CATEGORIES.filter(c => c.group === 'culture-impact').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Growth & Performance",
     description: "Excellence in operations and thought leadership",
     icon: TrendingUp, 
     gradient: "bg-slate-700",
-    badges: ["Best Staffing Process at Scale", "Thought Leadership & Influence"]
+    badges: CATEGORIES.filter(c => c.group === 'growth-performance').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Geographic Excellence",
     description: "Regional and global recognition",
     icon: Globe,
     gradient: "bg-orange-500", 
-    badges: ["Top Staffing Company - USA", "Top Staffing Company - Europe", "Top Global Recruiter"]
+    badges: CATEGORIES.filter(c => c.group === 'geographic-excellence').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Special Recognition",
     description: "Unique contributions to the industry",
     icon: Star,
     gradient: "bg-slate-700",
-    badges: ["Special Recognition"]
+    badges: CATEGORIES.filter(c => c.group === 'special-recognition').map(c => ({ id: c.id, label: c.label }))
   }
 ];
 

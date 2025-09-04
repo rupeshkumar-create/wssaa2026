@@ -11,7 +11,7 @@ interface CategoryCardProps {
   description: string;
   icon: LucideIcon;
   gradient: string;
-  badges: string[];
+  badges: Array<{ id: string; label: string }>;
   delay?: number;
 }
 
@@ -62,19 +62,19 @@ export function CategoryCard({
             <div className="flex flex-wrap gap-2">
               {badges.map((badge, index) => (
                 <motion.div
-                  key={badge}
+                  key={badge.id}
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: delay + (index * 0.05) }}
                   whileHover={{ scale: 1.05 }}
                 >
-                  <Link href={`/directory?category=${encodeURIComponent(badge)}`}>
+                  <Link href={`/directory?category=${badge.id}`}>
                     <Badge 
                       variant="outline" 
                       className="cursor-pointer hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200"
                     >
-                      {badge}
+                      {badge.label}
                     </Badge>
                   </Link>
                 </motion.div>
