@@ -4,19 +4,23 @@ import { useState, useEffect, useCallback } from 'react';
 
 interface NominationStatus {
   enabled: boolean;
-  closeMessage: string;
   loading: boolean;
   error: string | null;
   refresh: () => void;
+  closeMessage: string;
+  votingStartDate: string;
+  isVotingOpen: boolean;
 }
 
 export function useNominationStatus(): NominationStatus {
   const [status, setStatus] = useState<NominationStatus>({
-    enabled: false, // Default to disabled for safety
-    closeMessage: 'Thank you for your interest! Nominations are now closed.',
+    enabled: true,
     loading: true,
     error: null,
-    refresh: () => {}
+    refresh: () => {},
+    closeMessage: '',
+    votingStartDate: '',
+    isVotingOpen: false
   });
 
   const fetchStatus = useCallback(async () => {
@@ -32,12 +36,44 @@ export function useNominationStatus(): NominationStatus {
       
       if (response.ok) {
         const result = await response.json();
-        console.log('🔄 Nomination status fetched:', result);
+        console.log('📝 Nomination status fetched:', result);
+        
+        const nominationsEnabled = result.settings?.nominations_enabled === 'true' || result.nominations_enabled === 'true';
+        const votingStartDate = result.settings?.voting_start_date || result.voting_start_date || '';
+        
+        // Check if voting is open
+        const now = new Date();
+        const start = votingStartDate ? new Date(votingStartDate) : null;
+        const isVotingOpen = start ? now >= start : false;
+        
+        // If voting is open, nominations should be closed
+        const enabled = nominationsEnabled && !isVotingOpen;
+        
+        let closeMessage = '';
+        if (isVotingOpen) {
+          closeMessage = 'Nominations are now closed. Voting is currently open!';
+        } else if (!nominationsEnabled) {
+          closeMessage = 'Nominations are currently closed by administrators.';
+        } else if (votingStartDate) {
+          closeMessage = `Nominations will close when voting opens on ${start?.toLocaleDateString()}.`;
+        }
+        
+        console.log('📝 Nomination logic:', {
+          nominationsEnabled,
+          votingStartDate,
+          now: now.toISOString(),
+          start: start?.toISOString(),
+          isVotingOpen,
+          enabled,
+          closeMessage
+        });
         
         setStatus(prev => ({
           ...prev,
-          enabled: result.nominations_enabled === true,
-          closeMessage: result.nominations_close_message || 'Thank you for your interest! Nominations are now closed.',
+          enabled,
+          votingStartDate,
+          isVotingOpen,
+          closeMessage,
           loading: false,
           error: null
         }));
@@ -55,14 +91,43 @@ export function useNominationStatus(): NominationStatus {
         
         if (adminResponse.ok) {
           const adminResult = await adminResponse.json();
-          console.log('🔄 Admin settings fetched:', adminResult);
+          console.log('📝 Admin nomination settings fetched:', adminResult);
           
-          const enabled = adminResult.settings?.nominations_enabled?.value === 'true';
-          const closeMessage = adminResult.settings?.nominations_close_message?.value || 'Thank you for your interest! Nominations are now closed.';
+          const nominationsEnabled = adminResult.settings?.nominations_enabled?.value === 'true';
+          const votingStartDate = adminResult.settings?.voting_start_date?.value || '';
+          
+          // Check if voting is open
+          const now = new Date();
+          const start = votingStartDate ? new Date(votingStartDate) : null;
+          const isVotingOpen = start ? now >= start : false;
+          
+          // If voting is open, nominations should be closed
+          const enabled = nominationsEnabled && !isVotingOpen;
+          
+          let closeMessage = '';
+          if (isVotingOpen) {
+            closeMessage = 'Nominations are now closed. Voting is currently open!';
+          } else if (!nominationsEnabled) {
+            closeMessage = 'Nominations are currently closed by administrators.';
+          } else if (votingStartDate) {
+            closeMessage = `Nominations will close when voting opens on ${start?.toLocaleDateString()}.`;
+          }
+          
+          console.log('📝 Admin nomination logic:', {
+            nominationsEnabled,
+            votingStartDate,
+            now: now.toISOString(),
+            start: start?.toISOString(),
+            isVotingOpen,
+            enabled,
+            closeMessage
+          });
           
           setStatus(prev => ({
             ...prev,
             enabled,
+            votingStartDate,
+            isVotingOpen,
             closeMessage,
             loading: false,
             error: null
@@ -74,11 +139,13 @@ export function useNominationStatus(): NominationStatus {
         throw new Error('Failed to fetch nomination status');
       }
     } catch (error) {
-      console.error('Error fetching nomination status:', error);
-      // Default to enabled for now so you can test the toggle
+      console.error('❌ Error fetching nomination status:', error);
+      console.log('📝 Defaulting to nominations enabled for safety');
+      // Default to nominations enabled for better UX
       setStatus(prev => ({
         ...prev,
-        enabled: true, // Default to enabled for testing
+        enabled: true,
+        closeMessage: 'Unable to check nomination status',
         loading: false,
         error: error instanceof Error ? error.message : 'Failed to fetch status'
       }));

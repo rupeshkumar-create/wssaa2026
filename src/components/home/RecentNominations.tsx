@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ExternalLink } from "lucide-react";
 import { Nomination } from "@/lib/types";
 import { getNomineeImage } from "@/lib/nominee-image";
+import { getCategoryLabel } from "@/lib/utils/category-utils";
 import Image from "next/image";
 
 export function RecentNominations() {
@@ -140,7 +141,7 @@ export function RecentNominations() {
                 </div>
                 
                 <Badge variant="outline" className="mb-3 text-xs">
-                  {nomination.category}
+                  {getCategoryLabel(nomination.category)}
                 </Badge>
                 
                 <Button asChild size="sm" className="w-full">
@@ -156,7 +157,7 @@ export function RecentNominations() {
 
         <div className="text-center">
           <Button asChild variant="outline">
-            <Link href="/directory">View All Nominees</Link>
+            <Link href="/nominees">View All Nominees</Link>
           </Button>
         </div>
       </div>

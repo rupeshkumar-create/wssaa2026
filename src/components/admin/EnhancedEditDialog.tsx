@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, ExternalLink, User, Building2, Save, Loader2, Upload } from "lucide-react";
+import { formatCategoryName } from "@/lib/utils/category-formatter";
 
 interface EnhancedEditDialogProps {
   nomination: any;
@@ -203,7 +204,7 @@ export function EnhancedEditDialog({ nomination, isOpen, onClose, onSave }: Enha
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p><strong>Name:</strong> {nomination.displayName}</p>
-                    <p><strong>Category:</strong> {nomination.subcategory_id || nomination.subcategoryId}</p>
+                    <p><strong>Category:</strong> {formatCategoryName(nomination.subcategory_id || nomination.subcategoryId)}</p>
                     <p><strong>Status:</strong> 
                       <span className={`ml-2 px-2 py-1 text-xs rounded-full ${
                         nomination.state === 'approved' 

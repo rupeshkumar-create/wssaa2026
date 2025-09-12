@@ -17,9 +17,9 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
 
     let query = supabaseAdmin
-      .from('admin_nominations')
+      .from('nominations')
       .select(`
-        nomination_id,
+        id,
         state,
         votes,
         additional_votes,
@@ -31,40 +31,43 @@ export async function GET(request: NextRequest) {
         updated_at,
         approved_at,
         approved_by,
-        nominee_id,
-        nominee_type,
-        nominee_firstname,
-        nominee_lastname,
-        nominee_person_email,
-        nominee_person_linkedin,
-        nominee_person_phone,
-        nominee_jobtitle,
-        nominee_person_company,
-        nominee_person_country,
-        nominee_headshot_url,
-        nominee_why_me,
-        nominee_company_name,
-        nominee_company_website,
-        nominee_company_linkedin,
-        nominee_company_email,
-        nominee_company_phone,
-        nominee_company_country,
-        nominee_logo_url,
-        nominee_why_us,
-        nominee_live_url,
-        nominee_display_name,
-        nominee_image_url,
-        nominee_email,
-        nominee_phone,
-        nominator_id,
-        nominator_email,
-        nominator_firstname,
-        nominator_lastname,
-        nominator_linkedin,
-        nominator_company,
-        nominator_job_title,
-        nominator_phone,
-        nominator_country
+        nomination_source,
+        nominees (
+          id,
+          type,
+          firstname,
+          lastname,
+          person_email,
+          person_linkedin,
+          person_phone,
+          jobtitle,
+          person_company,
+          person_country,
+          headshot_url,
+          why_me,
+          company_name,
+          company_website,
+          company_linkedin,
+          company_email,
+          company_phone,
+          company_country,
+          logo_url,
+          why_us,
+          live_url,
+          bio,
+          achievements
+        ),
+        nominators (
+          id,
+          email,
+          firstname,
+          lastname,
+          linkedin,
+          company,
+          job_title,
+          phone,
+          country
+        )
       `);
 
     if (status) {
@@ -81,71 +84,79 @@ export async function GET(request: NextRequest) {
     }
 
     // Transform to admin-friendly format (matching frontend expectations)
-    const adminNominations = nominations.map(nom => ({
-      id: nom.nomination_id,
-      type: nom.nominee_type,
-      state: nom.state,
-      categoryGroupId: nom.category_group_id,
-      subcategoryId: nom.subcategory_id,
-      subcategory_id: nom.subcategory_id, // Frontend expects this
+    const adminNominations = nominations.map(nom => {
+      const nominee = nom.nominees;
+      const nominator = nom.nominators;
       
-      // Person fields
-      firstname: nom.nominee_firstname,
-      lastname: nom.nominee_lastname,
-      jobtitle: nom.nominee_jobtitle,
-      personEmail: nom.nominee_person_email,
-      personLinkedin: nom.nominee_person_linkedin,
-      personPhone: nom.nominee_person_phone,
-      personCompany: nom.nominee_person_company,
-      personCountry: nom.nominee_person_country,
-      headshotUrl: nom.nominee_headshot_url,
-      headshot_url: nom.nominee_headshot_url, // Frontend expects this
-      whyMe: nom.nominee_why_me,
-      
-      // Company fields
-      companyName: nom.nominee_company_name,
-      company_name: nom.nominee_company_name, // Frontend expects this
-      companyWebsite: nom.nominee_company_website,
-      companyLinkedin: nom.nominee_company_linkedin,
-      companyEmail: nom.nominee_company_email,
-      companyPhone: nom.nominee_company_phone,
-      companyCountry: nom.nominee_company_country,
-      logoUrl: nom.nominee_logo_url,
-      logo_url: nom.nominee_logo_url, // Frontend expects this
-      whyUs: nom.nominee_why_us,
-      
-      // Shared fields
-      liveUrl: nom.nominee_live_url,
-      votes: nom.votes, // Real votes from actual voting
-      additionalVotes: nom.additional_votes || 0, // Manual votes added by admin
-      totalVotes: (nom.votes || 0) + (nom.additional_votes || 0), // Total for display
-      createdAt: nom.created_at,
-      created_at: nom.created_at, // Frontend expects this
-      updatedAt: nom.updated_at,
-      
-      // Contact info (computed)
-      email: nom.nominee_email,
-      phone: nom.nominee_phone,
-      linkedin: nom.nominee_type === 'person' ? nom.nominee_person_linkedin : nom.nominee_company_linkedin,
-      
-      // Nominator info
-      nominatorEmail: nom.nominator_email,
-      nominatorName: `${nom.nominator_firstname || ''} ${nom.nominator_lastname || ''}`.trim(),
-      nominatorCompany: nom.nominator_company,
-      nominatorJobTitle: nom.nominator_job_title,
-      nominatorPhone: nom.nominator_phone,
-      nominatorCountry: nom.nominator_country,
-      
-      // Computed fields
-      displayName: nom.nominee_display_name,
-      imageUrl: nom.nominee_image_url,
-      
-      // Admin fields
-      adminNotes: nom.admin_notes,
-      rejectionReason: nom.rejection_reason,
-      approvedAt: nom.approved_at,
-      approvedBy: nom.approved_by
-    }));
+      return {
+        id: nom.id,
+        type: nominee?.type,
+        state: nom.state,
+        categoryGroupId: nom.category_group_id,
+        subcategoryId: nom.subcategory_id,
+        subcategory_id: nom.subcategory_id, // Frontend expects this
+        
+        // Person fields
+        firstname: nominee?.firstname,
+        lastname: nominee?.lastname,
+        jobtitle: nominee?.jobtitle,
+        personEmail: nominee?.person_email,
+        personLinkedin: nominee?.person_linkedin,
+        personPhone: nominee?.person_phone,
+        personCompany: nominee?.person_company,
+        personCountry: nominee?.person_country,
+        headshotUrl: nominee?.headshot_url,
+        headshot_url: nominee?.headshot_url, // Frontend expects this
+        whyMe: nominee?.why_me,
+        
+        // Company fields
+        companyName: nominee?.company_name,
+        company_name: nominee?.company_name, // Frontend expects this
+        companyWebsite: nominee?.company_website,
+        companyLinkedin: nominee?.company_linkedin,
+        companyEmail: nominee?.company_email,
+        companyPhone: nominee?.company_phone,
+        companyCountry: nominee?.company_country,
+        logoUrl: nominee?.logo_url,
+        logo_url: nominee?.logo_url, // Frontend expects this
+        whyUs: nominee?.why_us,
+        
+        // Shared fields
+        liveUrl: nominee?.live_url,
+        votes: nom.votes, // Real votes from actual voting
+        additionalVotes: nom.additional_votes || 0, // Manual votes added by admin
+        totalVotes: (nom.votes || 0) + (nom.additional_votes || 0), // Total for display
+        createdAt: nom.created_at,
+        created_at: nom.created_at, // Frontend expects this
+        updatedAt: nom.updated_at,
+        
+        // Contact info (computed)
+        email: nominee?.type === 'person' ? nominee?.person_email : nominee?.company_email,
+        phone: nominee?.type === 'person' ? nominee?.person_phone : nominee?.company_phone,
+        linkedin: nominee?.type === 'person' ? nominee?.person_linkedin : nominee?.company_linkedin,
+        
+        // Nominator info
+        nominatorEmail: nominator?.email,
+        nominatorName: `${nominator?.firstname || ''} ${nominator?.lastname || ''}`.trim(),
+        nominatorCompany: nominator?.company,
+        nominatorJobTitle: nominator?.job_title,
+        nominatorPhone: nominator?.phone,
+        nominatorCountry: nominator?.country,
+        
+        // Computed fields
+        displayName: nominee?.type === 'person' 
+          ? `${nominee?.firstname || ''} ${nominee?.lastname || ''}`.trim()
+          : nominee?.company_name || '',
+        imageUrl: nominee?.type === 'person' ? nominee?.headshot_url : nominee?.logo_url,
+        
+        // Admin fields
+        adminNotes: nom.admin_notes,
+        rejectionReason: nom.rejection_reason,
+        approvedAt: nom.approved_at,
+        approvedBy: nom.approved_by,
+        nominationSource: nom.nomination_source || 'public' // Track source
+      };
+    });
 
     return NextResponse.json({
       success: true,
@@ -192,9 +203,19 @@ export async function PATCH(request: NextRequest) {
 
     // Get current nomination data to check if we need to auto-generate URL
     const { data: currentNomination, error: fetchError } = await supabaseAdmin
-      .from('admin_nominations')
-      .select('nomination_id, state, nominee_type, nominee_display_name, nominee_live_url')
-      .eq('nomination_id', nominationId)
+      .from('nominations')
+      .select(`
+        id, 
+        state, 
+        nominees (
+          type,
+          firstname,
+          lastname,
+          company_name,
+          live_url
+        )
+      `)
+      .eq('id', nominationId)
       .single();
 
     if (fetchError) {
@@ -210,8 +231,12 @@ export async function PATCH(request: NextRequest) {
       updateData.state = state;
       
       // Auto-generate live URL when approving if not already set
-      if (state === 'approved' && !currentNomination.nominee_live_url && liveUrl === undefined) {
-        const displayName = currentNomination.nominee_display_name || `nominee-${nominationId}`;
+      if (state === 'approved' && !currentNomination.nominees?.live_url && liveUrl === undefined) {
+        const nominee = currentNomination.nominees;
+        const displayName = nominee?.type === 'person' 
+          ? `${nominee?.firstname || ''} ${nominee?.lastname || ''}`.trim()
+          : nominee?.company_name || `nominee-${nominationId}`;
+        
         const slug = displayName
           .toLowerCase()
           .trim()
@@ -232,8 +257,17 @@ export async function PATCH(request: NextRequest) {
           }
         }
         
-        updateData.live_url = `${baseUrl}/nominee/${slug}`;
-        console.log(`Auto-generated live URL: ${updateData.live_url} for ${displayName}`);
+        // Store live_url in nominees table, not nominations
+        const { error: nomineeUpdateError } = await supabaseAdmin
+          .from('nominees')
+          .update({ live_url: `${baseUrl}/nominee/${slug}` })
+          .eq('id', currentNomination.nominees?.id);
+        
+        if (nomineeUpdateError) {
+          console.error('Failed to update nominee live_url:', nomineeUpdateError);
+        } else {
+          console.log(`Auto-generated live URL: ${baseUrl}/nominee/${slug} for ${displayName}`);
+        }
       }
     }
     
@@ -264,12 +298,78 @@ export async function PATCH(request: NextRequest) {
       .from('nominations')
       .update(updateData)
       .eq('id', nominationId)
-      .select('id, state, nominee_id, updated_at, live_url')
+      .select(`
+        id, 
+        state, 
+        nominee_id, 
+        updated_at,
+        subcategory_id,
+        nominees (
+          id,
+          type,
+          firstname,
+          lastname,
+          company_name,
+          person_email,
+          company_email,
+          live_url
+        )
+      `)
       .single();
 
     if (nominationError) {
       console.error('Failed to update nomination:', nominationError);
       throw new Error(`Failed to update nomination: ${nominationError.message}`);
+    }
+
+    // Send approval email if nomination was approved (only when state changes to approved)
+    if (state === 'approved' && nominationData.state === 'approved') {
+      try {
+        console.log('🔔 Sending nominee approval email...');
+        const { loopsTransactional } = await import('@/server/loops/transactional');
+        
+        // Get category name for email
+        const { data: categoryData } = await supabaseAdmin
+          .from('subcategories')
+          .select('name, category_groups(name)')
+          .eq('id', nominationData.subcategory_id)
+          .single();
+
+        const categoryName = categoryData?.category_groups?.name || 'Unknown Category';
+        const subcategoryName = categoryData?.name || 'Unknown Subcategory';
+        
+        const nominee = nominationData.nominees;
+        const nomineeDisplayName = nominee?.type === 'person' 
+          ? `${nominee?.firstname || ''} ${nominee?.lastname || ''}`.trim()
+          : nominee?.company_name || '';
+
+        const nomineeEmail = nominee?.type === 'person' 
+          ? nominee?.person_email 
+          : nominee?.company_email;
+
+        if (nomineeEmail) {
+          const emailResult = await loopsTransactional.sendNomineeApprovalEmail({
+            nomineeFirstName: nominee?.type === 'person' ? nominee?.firstname : undefined,
+            nomineeLastName: nominee?.type === 'person' ? nominee?.lastname : undefined,
+            nomineeEmail,
+            nomineeDisplayName,
+            categoryName,
+            subcategoryName,
+            approvalTimestamp: new Date().toISOString(),
+            nomineePageUrl: nominee?.live_url || `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/nominee/${nomineeDisplayName.toLowerCase().replace(/\s+/g, '-')}`
+          });
+
+          if (emailResult.success) {
+            console.log('✅ Nominee approval email sent successfully');
+          } else {
+            console.warn('⚠️ Failed to send nominee approval email:', emailResult.error);
+          }
+        } else {
+          console.warn('⚠️ No email address found for nominee, skipping approval email');
+        }
+      } catch (error) {
+        console.warn('Email sending failed (non-blocking):', error);
+      }
     }
 
     // Update nominee data if provided

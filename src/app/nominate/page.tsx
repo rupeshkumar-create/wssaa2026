@@ -275,11 +275,18 @@ export default function NominatePage() {
 
       console.log('🌐 Making API request to /api/nomination/submit');
       
+      // Add timeout to prevent hanging
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      
       const response = await fetch("/api/nomination/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
 
       console.log('📥 API response status:', response.status);
       
@@ -292,12 +299,16 @@ export default function NominatePage() {
       } else {
         // API returned an error
         console.error("❌ API error:", result);
+        console.error("❌ API error type:", typeof result);
+        console.error("❌ API error keys:", Object.keys(result || {}));
         console.error("❌ Payload that failed:", payload);
+        console.error("❌ Response status:", response.status);
+        console.error("❌ Response statusText:", response.statusText);
         
         // Show specific validation errors if available
-        let errorMessage = result.error || "Failed to submit nomination. Please try again.";
+        let errorMessage = result?.error || "Failed to submit nomination. Please try again.";
         
-        if (result.details && Array.isArray(result.details)) {
+        if (result?.details && Array.isArray(result.details)) {
           const fieldErrors = result.details.map(detail => {
             const field = detail.path ? detail.path.join('.') : 'unknown';
             return `${field}: ${detail.message}`;
@@ -305,15 +316,40 @@ export default function NominatePage() {
           errorMessage = `Validation errors: ${fieldErrors}`;
         }
         
+        // If we still don't have a good error message, provide more context
+        if (!errorMessage || errorMessage === "Failed to submit nomination. Please try again.") {
+          errorMessage = `Server error (${response.status}): ${response.statusText}. Please try again or contact support.`;
+        }
+        
         setSubmitResult({ 
           error: errorMessage,
-          details: result.details 
+          details: result?.details 
         });
       }
 
     } catch (error) {
-      console.error("Submission error:", error);
-      setSubmitResult({ error: "Failed to submit nomination. Please try again." });
+      console.error("❌ Submission error:", error);
+      console.error("❌ Error type:", typeof error);
+      console.error("❌ Error constructor:", error?.constructor?.name);
+      console.error("❌ Error message:", error?.message);
+      console.error("❌ Error stack:", error?.stack);
+      
+      let errorMessage = "Failed to submit nomination. Please try again.";
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      } else if (error && typeof error === 'object' && 'message' in error) {
+        errorMessage = error.message;
+      }
+      
+      // If we still have a generic error, provide more context
+      if (errorMessage === "Failed to submit nomination. Please try again.") {
+        errorMessage = "Network error or server is not responding. Please check your connection and try again.";
+      }
+      
+      setSubmitResult({ error: errorMessage });
     } finally {
       setIsSubmitting(false);
     }
@@ -483,7 +519,7 @@ export default function NominatePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="min-h-screen bg-gradient-to-br from-white via-slate-50 to-blue-50 py-8">
       <div className="container mx-auto px-4">
         {/* Progress Bar - only show if nominations are enabled */}
         {nominationStatus.enabled && currentStep > 1 && !submitResult?.success && !submitResult?.duplicate && (

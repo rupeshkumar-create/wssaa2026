@@ -3,6 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { WSAButton } from '@/components/ui/wsa-button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -78,13 +79,15 @@ function AdminLoginForm() {
             {error && (
               <div className="text-red-600 text-sm">{error}</div>
             )}
-            <Button 
+            <WSAButton 
               type="submit" 
-              className="w-full" 
               disabled={isLoading}
+              variant="primary"
+              size="lg"
+              className="w-full"
             >
               {isLoading ? 'Signing in...' : 'Sign In'}
-            </Button>
+            </WSAButton>
           </form>
         </CardContent>
       </Card>

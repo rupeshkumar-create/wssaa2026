@@ -274,13 +274,13 @@ export function Step6PersonHeadshot({ imageUrl, personName, onNext, onBack }: St
         </div>
 
         <div className="flex justify-between">
-          <Button type="button" variant="outline" onClick={onBack}>
+          <Button type="button" variant="outline" onClick={onBack} className="rounded-full">
             Back
           </Button>
           <Button 
             onClick={handleNext} 
             disabled={!uploadedUrl || uploading}
-            className="relative"
+            className="relative rounded-full"
           >
             {uploading ? (
               <>

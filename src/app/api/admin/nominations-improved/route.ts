@@ -86,7 +86,10 @@ export async function GET(request: NextRequest) {
       imageUrl: nom.nominee_image_url || (nom.nominee_type === 'person' 
         ? nom.nominee_headshot_url 
         : nom.nominee_logo_url
-      )
+      ),
+      
+      // Source tracking
+      nominationSource: nom.nomination_source || 'public'
     }));
 
     return NextResponse.json({

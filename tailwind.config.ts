@@ -98,12 +98,22 @@ const config: Config = {
           "0%,100%": { transform: "translateY(0px)" }, 
           "50%": { transform: "translateY(-6px)" } 
         },
+        "scroll-right": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0%)" }
+        },
+        "scroll-left": {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         shimmer: "shimmer 2s linear infinite",
         float: "float 6s ease-in-out infinite",
+        "scroll-right": "scroll-right 60s linear infinite",
+        "scroll-left": "scroll-left 60s linear infinite",
       },
     },
   },

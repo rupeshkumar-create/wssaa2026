@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Category Links from Home</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .category-link { 
+            display: inline-block;
+            padding: 12px 24px; 
+            margin: 8px; 
+            background: #f97316; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .category-link:hover { 
+            background: #ea580c; 
+            transform: translateY(-2px);
+        }
+        .results { margin: 20px 0; }
+        .loading { text-align: center; padding: 40px; color: #666; }
+        .error { color: red; padding: 20px; background: #fee; border-radius: 8px; }
+        .success { color: green; padding: 20px; background: #efe; border-radius: 8px; }
+        .stats { 
+            background: #f0f9ff; 
+            padding: 15px; 
+            margin: 20px 0; 
+            border-radius: 8px; 
+            border-left: 4px solid #0ea5e9;
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #1e293b; margin-bottom: 10px; }
+        .header p { color: #64748b; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .test-pass { background: #dcfce7; border: 1px solid #16a34a; color: #15803d; }
+        .test-fail { background: #fef2f2; border: 1px solid #dc2626; color: #dc2626; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏠 → 🏷️ Category Link Test</h1>
+            <p>Testing category links from home page to nominees page</p>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔗 Category Links (Simulating Home Page)</h2>
+            <p>Click these links to test the category filtering:</p>
+            
+            <a href="/nominees?category=top-recruiter" class="category-link">
+                Top Recruiters
+            </a>
+            <a href="/nominees?category=top-executive-leader" class="category-link">
+                Top Executive Leaders
+            </a>
+            <a href="/nominees?category=rising-star-under-30" class="category-link">
+                Rising Stars (Under 30)
+            </a>
+            <a href="/nominees" class="category-link" style="background: #6b7280;">
+                All Categories
+            </a>
+        </div>
+        
+        <div class="test-section">
+            <h2>🧪 Automated API Tests</h2>
+            <div id="api-results">
+                <div class="loading">Running API tests...</div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📋 Test Instructions</h2>
+            <ol>
+                <li><strong>Click "Top Recruiters"</strong> - Should redirect to /nominees?category=top-recruiter</li>
+                <li><strong>Check URL</strong> - Should show the category parameter</li>
+                <li><strong>Verify Results</strong> - Should show ONLY Top Recruiter nominees (not all nominees)</li>
+                <li><strong>Check Console</strong> - Open dev tools and look for debug logs</li>
+                <li><strong>Test Other Categories</strong> - Try other category links</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔍 Debug Information</h2>
+            <div id="debug-info">
+                <div class="loading">Loading debug info...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function runTests() {
+            const apiResults = document.getElementById('api-results');
+            const debugInfo = document.getElementById('debug-info');
+            
+            try {
+                // Test API endpoints
+                const testCategories = [
+                    { id: 'top-recruiter', name: 'Top Recruiters' },
+                    { id: 'top-executive-leader', name: 'Top Executive Leaders' },
+                    { id: 'rising-star-under-30', name: 'Rising Stars (Under 30)' },
+                    { id: '', name: 'All Categories' }
+                ];
+                
+                let apiHtml = '<h3>API Test Results:</h3>';
+                let debugHtml = '<h3>Debug Information:</h3>';
+                
+                for (const category of testCategories) {
+                    const url = `/api/nominees${category.id ? `?category=${category.id}` : ''}`;
+                    const response = await fetch(url);
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        const nominees = result.data || [];
+                        const categories = [...new Set(nominees.map(n => n.category))];
+                        
+                        let isCorrect = true;
+                        if (category.id) {
+                            isCorrect = categories.length === 1 && categories[0] === category.id;
+                        } else {
+                            isCorrect = categories.length > 1; // Should have multiple categories for "all"
+                        }
+                        
+                        const testClass = isCorrect ? 'test-pass' : 'test-fail';
+                        const testIcon = isCorrect ? '✅' : '❌';
+                        
+                        apiHtml += `
+                            <div class="test-result ${testClass}">
+                                <strong>${testIcon} ${category.name}</strong><br>
+                                Found: ${nominees.length} nominees<br>
+                                Categories: ${categories.join(', ')}<br>
+                                API URL: ${url}
+                            </div>
+                        `;
+                        
+                        debugHtml += `
+                            <div class="stats">
+                                <strong>${category.name}</strong><br>
+                                API URL: <code>${url}</code><br>
+                                Response: ${nominees.length} nominees<br>
+                                Categories: ${categories.join(', ')}<br>
+                                ${nominees.length > 0 ? `Sample: ${nominees.slice(0, 2).map(n => n.name).join(', ')}` : 'No nominees'}
+                            </div>
+                        `;
+                    } else {
+                        apiHtml += `
+                            <div class="test-result test-fail">
+                                <strong>❌ ${category.name}</strong><br>
+                                Error: ${result.error}
+                            </div>
+                        `;
+                    }
+                }
+                
+                apiResults.innerHTML = apiHtml;
+                debugInfo.innerHTML = debugHtml;
+                
+            } catch (error) {
+                apiResults.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Test Failed</strong><br>
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        // Run tests when page loads
+        window.addEventListener('load', runTests);
+        
+        // Add click tracking for category links
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('category-link')) {
+                console.log('🔗 Category link clicked:', e.target.href);
+                console.log('🔗 Expected behavior: Should show only nominees from this category');
+            }
+        });
+    </script>
+</body>
+</html>

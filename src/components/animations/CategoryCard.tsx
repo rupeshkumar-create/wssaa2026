@@ -3,13 +3,13 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface CategoryCardProps {
   title: string;
   description: string;
-  icon: LucideIcon;
+  iconImage: string;
   gradient: string;
   badges: Array<{ id: string; label: string }>;
   delay?: number;
@@ -18,7 +18,7 @@ interface CategoryCardProps {
 export function CategoryCard({ 
   title, 
   description, 
-  icon: Icon, 
+  iconImage, 
   gradient, 
   badges, 
   delay = 0 
@@ -39,27 +39,32 @@ export function CategoryCard({
         />
         
         <div className="relative z-10">
-          <CardHeader>
+          <CardHeader className="pb-3">
             <motion.div
-              className={`inline-flex items-center justify-center w-14 h-14 rounded-xl shadow-lg ${gradient} mb-4 relative overflow-hidden`}
+              className={`inline-flex items-center justify-center w-20 h-20 rounded-xl shadow-lg bg-white mb-3 relative overflow-hidden border-2 border-gray-200`}
               whileHover={{ rotate: [0, -5, 5, 0], scale: 1.05 }}
               transition={{ duration: 0.5 }}
             >
-              {/* Icon with better visibility */}
-              <div className="absolute inset-0 bg-white/20 rounded-xl" />
-              <Icon className="h-7 w-7 text-white relative z-10 stroke-[2.5] drop-shadow-lg filter contrast-125" />
+              {/* PNG Image */}
+              <Image
+                src={iconImage}
+                alt={`${title} icon`}
+                width={48}
+                height={48}
+                className="relative z-10 drop-shadow-sm"
+              />
             </motion.div>
             
-            <CardTitle className="text-lg text-slate-900 group-hover:text-orange-600 transition-colors duration-200">
+            <CardTitle className="text-lg text-slate-900 group-hover:text-orange-600 transition-colors duration-200 mb-2">
               {title}
             </CardTitle>
-            <CardDescription className="text-slate-600">
+            <CardDescription className="text-slate-600 leading-relaxed">
               {description}
             </CardDescription>
           </CardHeader>
           
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
+          <CardContent className="pt-1">
+            <div className="flex flex-wrap gap-1.5">
               {badges.map((badge, index) => (
                 <motion.div
                   key={badge.id}
@@ -69,7 +74,16 @@ export function CategoryCard({
                   transition={{ duration: 0.3, delay: delay + (index * 0.05) }}
                   whileHover={{ scale: 1.05 }}
                 >
-                  <Link href={`/directory?category=${badge.id}`}>
+                  <Link 
+                    href={`/nominees?category=${badge.id}`}
+                    onClick={() => {
+                      console.log('🏷️ CategoryCard - Badge clicked:', {
+                        badgeId: badge.id,
+                        badgeLabel: badge.label,
+                        targetUrl: `/nominees?category=${badge.id}`
+                      });
+                    }}
+                  >
                     <Badge 
                       variant="outline" 
                       className="cursor-pointer hover:bg-orange-50 hover:border-orange-300 hover:text-orange-700 transition-all duration-200"

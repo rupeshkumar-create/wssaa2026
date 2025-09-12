@@ -128,10 +128,10 @@ export function Step7CompanyDetails({ data, onNext, onBack }: Step7CompanyDetail
             />
 
             <div className="flex justify-between">
-              <Button type="button" variant="outline" onClick={onBack}>
+              <Button type="button" variant="outline" onClick={onBack} className="rounded-full">
                 Back
               </Button>
-              <Button type="submit">
+              <Button type="submit" className="rounded-full">
                 Continue
               </Button>
             </div>

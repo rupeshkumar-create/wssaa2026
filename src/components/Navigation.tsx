@@ -2,24 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { WSAButton } from "@/components/ui/wsa-button";
 import { Award } from "lucide-react";
-import { useNominationStatus } from "@/hooks/useNominationStatus";
+import { useVotingStatus } from "@/hooks/useVotingStatus";
 import { useState, useEffect } from "react";
-import { NominationClosedDialog } from "@/components/NominationClosedDialog";
 
 export function Navigation() {
   const pathname = usePathname();
-  const nominationStatus = useNominationStatus();
+  const votingStatus = useVotingStatus();
   const [mounted, setMounted] = useState(false);
-  const [showClosedDialog, setShowClosedDialog] = useState(false);
   
   useEffect(() => {
     setMounted(true);
   }, []);
   
-  // Prevent hydration mismatch by showing default text until mounted and loaded
-  const showNominate = !mounted || nominationStatus.loading ? false : nominationStatus.enabled;
+  // Show "Nominate Now" before voting opens, "Vote Now" after
+  const showNominate = !mounted || votingStatus.loading ? false : !votingStatus.isVotingOpen;
 
   const isActive = (path: string) => {
     if (path === "/" && pathname === "/") return true;
@@ -27,35 +25,31 @@ export function Navigation() {
     return false;
   };
 
-  const handleNominateClick = (e: React.MouseEvent) => {
-    if (!nominationStatus.enabled && !nominationStatus.loading) {
-      e.preventDefault();
-      setShowClosedDialog(true);
-    }
-  };
+
 
   return (
     <>
-      <nav className="border-b theme-nav-header backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="border-b backdrop-blur supports-[backdrop-filter]:bg-background/60" style={{ backgroundColor: '#EBF1F5' }}>
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl theme-nav-header">
-              <Award className="h-6 w-6 text-primary" />
-              World Staffing Awards 2026
+            <Link href="/" className="flex items-center">
+              <img 
+                src="/wss-logo.svg" 
+                alt="World Staffing Awards 2026" 
+                className="h-10 w-auto hover:opacity-80 transition-opacity"
+                onError={(e) => {
+                  // Fallback to icon if image fails to load
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              <Award className="h-8 w-8 text-primary hidden" />
             </Link>
 
-            {/* Navigation Links */}
-            <div className="hidden md:flex items-center gap-6">
-              <Link 
-                href="/" 
-                className={`text-sm font-medium transition-colors theme-nav-menu-item hover:theme-nav-menu-item ${
-                  isActive("/") ? "theme-nav-menu-item active" : "theme-nav-menu-item"
-                }`}
-              >
-                Home
-              </Link>
-              {/* Show Nominate link when nominations are open */}
+            {/* Navigation Links - Centered */}
+            <div className="hidden md:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
+              {/* Show Nominate link only when nominations are open and voting is closed */}
               {showNominate && (
                 <Link 
                   href="/nominate" 
@@ -66,43 +60,37 @@ export function Navigation() {
                   Nominate
                 </Link>
               )}
-              {/* Show Nominate link when nominations are closed but handle click */}
-              {!showNominate && !nominationStatus.loading && (
-                <button
-                  onClick={handleNominateClick}
-                  className="text-sm font-medium transition-colors theme-nav-menu-item hover:theme-nav-menu-item"
-                >
-                  Nominate
-                </button>
-              )}
               <Link 
-                href="/directory" 
+                href="/nominees" 
                 className={`text-sm font-medium transition-colors theme-nav-menu-item hover:theme-nav-menu-item ${
-                  isActive("/directory") ? "theme-nav-menu-item active" : "theme-nav-menu-item"
+                  isActive("/nominees") ? "theme-nav-menu-item active" : "theme-nav-menu-item"
                 }`}
               >
-                Directory
+                Nominees
+              </Link>
+              <Link 
+                href="/about" 
+                className={`text-sm font-medium transition-colors theme-nav-menu-item hover:theme-nav-menu-item ${
+                  isActive("/about") ? "theme-nav-menu-item active" : "theme-nav-menu-item"
+                }`}
+              >
+                About
               </Link>
             </div>
 
-            {/* CTA Button - Always Vote Now */}
+            {/* CTA Button - Dynamic based on voting status */}
             <div className="flex items-center gap-2 sm:gap-4">
-              <Button asChild className="hidden sm:inline-flex">
-                <Link href="/directory">
-                  Vote Now
+              <WSAButton asChild variant="primary" className="hidden sm:inline-flex">
+                <Link href={showNominate ? "/nominate" : "/nominees"}>
+                  {showNominate ? "Nominate Now" : "Vote Now"}
                 </Link>
-              </Button>
+              </WSAButton>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Nomination Closed Dialog */}
-      <NominationClosedDialog
-        isOpen={showClosedDialog}
-        onClose={() => setShowClosedDialog(false)}
-        message={nominationStatus.closeMessage}
-      />
+
     </>
   );
 }

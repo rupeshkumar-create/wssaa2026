@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { WSAButton } from "@/components/ui/wsa-button";
 import { Award, Vote } from "lucide-react";
 import { StatsSection } from "@/components/home/StatsSection";
 import { SimplePodium } from "@/components/home/SimplePodium";
@@ -9,25 +9,31 @@ import { AnimatedHero } from "@/components/animations/AnimatedHero";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { CategoriesSection } from "@/components/home/CategoriesSection";
 import { TimelineSection } from "@/components/home/TimelineSection";
-import { useNominationStatus } from "@/hooks/useNominationStatus";
+import { VoteButton } from "@/components/animations/VoteButton";
+import { useVotingStatus } from "@/hooks/useVotingStatus";
+import NomineeBackgroundCards from "@/components/animations/NomineeBackgroundCards";
 
 
 
 export default function HomePage() {
-  const nominationStatus = useNominationStatus();
+  const votingStatus = useVotingStatus();
   
-  // Prevent hydration mismatch
-  const showNominate = !nominationStatus.loading && nominationStatus.enabled;
+  // Show "Nominate Now" before voting opens, "Vote Now" after
+  const showNominate = !votingStatus.loading && !votingStatus.isVotingOpen;
   
   // Debug logging
-  console.log('🏠 HomePage - Nomination Status:', {
-    loading: nominationStatus.loading,
-    enabled: nominationStatus.enabled,
+  console.log('🏠 HomePage - Voting Status:', {
+    loading: votingStatus.loading,
+    isVotingOpen: votingStatus.isVotingOpen,
+    startDate: votingStatus.startDate,
     showNominate
   });
   
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Animated Background Cards */}
+      <NomineeBackgroundCards />
+      
       {/* Enhanced Hero Section */}
       <AnimatedHero />
 
@@ -61,20 +67,27 @@ export default function HomePage() {
               Your {showNominate ? "nomination" : "vote"} could make all the difference.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="px-8 bg-orange-600 hover:bg-orange-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105">
-                <Link href={showNominate ? "/nominate" : "/directory"}>
+              <WSAButton 
+                asChild 
+                variant="primary"
+                size="lg"
+              >
+                <Link href={showNominate ? "/nominate" : "/nominees"} className="flex items-center">
                   {showNominate ? (
-                    <Award className="mr-2 h-5 w-5 text-white" />
+                    <Award className="mr-2 h-6 w-6" />
                   ) : (
-                    <Vote className="mr-2 h-5 w-5 text-white" />
+                    <Vote className="mr-2 h-6 w-6" />
                   )}
                   {showNominate ? "Nominate Now" : "Vote Now"}
                 </Link>
-              </Button>
+              </WSAButton>
             </div>
           </div>
         </section>
       </ScrollReveal>
+
+      {/* Floating Action Button */}
+      <VoteButton showAfterScroll={800} />
     </div>
   );
 }

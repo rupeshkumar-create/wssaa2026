@@ -1,51 +1,50 @@
 "use client";
 
-import { Users, Zap, Heart, TrendingUp, Globe, Star } from "lucide-react";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { CategoryCard } from "@/components/animations/CategoryCard";
 import { CATEGORIES } from "@/lib/constants";
 
-// Create category groups with proper ID mapping
+// Create category groups with PNG images
 const categories = [
   {
     title: "Role-Specific Excellence",
     description: "Recognizing outstanding individual contributors",
-    icon: Users,
+    iconImage: "/Role Specific.png",
     gradient: "bg-slate-700",
     badges: CATEGORIES.filter(c => c.group === 'role-specific-excellence').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Innovation & Technology", 
     description: "Leading the future of staffing technology",
-    icon: Zap,
+    iconImage: "/Innovation & Technology.png",
     gradient: "bg-slate-700",
     badges: CATEGORIES.filter(c => c.group === 'innovation-technology').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Culture & Impact",
     description: "Making a positive difference in the industry", 
-    icon: Heart,
+    iconImage: "/Culture & Impact.png",
     gradient: "bg-slate-700",
     badges: CATEGORIES.filter(c => c.group === 'culture-impact').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Growth & Performance",
     description: "Excellence in operations and thought leadership",
-    icon: TrendingUp, 
+    iconImage: "/Growth & Performance.png", 
     gradient: "bg-slate-700",
     badges: CATEGORIES.filter(c => c.group === 'growth-performance').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Geographic Excellence",
     description: "Regional and global recognition",
-    icon: Globe,
+    iconImage: "/Geographic Excellence.png",
     gradient: "bg-orange-500", 
     badges: CATEGORIES.filter(c => c.group === 'geographic-excellence').map(c => ({ id: c.id, label: c.label }))
   },
   {
     title: "Special Recognition",
     description: "Unique contributions to the industry",
-    icon: Star,
+    iconImage: "/Special Recognition.png",
     gradient: "bg-slate-700",
     badges: CATEGORIES.filter(c => c.group === 'special-recognition').map(c => ({ id: c.id, label: c.label }))
   }
@@ -69,7 +68,7 @@ export function CategoriesSection() {
                 key={category.title}
                 title={category.title}
                 description={category.description}
-                icon={category.icon}
+                iconImage={category.iconImage}
                 gradient={category.gradient}
                 badges={category.badges}
                 delay={index * 0.1}

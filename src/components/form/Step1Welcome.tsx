@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { WSAButton } from "@/components/ui/wsa-button";
 import { useNominationStatus } from "@/hooks/useNominationStatus";
 
 interface Step1WelcomeProps {
@@ -43,10 +43,10 @@ export function Step1Welcome({ onNext, disabled = false }: Step1WelcomeProps) {
           </div>
         </div>
         <div className="flex justify-center">
-          <Button 
+          <WSAButton 
             onClick={onNext} 
             size="lg" 
-            className="px-8"
+            variant="primary"
             disabled={disabled}
           >
             {disabled 
@@ -55,7 +55,7 @@ export function Step1Welcome({ onNext, disabled = false }: Step1WelcomeProps) {
                 ? "Start Nomination" 
                 : "Start Voting"
             }
-          </Button>
+          </WSAButton>
         </div>
         
         {disabled && (

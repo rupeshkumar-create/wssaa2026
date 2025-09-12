@@ -278,14 +278,14 @@ export function Step9CompanyLogo({ imageUrl, companyName, onNext, onBack }: Step
             type="button" 
             variant="outline" 
             onClick={onBack}
-            className="transition-all duration-200"
+            className="transition-all duration-200 rounded-full"
           >
             Back
           </Button>
           <Button 
             onClick={handleNext} 
             disabled={!uploadedUrl || uploading}
-            className="relative transition-all duration-200 min-w-[120px]"
+            className="relative transition-all duration-200 min-w-[120px] rounded-full"
           >
             {uploading ? (
               <>

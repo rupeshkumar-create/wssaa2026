@@ -14,10 +14,14 @@ import { ApprovalDialog } from "@/components/admin/ApprovalDialog";
 import { NominationToggle } from "@/components/admin/NominationToggle";
 import { ManualVoteUpdate } from "@/components/admin/ManualVoteUpdate";
 import { TopNomineesPanel } from "@/components/admin/TopNomineesPanel";
+import { AdminNominationFlow } from "@/components/admin/AdminNominationFlow";
+import { AdvancedAnalytics } from "@/components/admin/AdvancedAnalytics";
+
 
 // Bulk upload components temporarily removed
 import { triggerAdminDataRefresh } from "@/lib/utils/data-sync";
 import { CATEGORIES } from "@/lib/constants";
+import { getCategoryLabel } from "@/lib/utils/category-utils";
 
 interface AdminNomination {
   id: string;
@@ -65,6 +69,9 @@ interface AdminNomination {
   nominatorCountry?: string;
   created_at?: string;
   updated_at?: string;
+  
+  // Source tracking
+  nominationSource?: 'public' | 'admin';
 }
 
 interface EnhancedStats {
@@ -428,12 +435,23 @@ export default function AdminPage() {
             </div>
             
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm" onClick={fetchData} disabled={loading}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={fetchData} 
+                disabled={loading}
+                className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0"
+              >
                 <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
                 Refresh
               </Button>
               
-              <Button variant="outline" size="sm" onClick={handleLogout}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleLogout}
+                className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0"
+              >
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
               </Button>
@@ -518,8 +536,9 @@ export default function AdminPage() {
           {/* Main Content Area (65%) */}
           <div className="lg:col-span-7">
             <Tabs defaultValue="nominations" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="nominations">Nominations</TabsTrigger>
+                <TabsTrigger value="admin-add">Add Nominee</TabsTrigger>
                 <TabsTrigger value="manual-votes">Manual Votes</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
                 <TabsTrigger value="stats">Analytics</TabsTrigger>
@@ -655,7 +674,7 @@ export default function AdminPage() {
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                                 <div>
                                   <p className="text-sm text-gray-600 mb-1">
-                                    <span className="font-medium">Category:</span> {CATEGORIES.find(c => c.id === nomination.subcategory_id)?.name || nomination.subcategory_id}
+                                    <span className="font-medium">Category:</span> {getCategoryLabel(nomination.subcategory_id)}
                                   </p>
                                   <div className="text-sm text-gray-600 flex items-center">
                                     <span className="font-medium">Type:</span> 
@@ -679,9 +698,16 @@ export default function AdminPage() {
                                 </div>
                               </div>
                               
-                              <p className="text-sm text-gray-600">
-                                <span className="font-medium">Nominated by:</span> {nomination.nominatorName || nomination.nominatorEmail || 'Unknown'}
-                              </p>
+                              <div className="flex items-center justify-between">
+                                <p className="text-sm text-gray-600">
+                                  <span className="font-medium">Nominated by:</span> {nomination.nominatorName || nomination.nominatorEmail || 'Unknown'}
+                                </p>
+                                {nomination.nominationSource === 'admin' && (
+                                  <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800 border-blue-200">
+                                    Added by Admin
+                                  </Badge>
+                                )}
+                              </div>
                             </div>
                           </div>
                           
@@ -696,7 +722,7 @@ export default function AdminPage() {
                                   setSelectedNomination(nomination);
                                   setIsApprovalDialogOpen(true);
                                 }}
-                                className="px-4 py-2"
+                                className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0 px-4 py-2"
                               >
                                 Review
                               </Button>
@@ -710,7 +736,7 @@ export default function AdminPage() {
                                 setSelectedNomination(nomination);
                                 setIsEditDialogOpen(true);
                               }}
-                              className="px-4 py-2"
+                              className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0 px-4 py-2"
                               title="Edit nomination"
                             >
                               <Edit className="h-4 w-4 mr-2" />
@@ -722,7 +748,7 @@ export default function AdminPage() {
                               variant="outline"
                               size="sm"
                               onClick={() => handleDelete(nomination.id)}
-                              className="px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                              className="bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 text-sm font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0 px-4 py-2"
                               title="Delete nomination"
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
@@ -739,6 +765,10 @@ export default function AdminPage() {
           </TabsContent>
 
           {/* Bulk upload functionality temporarily removed */}
+
+          <TabsContent value="admin-add">
+            <AdminNominationFlow onSuccess={fetchData} />
+          </TabsContent>
 
           <TabsContent value="manual-votes">
             <ManualVoteUpdate nominations={nominations} onVoteUpdate={fetchData} />
@@ -774,7 +804,12 @@ export default function AdminPage() {
                         <Badge variant={connectionStatus.supabase === 'connected' ? 'default' : 'destructive'}>
                           {connectionStatus.supabase}
                         </Badge>
-                        <Button variant="outline" size="sm" onClick={checkConnectionStatus}>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={checkConnectionStatus}
+                          className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0"
+                        >
                           <RefreshCw className="h-4 w-4" />
                         </Button>
                       </div>
@@ -806,6 +841,7 @@ export default function AdminPage() {
                               console.error('HubSpot sync error:', error);
                             }
                           }}
+                          className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0"
                         >
                           Sync
                         </Button>
@@ -838,6 +874,7 @@ export default function AdminPage() {
                               console.error('Loops sync error:', error);
                             }
                           }}
+                          className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0"
                         >
                           Sync
                         </Button>
@@ -972,7 +1009,7 @@ export default function AdminPage() {
                                   return acc;
                                 }, {} as Record<string, number>);
                                 const topCategory = Object.entries(categoryCount).sort(([,a], [,b]) => b - a)[0];
-                                return topCategory ? CATEGORIES.find(c => c.id === topCategory[0])?.name?.slice(0, 15) || topCategory[0] : 'None';
+                                return topCategory ? getCategoryLabel(topCategory[0]).slice(0, 15) : 'None';
                               })()}
                             </span>
                           </div>
@@ -1000,7 +1037,7 @@ export default function AdminPage() {
                     {(() => {
                       const categoryStats = nominations.reduce((acc, n) => {
                         const catId = n.subcategory_id || 'unknown';
-                        const catName = CATEGORIES.find(c => c.id === catId)?.name || catId;
+                        const catName = getCategoryLabel(catId);
                         if (!acc[catName]) {
                           acc[catName] = { total: 0, approved: 0, votes: 0 };
                         }

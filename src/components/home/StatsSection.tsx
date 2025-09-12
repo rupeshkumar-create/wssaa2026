@@ -121,28 +121,28 @@ export function StatsSection() {
     // Return static content during SSR to prevent hydration mismatch
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="bg-white border-gray-200 hover:shadow-lg transition-shadow">
+        <Card className="bg-white border-gray-100 hover:shadow-lg transition-shadow">
           <CardContent className="p-6 text-center">
             <Award className="h-8 w-8 mx-auto mb-2 text-orange-500" />
             <div className="text-2xl font-bold text-gray-900">{CATEGORIES.length}</div>
-            <div className="text-sm text-gray-600">Award Categories</div>
+            <div className="text-sm text-gray-600">Awards</div>
           </CardContent>
         </Card>
-        <Card className="bg-white border-gray-200 hover:shadow-lg transition-shadow">
+        <Card className="bg-white border-gray-100 hover:shadow-lg transition-shadow">
           <CardContent className="p-6 text-center">
             <Users className="h-8 w-8 mx-auto mb-2 text-orange-500" />
             <div className="text-2xl font-bold text-gray-900">-</div>
-            <div className="text-sm text-gray-600">Approved Nominees</div>
+            <div className="text-sm text-gray-600">Nominees</div>
           </CardContent>
         </Card>
-        <Card className="bg-white border-gray-200 hover:shadow-lg transition-shadow">
+        <Card className="bg-white border-gray-100 hover:shadow-lg transition-shadow">
           <CardContent className="p-6 text-center">
             <Vote className="h-8 w-8 mx-auto mb-2 text-orange-500" />
             <div className="text-2xl font-bold text-gray-900">-</div>
-            <div className="text-sm text-gray-600">Votes Cast</div>
+            <div className="text-sm text-gray-600">Votes</div>
           </CardContent>
         </Card>
-        <Card className="bg-white border-gray-200 hover:shadow-lg transition-shadow">
+        <Card className="bg-white border-gray-100 hover:shadow-lg transition-shadow">
           <CardContent className="p-6 text-center">
             <Calendar className="h-8 w-8 mx-auto mb-2 text-orange-500" />
             <div className="text-2xl font-bold text-gray-900">Jan 30</div>
@@ -155,28 +155,28 @@ export function StatsSection() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <Card className="bg-white border-gray-200 hover:shadow-lg transition-shadow">
+      <Card className="bg-white border-gray-100 hover:shadow-lg transition-shadow">
         <CardContent className="p-6 text-center">
           <Award className="h-8 w-8 mx-auto mb-2 text-orange-500" />
           <div className="text-2xl font-bold text-gray-900">{stats.totalCategories}</div>
-          <div className="text-sm text-gray-600">Award Categories</div>
+          <div className="text-sm text-gray-600">Awards</div>
         </CardContent>
       </Card>
-      <Card className="bg-white border-gray-200 hover:shadow-lg transition-shadow">
+      <Card className="bg-white border-gray-100 hover:shadow-lg transition-shadow">
         <CardContent className="p-6 text-center">
           <Users className="h-8 w-8 mx-auto mb-2 text-orange-500" />
           <div className="text-2xl font-bold text-gray-900">{stats.approvedNominations}</div>
-          <div className="text-sm text-gray-600">Approved Nominees</div>
+          <div className="text-sm text-gray-600">Nominees</div>
         </CardContent>
       </Card>
-      <Card className="bg-white border-gray-200 hover:shadow-lg transition-shadow">
+      <Card className="bg-white border-gray-100 hover:shadow-lg transition-shadow">
         <CardContent className="p-6 text-center">
           <Vote className="h-8 w-8 mx-auto mb-2 text-orange-500" />
           <div className="text-2xl font-bold text-gray-900">{stats.totalVotes}</div>
-          <div className="text-sm text-gray-600">Votes Cast</div>
+          <div className="text-sm text-gray-600">Votes</div>
         </CardContent>
       </Card>
-      <Card className="bg-white border-gray-200 hover:shadow-lg transition-shadow">
+      <Card className="bg-white border-gray-100 hover:shadow-lg transition-shadow">
         <CardContent className="p-6 text-center">
           <Calendar className="h-8 w-8 mx-auto mb-2 text-orange-500" />
           <div className="text-2xl font-bold text-gray-900">Jan 30</div>

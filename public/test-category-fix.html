@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Filtering Fix Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .category-buttons { margin: 20px 0; }
+        .category-btn { 
+            padding: 10px 20px; 
+            margin: 5px; 
+            border: 2px solid #ccc; 
+            background: white; 
+            cursor: pointer; 
+            border-radius: 25px;
+        }
+        .category-btn.active { 
+            background: #f97316; 
+            color: white; 
+            border-color: #f97316; 
+        }
+        .results { margin: 20px 0; }
+        .nominee-card { 
+            border: 1px solid #ddd; 
+            padding: 15px; 
+            margin: 10px; 
+            border-radius: 8px; 
+            display: inline-block; 
+            width: 250px; 
+            vertical-align: top;
+        }
+        .loading { text-align: center; padding: 40px; color: #666; }
+        .error { color: red; padding: 20px; }
+        .stats { 
+            background: #f5f5f5; 
+            padding: 15px; 
+            margin: 20px 0; 
+            border-radius: 8px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Category Filtering Fix Test</h1>
+        
+        <div class="category-buttons">
+            <button class="category-btn active" onclick="selectCategory('')">All Categories</button>
+            <button class="category-btn" onclick="selectCategory('top-recruiter')">Top Recruiters</button>
+            <button class="category-btn" onclick="selectCategory('top-executive-leader')">Top Executive Leaders</button>
+            <button class="category-btn" onclick="selectCategory('rising-star-under-30')">Rising Stars (Under 30)</button>
+        </div>
+        
+        <div class="stats" id="stats">
+            <div>Selected Category: <span id="selected-category">All Categories</span></div>
+            <div>Total Nominees: <span id="total-count">0</span></div>
+            <div>Categories in Results: <span id="result-categories">-</span></div>
+            <div>Status: <span id="status">Ready</span></div>
+        </div>
+        
+        <div class="results" id="results">
+            <div class="loading">Click a category to load nominees</div>
+        </div>
+    </div>
+
+    <script>
+        let currentCategory = '';
+        
+        async function selectCategory(categoryId) {
+            console.log('🏷️ Category selected:', categoryId);
+            
+            // Update UI
+            currentCategory = categoryId;
+            document.getElementById('selected-category').textContent = categoryId || 'All Categories';
+            document.getElementById('status').textContent = 'Loading...';
+            document.getElementById('results').innerHTML = '<div class="loading">Loading nominees...</div>';
+            
+            // Update button states
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            try {
+                // Build API URL
+                let url = `/api/nominees?_t=${Date.now()}`;
+                if (categoryId) {
+                    url += `&category=${categoryId}`;
+                }
+                
+                console.log('🔍 Fetching:', url);
+                
+                const response = await fetch(url, {
+                    cache: 'no-store',
+                    headers: {
+                        'Cache-Control': 'no-cache, no-store, must-revalidate',
+                        'Pragma': 'no-cache',
+                        'Expires': '0',
+                    },
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const nominees = result.data || [];
+                    console.log('🔍 Received:', nominees.length, 'nominees');
+                    
+                    // Update stats
+                    document.getElementById('total-count').textContent = nominees.length;
+                    
+                    const categories = [...new Set(nominees.map(n => n.category))];
+                    document.getElementById('result-categories').textContent = categories.join(', ');
+                    
+                    // Check if filtering worked correctly
+                    const isCorrect = !categoryId || (categories.length === 1 && categories[0] === categoryId);
+                    document.getElementById('status').textContent = isCorrect ? '✅ Correct' : '❌ Filtering Issue';
+                    document.getElementById('status').style.color = isCorrect ? 'green' : 'red';
+                    
+                    // Display nominees
+                    if (nominees.length > 0) {
+                        const html = nominees.slice(0, 12).map(nominee => `
+                            <div class="nominee-card">
+                                <div style="font-weight: bold; margin-bottom: 8px;">${nominee.name}</div>
+                                <div style="color: #666; font-size: 14px; margin-bottom: 4px;">Category: ${nominee.category}</div>
+                                <div style="color: #666; font-size: 14px;">Votes: ${nominee.votes}</div>
+                            </div>
+                        `).join('');
+                        
+                        document.getElementById('results').innerHTML = html;
+                    } else {
+                        document.getElementById('results').innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">No nominees found</div>';
+                    }
+                    
+                } else {
+                    throw new Error(result.error || 'API request failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error:', error);
+                document.getElementById('status').textContent = '❌ Error';
+                document.getElementById('status').style.color = 'red';
+                document.getElementById('results').innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            }
+        }
+        
+        // Load all categories on page load
+        window.addEventListener('load', () => {
+            selectCategory('');
+        });
+    </script>
+</body>
+</html>

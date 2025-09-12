@@ -1,122 +1,111 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ChevronRight, Award, Users, Vote } from "lucide-react";
+import { WSAButton } from "@/components/ui/wsa-button";
+import { Award, Users } from "lucide-react";
 import Link from "next/link";
-import { useNominationStatus } from "@/hooks/useNominationStatus";
+import { useVotingStatus } from "@/hooks/useVotingStatus";
 
 export function AnimatedHero() {
-  const nominationStatus = useNominationStatus();
+  const votingStatus = useVotingStatus();
   
-  // Prevent hydration mismatch
-  const showNominate = !nominationStatus.loading && nominationStatus.enabled;
-  
-  // Debug logging
-  console.log('🎯 AnimatedHero - Nomination Status:', {
-    loading: nominationStatus.loading,
-    enabled: nominationStatus.enabled,
-    showNominate
-  });
+  // Show "Nominate Now" before voting opens, "Vote Now" after
+  const showNominate = !votingStatus.loading && !votingStatus.isVotingOpen;
   
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-white">
+    <section className="relative bg-white px-4 pt-12 pb-0">
       {/* Clean Background */}
       <div className="absolute inset-0 bg-white" />
       
-      {/* Content */}
-      <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
-        {/* Animated Headline */}
+      {/* Content Container */}
+      <div className="relative z-20 text-center max-w-5xl mx-auto">
+        
+        {/* Hero Logo */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: -36 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-8"
+          className="mb-10 mt-6"
         >
-          <motion.h1 
-            className="text-5xl md:text-7xl font-bold text-slate-900 mb-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            World Staffing Awards{" "}
-            <motion.span
-              className="text-orange-500 relative inline-block"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              2026
-            </motion.span>
-          </motion.h1>
-          
-          <motion.p
-            className="text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            Celebrating excellence in staffing and recruitment worldwide
-          </motion.p>
+          <img 
+            src="/hero-logo.svg" 
+            alt="World Staffing Awards 2026" 
+            style={{
+              width: '224.89px',
+              height: '73.5px',
+              flexShrink: 0
+            }}
+            className="mx-auto"
+          />
         </motion.div>
 
-        {/* Animated CTAs */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-20"
-          initial={{ opacity: 0, y: 30 }}
+        {/* Tagline */}
+        <motion.p
+          className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-14 leading-relaxed"
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
         >
-          {/* Primary CTA - Changes based on nomination status */}
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button 
+          The leading award in global staffing, honoring the people and companies driving transformation in talent.
+        </motion.p>
+
+        {/* Action Buttons */}
+        <motion.div
+          className="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16"
+          initial={{ opacity: 0, y: 36 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          {/* Nominate Now Button */}
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <WSAButton 
               asChild 
-              size="lg" 
-              className="bg-slate-800 hover:bg-slate-900 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 group relative z-30"
+              variant="hero"
+              size="xl"
             >
-              <Link href={showNominate ? "/nominate" : "/directory"} className="flex items-center">
-                {showNominate ? (
-                  <Award className="mr-2 h-5 w-5 flex-shrink-0 text-orange-400" />
-                ) : (
-                  <Vote className="mr-2 h-5 w-5 flex-shrink-0 text-orange-400" />
-                )}
-                <span className="font-semibold">
-                  {showNominate ? "Nominate Now" : "Vote Now"}
-                </span>
-                <motion.div
-                  className="ml-2 flex-shrink-0"
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </motion.div>
+              <Link href={showNominate ? "/nominate" : "/nominees"} className="flex items-center">
+                <Award className="mr-2 h-6 w-6" />
+                {showNominate ? "Nominate Now" : "Vote Now"}
               </Link>
-            </Button>
+            </WSAButton>
           </motion.div>
 
-          {/* Secondary CTA - Always View Nominees */}
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button 
+          {/* View Nominees Button */}
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <WSAButton 
               asChild 
-              variant="outline" 
-              size="lg"
-              className="border-2 border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 hover:text-slate-800 px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 group relative z-30"
+              variant="secondary"
+              size="xl"
             >
-              <Link href="/directory" className="flex items-center">
-                <Users className="mr-2 h-5 w-5 flex-shrink-0" />
-                <span className="font-semibold">View Nominees</span>
-                <motion.div
-                  className="ml-2 group-hover:translate-x-1 transition-transform duration-200 flex-shrink-0"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </motion.div>
+              <Link href="/nominees" className="flex items-center">
+                <Users className="mr-2 h-6 w-6" />
+                View Nominees
               </Link>
-            </Button>
+            </WSAButton>
           </motion.div>
+        </motion.div>
+
+        {/* Hero Graphics */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
+          className="flex justify-center pt-8 -mb-1"
+        >
+          <img 
+            src="/hero-graphics.svg" 
+            alt="Award winners illustration" 
+            style={{
+              width: '614.196px',
+              height: '409.464px',
+              flexShrink: 0,
+              aspectRatio: '3/2',
+              display: 'block'
+            }}
+            className="mx-auto"
+          />
         </motion.div>
       </div>
-
-
     </section>
   );
 }

@@ -3,6 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { WSAButton } from "@/components/ui/wsa-button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -87,12 +88,12 @@ export function Step10ReviewSubmit({
 
           {submitResult.liveUrl && (
             <div className="text-center">
-              <Button asChild>
+              <WSAButton asChild variant="primary" size="lg">
                 <a href={submitResult.liveUrl} target="_blank" rel="noopener noreferrer">
                   {submitResult.duplicate ? "View Live Nomination" : "View Your Nomination"}
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </a>
-              </Button>
+              </WSAButton>
             </div>
           )}
           
@@ -100,6 +101,7 @@ export function Step10ReviewSubmit({
             <Button 
               variant="outline" 
               onClick={() => window.location.href = "/nominate"}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-lg font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0"
             >
               Submit Another Nomination
             </Button>
@@ -210,14 +212,16 @@ export function Step10ReviewSubmit({
             variant="outline" 
             onClick={onBack} 
             disabled={isSubmitting}
-            className="transition-all duration-200"
+            className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-lg font-medium rounded-full shadow-lg hover:shadow-xl transition-colors duration-150 border-0 transform-gpu"
           >
             Back
           </Button>
-          <Button 
+          <WSAButton 
             onClick={onSubmit} 
             disabled={isSubmitting}
-            className="transition-all duration-200 min-w-[140px]"
+            variant="primary"
+            size="lg"
+            className="min-w-[140px]"
           >
             {isSubmitting ? (
               <>
@@ -227,7 +231,7 @@ export function Step10ReviewSubmit({
             ) : (
               "Submit Nomination"
             )}
-          </Button>
+          </WSAButton>
         </div>
       </CardContent>
     </Card>

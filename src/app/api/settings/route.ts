@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     let { data: settings, error } = await supabase
       .from('system_settings')
       .select('setting_key, setting_value')
-      .in('setting_key', ['nominations_enabled', 'nominations_close_message']);
+      .in('setting_key', ['voting_start_date', 'voting_end_date', 'nominations_enabled']);
 
     // If system_settings doesn't exist or is empty, try app_settings for backward compatibility
     if (error || !settings || settings.length === 0) {
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
       const { data: appSettings, error: appError } = await supabase
         .from('app_settings')
         .select('setting_key, setting_value, boolean_value')
-        .in('setting_key', ['nominations_enabled', 'nominations_open', 'nominations_close_message']);
+        .in('setting_key', ['voting_start_date', 'voting_end_date', 'nominations_enabled']);
 
       if (appError) {
         console.error('❌ Database error:', appError);
@@ -49,29 +49,32 @@ export async function GET(request: NextRequest) {
       return acc;
     }, {} as Record<string, any>);
 
-    // Check nominations_enabled setting
+    const votingStartDate = settingsObject.voting_start_date || '';
+    const votingEndDate = settingsObject.voting_end_date || '';
     const nominationsEnabled = settingsObject.nominations_enabled === 'true';
 
     return NextResponse.json({
       success: true,
       settings: settingsObject,
-      nominations_enabled: nominationsEnabled,
-      nominations_close_message: settingsObject.nominations_close_message || 'Thank you for your interest! Nominations are now closed. Please vote for your favorite nominees.'
+      voting_start_date: votingStartDate,
+      voting_end_date: votingEndDate,
+      nominations_enabled: nominationsEnabled
     });
 
   } catch (error) {
     console.error('GET /api/settings error:', error);
     
     // Return default values if database is not available
-    // IMPORTANT: Default to nominations DISABLED for safety
     return NextResponse.json({
       success: false,
       settings: {
-        nominations_enabled: false, // Default to DISABLED if can't check
-        nominations_close_message: 'Thank you for your interest! Nominations are now closed. Please vote for your favorite nominees.'
+        voting_start_date: '',
+        voting_end_date: '',
+        nominations_enabled: true
       },
-      nominations_enabled: false, // Default to DISABLED
-      nominations_close_message: 'Thank you for your interest! Nominations are now closed. Please vote for your favorite nominees.',
+      voting_start_date: '',
+      voting_end_date: '',
+      nominations_enabled: true,
       error: 'Could not fetch settings from database'
     });
   }

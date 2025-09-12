@@ -13,6 +13,7 @@ import {
   useMetadata 
 } from '@/lib/hooks/use-data';
 import { devUtils } from '@/lib/db/dev-utils';
+import { CATEGORIES } from '@/lib/constants';
 import { dataMigration } from '@/lib/db/migration';
 
 export function DataLayerDemo() {
@@ -199,7 +200,7 @@ export function DataLayerDemo() {
                   <div key={nomination.id} className="flex items-center justify-between p-3 border rounded">
                     <div>
                       <div className="font-medium">{nomination.nominee.name}</div>
-                      <div className="text-sm text-muted-foreground">{nomination.category}</div>
+                      <div className="text-sm text-muted-foreground">{CATEGORIES.find(c => c.id === nomination.category)?.label || nomination.category}</div>
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge variant={nomination.type === 'person' ? 'default' : 'secondary'}>

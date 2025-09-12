@@ -5,10 +5,11 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { WSAButton } from "@/components/ui/wsa-button";
 import { Vote } from "lucide-react";
 import { NominationWithVotes } from "@/lib/types";
 import { getNomineeImage } from "@/lib/nominee-image";
+import { getCategoryLabel } from "@/lib/utils/category-utils";
 
 interface CardNomineeProps {
   nomination: NominationWithVotes;
@@ -54,7 +55,7 @@ export function CardNominee({ nomination }: CardNomineeProps) {
       <Card className="h-full hover:shadow-lg transition-all duration-300 border-2 border-gray-200 bg-white text-gray-900 group overflow-hidden relative">
         {/* Hover Border Effect */}
         <motion.div
-          className="absolute inset-0 border-2 border-blue-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"
+          className="absolute inset-0 border-2 border-orange-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"
         />
         
         <CardContent className="p-4 relative z-10">
@@ -62,7 +63,7 @@ export function CardNominee({ nomination }: CardNomineeProps) {
             {/* Photo - Square Shape */}
             <div className="flex justify-center mb-3">
               <motion.div 
-                className="w-16 h-16 rounded-lg overflow-hidden border-2 border-gray-200 group-hover:border-blue-300 transition-colors duration-300"
+                className="w-16 h-16 rounded-lg overflow-hidden border-2 border-gray-200 group-hover:border-orange-300 transition-colors duration-300"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
@@ -90,7 +91,7 @@ export function CardNominee({ nomination }: CardNomineeProps) {
 
             {/* Name */}
             <div className="mb-2">
-              <h3 className="font-semibold text-sm text-gray-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2 leading-tight">
+              <h3 className="font-semibold text-sm text-gray-900 group-hover:text-orange-600 transition-colors duration-200 line-clamp-2 leading-tight">
                 {displayName}
               </h3>
             </div>
@@ -99,9 +100,9 @@ export function CardNominee({ nomination }: CardNomineeProps) {
             <div className="flex justify-center mb-3">
               <Badge 
                 variant="outline" 
-                className="text-xs border-gray-300 text-gray-600 group-hover:border-blue-300 group-hover:text-blue-700 transition-colors duration-200 px-2 py-1"
+                className="text-xs border-gray-300 text-gray-600 group-hover:border-orange-300 group-hover:text-orange-700 transition-colors duration-200 px-2 py-1"
               >
-                {nomination.category}
+                {getCategoryLabel(nomination.category)}
               </Badge>
             </div>
 
@@ -113,15 +114,15 @@ export function CardNominee({ nomination }: CardNomineeProps) {
 
             {/* View Button */}
             <div className="mt-4">
-              <Button 
+              <WSAButton 
                 asChild 
-                size="sm" 
-                className="px-4 py-1.5 bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 text-xs rounded-md h-8 font-medium"
+                variant="primary"
+                size="sm"
               >
                 <Link href={`/nominee/${nomination.id}`}>
                   View
                 </Link>
-              </Button>
+              </WSAButton>
             </div>
           </div>
         </CardContent>

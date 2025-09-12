@@ -1,5 +1,4 @@
 const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config();
 require('dotenv').config({ path: '.env.local' });
 
 const supabase = createClient(
@@ -8,48 +7,59 @@ const supabase = createClient(
 );
 
 async function checkSchema() {
-  try {
-    console.log('🔍 Checking nominations table schema...\n');
+  console.log('🔍 Checking nominations table schema...');
+  
+  // Get a sample record to see the structure
+  const { data: sample, error } = await supabase
+    .from('nominations')
+    .select('*')
+    .limit(1);
     
-    // Get table structure using raw SQL
-    const { data, error } = await supabase.rpc('exec_sql', {
-      sql: `
-        SELECT column_name, data_type, is_nullable, column_default
-        FROM information_schema.columns 
-        WHERE table_name = 'nominations' 
-        ORDER BY ordinal_position;
-      `
+  if (error) {
+    console.log('❌ Error:', error.message);
+    return;
+  }
+  
+  if (sample && sample.length > 0) {
+    console.log('✅ Sample nomination record:');
+    console.log('Columns:', Object.keys(sample[0]));
+    console.log('Sample data:', JSON.stringify(sample[0], null, 2));
+  }
+  
+  // Search for Vineet by different approaches
+  console.log('\n🔍 Searching for Vineet Bikram...');
+  
+  // Try searching by firstname/lastname if they exist as separate columns
+  const { data: byName, error: nameError } = await supabase
+    .from('nominations')
+    .select('*')
+    .or('firstname.ilike.%vineet%,lastname.ilike.%bikram%');
+    
+  if (byName && byName.length > 0) {
+    console.log('✅ Found by name columns:', byName);
+  } else if (nameError) {
+    console.log('❌ Name search error:', nameError.message);
+  }
+  
+  // Try searching all records and filter manually
+  const { data: all, error: allError } = await supabase
+    .from('nominations')
+    .select('*')
+    .limit(50);
+    
+  if (all && !allError) {
+    console.log(`\n📊 Found ${all.length} total nominations`);
+    const vineetNoms = all.filter(nom => {
+      const str = JSON.stringify(nom).toLowerCase();
+      return str.includes('vineet') || str.includes('bikram');
     });
     
-    if (error) {
-      console.log('❌ Error checking schema:', error.message);
-      
-      // Try alternative method
-      const { data: sample, error: sampleError } = await supabase
-        .from('nominations')
-        .select('*')
-        .limit(1);
-      
-      if (sampleError) {
-        console.log('❌ Error getting sample:', sampleError.message);
-      } else {
-        console.log('✅ Sample nomination structure:');
-        if (sample && sample.length > 0) {
-          console.log('Columns:', Object.keys(sample[0]));
-        } else {
-          console.log('No nominations found');
-        }
-      }
+    if (vineetNoms.length > 0) {
+      console.log('✅ Found Vineet nominations:', vineetNoms);
     } else {
-      console.log('✅ Nominations table columns:');
-      data?.forEach(col => {
-        console.log(`  - ${col.column_name}: ${col.data_type} (nullable: ${col.is_nullable})`);
-      });
+      console.log('❌ No Vineet nominations found in first 50 records');
     }
-    
-  } catch (error) {
-    console.error('❌ Schema check failed:', error);
   }
 }
 
-checkSchema();
+checkSchema().catch(console.error);

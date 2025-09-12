@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Eye, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { getCategoryLabel } from "@/lib/utils/category-utils";
 
 interface PodiumNominee {
   id: string;
@@ -94,7 +95,7 @@ export function Podium({ nominees }: PodiumProps) {
               {/* Name & Category */}
               <h3 className="font-semibold text-ink-900 mb-2">{nominee.name}</h3>
               <Badge variant="secondary" className="mb-4 text-xs">
-                {nominee.category}
+                {getCategoryLabel(nominee.category)}
               </Badge>
 
               {/* Vote Count */}

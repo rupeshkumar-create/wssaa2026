@@ -299,6 +299,75 @@ export async function POST(request: NextRequest) {
       console.warn('Loops outbox not available (non-blocking):', loopsOutboxError);
     }
 
+    // 7. Send approval emails (only for approved nominations)
+    let nomineeEmailSent = false;
+    let nominatorEmailSent = false;
+    
+    if (action === 'approve' && liveUrl) {
+      try {
+        const { loopsTransactional } = await import('@/server/loops/transactional');
+        
+        // Get category name for emails
+        const { data: categoryData } = await supabaseAdmin
+          .from('subcategories')
+          .select('name, category_groups(name)')
+          .eq('id', nomination.subcategory_id)
+          .single();
+
+        const categoryName = categoryData?.category_groups?.name || 'Unknown Category';
+        const subcategoryName = categoryData?.name || 'Unknown Subcategory';
+        const approvalTimestamp = new Date().toISOString();
+
+        // Send nominee approval email (if nominee has email)
+        const nomineeEmail = nominee.type === 'person' ? nominee.person_email : nominee.company_email;
+        if (nomineeEmail) {
+          const nomineeEmailResult = await loopsTransactional.sendNomineeApprovalEmail({
+            nomineeFirstName: nominee.type === 'person' ? nominee.firstname : undefined,
+            nomineeLastName: nominee.type === 'person' ? nominee.lastname : undefined,
+            nomineeEmail,
+            nomineeDisplayName: displayName,
+            nomineeUrl: liveUrl,
+            categoryName,
+            subcategoryName,
+            approvalTimestamp
+          });
+
+          if (nomineeEmailResult.success) {
+            nomineeEmailSent = true;
+            console.log('✅ Nominee approval email sent successfully');
+          } else {
+            console.warn('⚠️ Failed to send nominee approval email:', nomineeEmailResult.error);
+          }
+        } else {
+          console.warn('⚠️ No email address found for nominee, skipping nominee approval email');
+        }
+
+        // Send nominator approval email
+        if (nominatorData) {
+          const nominatorEmailResult = await loopsTransactional.sendNominatorApprovalEmail({
+            nominatorFirstName: nominatorData.firstname,
+            nominatorLastName: nominatorData.lastname,
+            nominatorEmail: nominatorData.email,
+            nominatorCompany: nominatorData.company,
+            nomineeDisplayName: displayName,
+            nomineeUrl: liveUrl,
+            categoryName,
+            subcategoryName,
+            approvalTimestamp
+          });
+
+          if (nominatorEmailResult.success) {
+            nominatorEmailSent = true;
+            console.log('✅ Nominator approval email sent successfully');
+          } else {
+            console.warn('⚠️ Failed to send nominator approval email:', nominatorEmailResult.error);
+          }
+        }
+      } catch (error) {
+        console.warn('Approval email sending failed (non-blocking):', error);
+      }
+    }
+
     console.log('Nomination processed successfully:', {
       nominationId: validatedData.nominationId,
       action,
@@ -314,6 +383,10 @@ export async function POST(request: NextRequest) {
       adminNotes: updatedNomination.admin_notes,
       liveUrl: liveUrl,
       displayName: displayName,
+      emails: {
+        nomineeApprovalSent: nomineeEmailSent,
+        nominatorApprovalSent: nominatorEmailSent
+      },
       message: action === 'approve' 
         ? `Nomination approved successfully! Live URL: ${liveUrl}`
         : 'Nomination rejected successfully'

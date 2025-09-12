@@ -9,6 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { Eye, Vote, TrendingUp, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { getCategoryLabel } from "@/lib/utils/category-utils";
 
 interface NomineeCardProps {
   nominee: {
@@ -88,7 +89,7 @@ export function NomineeCard({ nominee, leaderVotes = 0, isTrending = false, dela
                 </p>
               )}
               <Badge variant="secondary" className="text-xs">
-                {nominee.category}
+                {getCategoryLabel(nominee.category)}
               </Badge>
             </div>
           </div>

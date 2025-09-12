@@ -5,17 +5,17 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Settings, Save, Loader2, CheckCircle, XCircle } from "lucide-react";
+import { Settings, Save, Loader2, CheckCircle, XCircle, Calendar, Vote, Award } from "lucide-react";
 
 interface NominationToggleProps {
   className?: string;
 }
 
 export function NominationToggle({ className }: NominationToggleProps) {
-  const [nominationsEnabled, setNominationsEnabled] = useState(true);
-  const [closeMessage, setCloseMessage] = useState('');
+  const [votingStartDate, setVotingStartDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,8 +35,7 @@ export function NominationToggle({ className }: NominationToggleProps) {
         const result = await response.json();
         if (result.success) {
           const settings = result.settings;
-          setNominationsEnabled(settings.nominations_enabled?.value === 'true');
-          setCloseMessage(settings.nominations_close_message?.value || '');
+          setVotingStartDate(settings.voting_start_date?.value || '');
         } else {
           throw new Error('Failed to fetch settings');
         }
@@ -51,8 +50,8 @@ export function NominationToggle({ className }: NominationToggleProps) {
     }
   };
 
-  // Update nomination status
-  const updateNominationStatus = async (enabled: boolean) => {
+  // Update voting start date
+  const updateVotingStartDate = async () => {
     setSaving(true);
     setError(null);
     setSuccess(null);
@@ -64,69 +63,25 @@ export function NominationToggle({ className }: NominationToggleProps) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          setting_key: 'nominations_enabled',
-          setting_value: enabled ? 'true' : 'false'
+          setting_key: 'voting_start_date',
+          setting_value: votingStartDate
         })
       });
-      
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setNominationsEnabled(enabled);
-          setSuccess(`Nominations ${enabled ? 'enabled' : 'disabled'} successfully`);
-          
-          // Clear success message after 3 seconds
-          setTimeout(() => setSuccess(null), 3000);
-        } else {
-          throw new Error(result.error || 'Failed to update setting');
-        }
-      } else {
-        throw new Error(`HTTP ${response.status}: Failed to update setting`);
-      }
-    } catch (error) {
-      console.error('Error updating nomination status:', error);
-      setError(error instanceof Error ? error.message : 'Failed to update setting');
-      // Revert the toggle
-      setNominationsEnabled(!enabled);
-    } finally {
-      setSaving(false);
-    }
-  };
 
-  // Update close message
-  const updateCloseMessage = async () => {
-    setSaving(true);
-    setError(null);
-    setSuccess(null);
-    
-    try {
-      const response = await fetch('/api/admin/settings', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          setting_key: 'nominations_close_message',
-          setting_value: closeMessage
-        })
-      });
-      
       if (response.ok) {
         const result = await response.json();
         if (result.success) {
-          setSuccess('Close message updated successfully');
-          
-          // Clear success message after 3 seconds
+          setSuccess('Voting start date updated successfully');
           setTimeout(() => setSuccess(null), 3000);
         } else {
-          throw new Error(result.error || 'Failed to update message');
+          throw new Error(result.error || 'Failed to update voting start date');
         }
       } else {
-        throw new Error(`HTTP ${response.status}: Failed to update message`);
+        throw new Error(`HTTP ${response.status}: Failed to update voting start date`);
       }
     } catch (error) {
-      console.error('Error updating close message:', error);
-      setError(error instanceof Error ? error.message : 'Failed to update message');
+      console.error('Error updating voting start date:', error);
+      setError(error instanceof Error ? error.message : 'Failed to update voting start date');
     } finally {
       setSaving(false);
     }
@@ -154,11 +109,11 @@ export function NominationToggle({ className }: NominationToggleProps) {
     <Card className={className}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Settings className="h-5 w-5" />
-          Nomination Control
+          <Calendar className="h-5 w-5" />
+          Voting Start Date
         </CardTitle>
         <CardDescription>
-          Control whether nominations are open or closed to the public
+          Set when voting will open. Before this date, homepage shows "Nominate Now" and vote buttons are disabled.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -178,57 +133,28 @@ export function NominationToggle({ className }: NominationToggleProps) {
           </Alert>
         )}
 
-        {/* Nomination Toggle */}
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <Label htmlFor="nominations-toggle" className="text-base font-medium">
-              Nomination Status
+        {/* Voting Start Date */}
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="voting-start-date" className="text-base font-medium">
+              Voting Start Date & Time
             </Label>
             <p className="text-sm text-muted-foreground">
-              {nominationsEnabled 
-                ? 'Nominations are currently open and accepting submissions'
-                : 'Nominations are currently closed - form will be disabled'
-              }
+              Select when voting will open. Before this date, the homepage will show "Nominate Now" and vote buttons will be disabled.
             </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className={`text-sm font-medium ${nominationsEnabled ? 'text-green-600' : 'text-red-600'}`}>
-              {nominationsEnabled ? 'Open' : 'Closed'}
-            </span>
-            <Switch
-              id="nominations-toggle"
-              checked={nominationsEnabled}
-              onCheckedChange={updateNominationStatus}
-              disabled={saving}
-              className="data-[state=checked]:bg-green-600"
+            <Input
+              id="voting-start-date"
+              type="datetime-local"
+              value={votingStartDate}
+              onChange={(e) => setVotingStartDate(e.target.value)}
+              className="max-w-md"
             />
           </div>
-        </div>
 
-        {/* Close Message */}
-        <div className="space-y-3">
-          <Label htmlFor="close-message" className="text-base font-medium">
-            Closed Message
-          </Label>
-          <p className="text-sm text-muted-foreground">
-            Message shown to users when nominations are closed
-          </p>
-          <Textarea
-            id="close-message"
-            value={closeMessage}
-            onChange={(e) => setCloseMessage(e.target.value)}
-            placeholder="Enter the message to show when nominations are closed..."
-            className="min-h-[100px]"
-            maxLength={500}
-          />
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">
-              {closeMessage.length}/500 characters
-            </span>
+          <div className="flex justify-start">
             <Button
-              onClick={updateCloseMessage}
-              disabled={saving || !closeMessage.trim()}
-              size="sm"
+              onClick={updateVotingStartDate}
+              disabled={saving || !votingStartDate}
               className="bg-orange-600 hover:bg-orange-700"
             >
               {saving ? (
@@ -239,36 +165,48 @@ export function NominationToggle({ className }: NominationToggleProps) {
               ) : (
                 <>
                   <Save className="h-4 w-4 mr-2" />
-                  Save Message
+                  Save Voting Date
                 </>
               )}
             </Button>
           </div>
         </div>
 
-        {/* Status Summary */}
+        {/* Current Status */}
         <div className="bg-muted/50 p-4 rounded-lg">
-          <h4 className="font-medium mb-2">Current Configuration</h4>
-          <div className="space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span>Nominations:</span>
-              <span className={`font-medium ${nominationsEnabled ? 'text-green-600' : 'text-red-600'}`}>
-                {nominationsEnabled ? 'OPEN' : 'CLOSED'}
-              </span>
+          <h4 className="font-medium mb-3">Current Status</h4>
+          {votingStartDate ? (
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span>Voting Opens:</span>
+                <span className="font-medium">
+                  {new Date(votingStartDate).toLocaleString()}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Current Phase:</span>
+                <span className={`font-medium ${new Date() < new Date(votingStartDate) ? 'text-blue-600' : 'text-orange-600'}`}>
+                  {new Date() < new Date(votingStartDate) ? 'Nomination Phase' : 'Voting Phase'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Homepage Button:</span>
+                <span className="font-medium">
+                  {new Date() < new Date(votingStartDate) ? 'Nominate Now' : 'Vote Now'}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Vote Buttons:</span>
+                <span className={`font-medium ${new Date() < new Date(votingStartDate) ? 'text-red-600' : 'text-green-600'}`}>
+                  {new Date() < new Date(votingStartDate) ? 'Show "Opens on date"' : 'Active'}
+                </span>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span>Form Access:</span>
-              <span className={`font-medium ${nominationsEnabled ? 'text-green-600' : 'text-red-600'}`}>
-                {nominationsEnabled ? 'Enabled' : 'Disabled'}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>Public Message:</span>
-              <span className="font-medium">
-                {nominationsEnabled ? 'Welcome message' : 'Close message'}
-              </span>
-            </div>
-          </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              No voting start date set. Please select a date above.
+            </p>
+          )}
         </div>
       </CardContent>
     </Card>

@@ -31,7 +31,7 @@ const normalizeLinkedIn = (url: string, type: 'person' | 'company') => {
   return url;
 };
 
-// Nominator schema
+// Nominator schema - simplified to match actual form fields
 export const NominatorSchema = z.object({
   email: z.string().email().transform(email => email.toLowerCase()),
   firstname: z.string().min(1),
@@ -40,41 +40,56 @@ export const NominatorSchema = z.object({
   company: z.string().optional(),
   jobTitle: z.string().optional(),
   phone: z.string().optional(),
-  country: z.string().optional()
+  country: z.string().optional(),
+  yearsInIndustry: z.string().optional(),
+  relationshipToNominee: z.string().optional(),
+  nominatedDisplayName: z.string().optional()
 });
 
-// Person nominee schema
+// Person nominee schema - simplified to match actual form fields
 export const PersonNomineeSchema = z.object({
   firstname: z.string().min(1),
   lastname: z.string().min(1),
   jobtitle: z.string().min(1),
-  email: z.string().email().optional().transform(email => email?.toLowerCase()),
-  linkedin: z.string().optional().transform(url => url ? normalizeLinkedIn(url, 'person') : url),
+  email: z.string().email().optional().transform(email => email ? email.toLowerCase() : ''),
+  linkedin: z.string().optional().transform(url => url ? normalizeLinkedIn(url, 'person') : ''),
   phone: z.string().optional(),
   company: z.string().optional(),
   country: z.string().optional(),
-  headshotUrl: z.string().url().min(1, "Professional headshot is required"),
+  headshotUrl: z.string().optional(), // Made optional for admin nominations
   whyMe: z.string().min(1),
-  liveUrl: z.string().url().optional(),
+  liveUrl: z.string().optional(),
   bio: z.string().optional(),
-  achievements: z.string().optional()
+  achievements: z.string().optional(),
+  yearsOfExperience: z.string().optional(),
+  industrySpecialization: z.string().optional(),
+  education: z.string().optional(),
+  certifications: z.string().optional(),
+  languages: z.string().optional()
 });
 
-// Company nominee schema
+// Company nominee schema - simplified to match actual form fields
 export const CompanyNomineeSchema = z.object({
   name: z.string().min(1),
   domain: z.string().optional(),
-  website: z.string().url().optional(),
-  linkedin: z.string().optional().transform(url => url ? normalizeLinkedIn(url, 'company') : url),
+  website: z.string().min(1, "Company website is required"),
+  linkedin: z.string().optional().transform(url => url ? normalizeLinkedIn(url, 'company') : ''),
   phone: z.string().optional(),
   country: z.string().optional(),
   size: z.string().optional(),
   industry: z.string().optional(),
-  logoUrl: z.string().url().min(1, "Company logo is required"),
+  logoUrl: z.string().optional(), // Made optional for admin nominations
   whyUs: z.string().min(1),
-  liveUrl: z.string().url().optional(),
+  liveUrl: z.string().optional(),
   bio: z.string().optional(),
-  achievements: z.string().optional()
+  achievements: z.string().optional(),
+  foundedYear: z.string().optional(),
+  headquarters: z.string().optional(),
+  keyServices: z.string().optional(),
+  clientTypes: z.string().optional(),
+  awards: z.string().optional(),
+  contactEmail: z.string().optional().transform(email => email ? email.toLowerCase() : ''),
+  contactPerson: z.string().optional()
 });
 
 // Nomination submit schema

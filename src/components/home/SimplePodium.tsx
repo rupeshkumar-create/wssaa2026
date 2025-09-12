@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Trophy, Crown, Medal, Award, User, Building2, Star, Sparkles } from "lucide-react";
+import { getCategoryLabel } from "@/lib/utils/category-utils";
 import { CATEGORIES } from "@/lib/constants";
 
 type PodiumItem = {
@@ -189,9 +190,9 @@ export function SimplePodium() {
     const isBronze = rank === 3;
 
     const cardSizes = {
-      1: 'w-80 h-96', // Gold - Largest
-      2: 'w-72 h-80', // Silver - Medium
-      3: 'w-64 h-72'  // Bronze - Smallest
+      1: 'w-80 h-[28rem]', // Gold - Largest (increased height for better spacing)
+      2: 'w-72 h-[24rem]', // Silver - Medium (increased height for better spacing)
+      3: 'w-64 h-[22rem]'  // Bronze - Smallest (increased height for better spacing)
     };
 
     const cardColors = {
@@ -203,25 +204,25 @@ export function SimplePodium() {
     const textColors = {
       1: 'text-yellow-600',
       2: 'text-gray-600', 
-      3: 'text-amber-700'
+      3: 'text-orange-700'
     };
 
     const bgColors = {
       1: 'bg-gradient-to-br from-yellow-50 to-amber-50',
       2: 'bg-gradient-to-br from-gray-50 to-slate-50',
-      3: 'bg-gradient-to-br from-amber-50 to-orange-50'
+      3: 'bg-gradient-to-br from-orange-50 to-red-50'
     };
 
     const borderColors = {
       1: 'border-yellow-300 shadow-yellow-200/50',
       2: 'border-gray-300 shadow-gray-200/50',
-      3: 'border-amber-300 shadow-orange-200/50'
+      3: 'border-orange-300 shadow-orange-200/50'
     };
 
     const getRankIcon = () => {
       if (isGold) return <Crown className="h-8 w-8 text-yellow-500" />;
       if (isSilver) return <Trophy className="h-7 w-7 text-gray-500" />;
-      if (isBronze) return <Medal className="h-6 w-6 text-amber-600" />;
+      if (isBronze) return <Medal className="h-6 w-6 text-orange-600" />;
       return <Award className="h-6 w-6" />;
     };
 
@@ -231,57 +232,76 @@ export function SimplePodium() {
         className={`
           ${cardSizes[rank as keyof typeof cardSizes]} 
           mx-auto relative
-          transform transition-all duration-200 ease-out
+          transform transition-all duration-300 ease-out
           ${isAnimating ? 'scale-98 opacity-70 translate-y-1' : 'scale-100 opacity-100 translate-y-0'}
-          hover:scale-105 hover:-translate-y-2 hover:shadow-2xl
+          hover:scale-105 hover:-translate-y-3 hover:shadow-2xl
         `}
         style={{
-          transitionDelay: isAnimating ? '0ms' : `${rank * 25}ms`
+          transitionDelay: isAnimating ? '0ms' : `${rank * 50}ms`
         }}
       >
         {/* Rank Badge */}
-        <div className={`
-          absolute -top-4 left-1/2 transform -translate-x-1/2 z-20
-          w-12 h-12 rounded-full bg-gradient-to-br ${cardColors[rank as keyof typeof cardColors]}
-          flex items-center justify-center text-white font-bold text-lg
-          shadow-lg border-4 border-white
-        `}>
-          #{rank}
+        <div 
+          className={`
+            absolute ${isGold ? '-top-12' : isSilver ? '-top-10' : '-top-9'} left-1/2 transform -translate-x-1/2 z-20
+            ${isGold ? 'w-20 h-20' : isSilver ? 'w-18 h-18' : 'w-16 h-16'} rounded-full bg-gradient-to-br ${cardColors[rank as keyof typeof cardColors]}
+            flex items-center justify-center text-white font-bold ${isGold ? 'text-xl' : isSilver ? 'text-lg' : 'text-base'}
+            shadow-2xl border-4 border-white ring-2 ring-white/50
+            transition-all duration-300 hover:scale-110
+          `}
+          style={{
+            boxShadow: `0 10px 30px -5px ${isGold ? 'rgba(245, 158, 11, 0.5)' : isSilver ? 'rgba(107, 114, 128, 0.5)' : 'rgba(217, 119, 6, 0.5)'}, 0 0 0 1px rgba(255,255,255,0.1) inset`
+          }}
+        >
+          <span className="drop-shadow-sm">#{rank}</span>
         </div>
 
         {/* Card */}
-        <div className={`
-          w-full h-full rounded-2xl border-2 ${borderColors[rank as keyof typeof borderColors]}
-          ${bgColors[rank as keyof typeof bgColors]}
-          shadow-xl relative overflow-hidden
-          transition-all duration-500
-        `}>
-          {/* Sparkle Effects for Gold */}
+        <div 
+          className={`
+            w-full h-full rounded-2xl border-2 ${borderColors[rank as keyof typeof borderColors]}
+            ${bgColors[rank as keyof typeof bgColors]}
+            shadow-2xl relative overflow-hidden
+            transition-all duration-500 hover:shadow-3xl
+          `}
+          style={{
+            boxShadow: `0 25px 50px -12px ${isGold ? 'rgba(245, 158, 11, 0.25)' : isSilver ? 'rgba(107, 114, 128, 0.25)' : 'rgba(217, 119, 6, 0.25)'}, 0 0 0 1px rgba(255,255,255,0.1) inset`
+          }}
+        >
+          {/* Enhanced Sparkle Effects for Gold */}
           {isGold && (
             <>
-              <Sparkles className="absolute top-4 right-4 h-6 w-6 text-yellow-400 animate-pulse" />
-              <Star className="absolute top-8 left-4 h-4 w-4 text-yellow-300 animate-ping" />
-              <Sparkles className="absolute bottom-8 right-6 h-5 w-5 text-amber-400 animate-pulse delay-300" />
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 via-transparent to-amber-200/20 pointer-events-none"></div>
+              <Sparkles className="absolute top-4 right-4 h-6 w-6 text-yellow-400 animate-pulse drop-shadow-lg" />
+              <Star className="absolute top-8 left-4 h-4 w-4 text-yellow-300 animate-ping drop-shadow-lg" />
+              <Sparkles className="absolute bottom-8 right-6 h-5 w-5 text-amber-400 animate-pulse delay-300 drop-shadow-lg" />
+              <div className="absolute top-6 left-1/2 h-2 w-2 bg-yellow-300 rounded-full animate-pulse delay-500 opacity-60"></div>
+              <div className="absolute bottom-12 left-6 h-1 w-1 bg-amber-400 rounded-full animate-ping delay-700 opacity-80"></div>
             </>
           )}
 
-          <div className="p-6 h-full flex flex-col items-center justify-center text-center">
+          {/* Subtle effects for Silver */}
+          {isSilver && (
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-200/10 via-transparent to-slate-200/10 pointer-events-none"></div>
+          )}
+
+          {/* Warm effects for Bronze */}
+          {isBronze && (
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-200/15 via-transparent to-red-200/15 pointer-events-none"></div>
+          )}
+
+          <div className={`${isGold ? 'pt-20 px-6 pb-12' : isSilver ? 'pt-18 px-5 pb-10' : 'pt-16 px-4 pb-8'} h-full flex flex-col items-center justify-center text-center`}>
             {nominee ? (
               <>
-                {/* Rank Icon */}
-                <div className="mb-4">
-                  {getRankIcon()}
-                </div>
-
-                {/* Photo */}
-                <div className={`mb-4 ${isGold ? 'w-24 h-24' : isSilver ? 'w-20 h-20' : 'w-16 h-16'}`}>
+                {/* Photo with extra top spacing for better separation from rank badge */}
+                <div className={`${isGold ? 'mt-2 mb-6' : isSilver ? 'mt-1 mb-5' : 'mb-4'} ${isGold ? 'w-24 h-24' : isSilver ? 'w-20 h-20' : 'w-16 h-16'}`}>
                   {nominee.image_url ? (
                     <img 
                       src={nominee.image_url} 
                       alt={nominee.name}
                       className={`
                         w-full h-full rounded-full object-cover 
-                        border-4 ${isGold ? 'border-yellow-300' : isSilver ? 'border-gray-300' : 'border-amber-300'}
+                        border-4 ${isGold ? 'border-yellow-300' : isSilver ? 'border-gray-300' : 'border-orange-300'}
                         shadow-lg transition-transform duration-300 hover:scale-110
                       `}
                     />
@@ -289,7 +309,7 @@ export function SimplePodium() {
                     <div className={`
                       w-full h-full rounded-full 
                       bg-gradient-to-br from-blue-100 to-purple-100 
-                      border-4 ${isGold ? 'border-yellow-300' : isSilver ? 'border-gray-300' : 'border-amber-300'}
+                      border-4 ${isGold ? 'border-yellow-300' : isSilver ? 'border-gray-300' : 'border-orange-300'}
                       shadow-lg flex items-center justify-center
                     `}>
                       {nominee.type === 'person' ? (
@@ -303,7 +323,7 @@ export function SimplePodium() {
 
                 {/* Name */}
                 <h3 className={`
-                  font-bold mb-2 text-gray-900 leading-tight
+                  font-bold ${isGold ? 'mb-4' : isSilver ? 'mb-3' : 'mb-3'} text-gray-900 leading-tight
                   ${isGold ? 'text-xl' : isSilver ? 'text-lg' : 'text-base'}
                 `}>
                   {nominee.name}
@@ -311,26 +331,31 @@ export function SimplePodium() {
 
                 {/* Category */}
                 <p className={`
-                  text-gray-600 mb-3 leading-tight
+                  text-gray-600 ${isGold ? 'mb-5' : isSilver ? 'mb-4' : 'mb-4'} leading-tight
                   ${isGold ? 'text-sm' : 'text-xs'}
                 `}>
-                  {CATEGORIES.find(c => c.id === nominee.category)?.label || nominee.category}
+                  {getCategoryLabel(nominee.category)}
                 </p>
 
                 {/* Votes */}
-                <div className={`
-                  bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 mb-2
-                  border ${isGold ? 'border-yellow-200' : isSilver ? 'border-gray-200' : 'border-amber-200'}
-                  shadow-sm
-                `}>
+                <div 
+                  className={`
+                    bg-white/90 backdrop-blur-sm rounded-full px-5 py-3 ${isGold ? 'mb-5' : isSilver ? 'mb-4' : 'mb-4'}
+                    border-2 ${isGold ? 'border-yellow-200' : isSilver ? 'border-gray-200' : 'border-orange-200'}
+                    shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105
+                  `}
+                  style={{
+                    boxShadow: `0 10px 25px -5px ${isGold ? 'rgba(245, 158, 11, 0.2)' : isSilver ? 'rgba(107, 114, 128, 0.2)' : 'rgba(217, 119, 6, 0.2)'}`
+                  }}
+                >
                   <p className={`
-                    font-bold ${textColors[rank as keyof typeof textColors]}
+                    font-bold ${textColors[rank as keyof typeof textColors]} drop-shadow-sm
                     ${isGold ? 'text-2xl' : isSilver ? 'text-xl' : 'text-lg'}
                   `}>
                     {nominee.votes}
                   </p>
                   <p className={`
-                    text-gray-600
+                    text-gray-600 font-medium
                     ${isGold ? 'text-sm' : 'text-xs'}
                   `}>
                     votes
@@ -338,42 +363,50 @@ export function SimplePodium() {
                 </div>
 
                 {/* Type Badge */}
-                <div className={`
-                  inline-flex items-center gap-1 
-                  bg-white/60 backdrop-blur-sm rounded-full px-3 py-1
-                  border ${isGold ? 'border-yellow-200' : isSilver ? 'border-gray-200' : 'border-amber-200'}
-                `}>
+                <div 
+                  className={`
+                    inline-flex items-center gap-2 
+                    bg-white/70 backdrop-blur-sm rounded-full px-4 py-2
+                    border ${isGold ? 'border-yellow-200' : isSilver ? 'border-gray-200' : 'border-orange-200'}
+                    shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105
+                    mt-2
+                  `}
+                  style={{
+                    background: `linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 100%)`
+                  }}
+                >
                   {nominee.type === 'person' ? (
-                    <User className="h-3 w-3" />
+                    <User className="h-4 w-4 text-blue-600" />
                   ) : (
-                    <Building2 className="h-3 w-3" />
+                    <Building2 className="h-4 w-4 text-purple-600" />
                   )}
-                  <span className={`font-medium capitalize ${isGold ? 'text-xs' : 'text-xs'}`}>
+                  <span className="font-semibold capitalize text-xs text-gray-700">
                     {nominee.type}
                   </span>
                 </div>
               </>
             ) : (
               <>
-                {/* Empty State */}
-                <div className="mb-4">
-                  {getRankIcon()}
-                </div>
+                {/* Empty State with extra top spacing for better separation from rank badge */}
                 <div className={`
-                  mb-4 ${isGold ? 'w-24 h-24' : isSilver ? 'w-20 h-20' : 'w-16 h-16'}
-                  rounded-full bg-gray-100 border-4 border-gray-200
+                  ${isGold ? 'mt-2 mb-6' : isSilver ? 'mt-1 mb-5' : 'mb-5'} ${isGold ? 'w-32 h-32' : isSilver ? 'w-28 h-28' : 'w-24 h-24'}
                   flex items-center justify-center
                 `}>
-                  <Trophy className={`
-                    ${isGold ? 'h-12 w-12' : isSilver ? 'h-10 w-10' : 'h-8 w-8'} 
-                    text-gray-400
-                  `} />
+                  <img 
+                    src={`/${isGold ? 'Gold' : isSilver ? 'Silver' : 'Bronze'}.png`}
+                    alt={`${isGold ? 'Gold' : isSilver ? 'Silver' : 'Bronze'} Trophy`}
+                    className={`
+                      ${isGold ? 'w-28 h-28' : isSilver ? 'w-24 h-24' : 'w-20 h-20'}
+                      object-contain drop-shadow-lg transition-transform duration-300 hover:scale-110
+                      ${isGold ? 'filter brightness-110' : isSilver ? 'filter brightness-105' : 'filter brightness-100'}
+                    `}
+                  />
                 </div>
-                <div className="text-gray-500">
-                  <p className={`font-medium ${isGold ? 'text-lg' : 'text-base'}`}>
+                <div className={`text-slate-200`}>
+                  <p className={`font-medium ${isGold ? 'text-lg' : 'text-base'} mb-2`}>
                     Awaiting Nominations
                   </p>
-                  <p className="text-sm mt-1">Be the first to nominate!</p>
+                  <p className="text-sm">Be the first to nominate!</p>
                 </div>
               </>
             )}
@@ -389,7 +422,7 @@ export function SimplePodium() {
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3 text-gray-900">
-            <Trophy className="h-10 w-10 text-orange-500" />
+            <Trophy className="h-10 w-10" style={{ color: '#0b869d' }} />
             Champions Podium
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
@@ -399,7 +432,7 @@ export function SimplePodium() {
 
         {/* Specific Category Tabs - TOP SECTION */}
         <div className="mb-6">
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
+          <div className="flex flex-wrap justify-center gap-3 mb-4">
             {availableCategories.map((categoryId) => {
               const category = CATEGORIES.find(c => c.id === categoryId);
               if (!category) return null;
@@ -409,15 +442,39 @@ export function SimplePodium() {
                   key={categoryId}
                   onClick={() => handleCategoryChange(categoryId)}
                   className={`
-                    px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200
-                    transform hover:scale-105 hover:shadow-lg
+                    relative px-8 py-4 text-sm font-bold transition-all duration-300
+                    transform hover:scale-105 hover:shadow-2xl overflow-hidden
                     ${selectedCategory === categoryId
-                      ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg ring-2 ring-orange-200'
-                      : 'bg-white text-gray-700 hover:bg-orange-50 border border-gray-200 hover:border-orange-300 shadow-sm'
+                      ? 'text-white shadow-2xl ring-4 ring-orange-200/50 shadow-orange-500/25'
+                      : 'bg-white text-gray-700 border-2 border-gray-200 shadow-lg hover:shadow-xl hover:border-orange-300'
                     }
                   `}
+                  style={{
+                    borderRadius: '6px',
+                    ...(selectedCategory === categoryId 
+                      ? { 
+                          background: 'linear-gradient(135deg, #08acc1 0%, #0b7790 100%)',
+                          boxShadow: '0 20px 40px -12px rgba(8, 172, 193, 0.4), 0 0 0 1px rgba(255,255,255,0.1) inset'
+                        }
+                      : {}
+                    )
+                  }}
+
                 >
-                  {category.label}
+                  {/* Gradient overlay for selected state */}
+                  {selectedCategory === categoryId && (
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 via-transparent to-teal-500/20"></div>
+                    </>
+                  )}
+                  
+                  {/* Hover gradient for non-selected */}
+                  {selectedCategory !== categoryId && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-50 to-red-50 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                  )}
+                  
+                  <span className="relative z-10">{category.label}</span>
                 </button>
               );
             })}
@@ -426,21 +483,33 @@ export function SimplePodium() {
 
         {/* Category Group Tabs - BELOW SUBCATEGORIES */}
         <div className="mb-8">
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="flex flex-wrap justify-center gap-3">
             {categoryGroups.map((group) => (
               <button
                 key={group.id}
                 onClick={() => handleGroupChange(group.id)}
                 className={`
-                  px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200
-                  transform hover:scale-105
+                  relative px-5 py-3 rounded-xl text-xs font-semibold transition-all duration-300
+                  transform hover:scale-105 overflow-hidden
                   ${selectedGroup === group.id
-                    ? 'bg-gradient-to-r from-gray-700 to-gray-800 text-white shadow-md'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
+                    ? 'text-white shadow-lg ring-2 ring-gray-400/30'
+                    : 'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-700 hover:from-orange-50 hover:to-red-50 border border-gray-200 hover:border-orange-200 shadow-sm hover:shadow-md'
                   }
                 `}
+                style={selectedGroup === group.id 
+                  ? { 
+                      background: 'linear-gradient(135deg, #374151 0%, #4b5563 50%, #374151 100%)',
+                      boxShadow: '0 10px 25px -5px rgba(55, 65, 81, 0.3)'
+                    }
+                  : undefined
+                }
               >
-                {group.label}
+                {/* Subtle gradient overlay for selected state */}
+                {selectedGroup === group.id && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+                )}
+                
+                <span className="relative z-10">{group.label}</span>
               </button>
             ))}
           </div>
@@ -451,7 +520,10 @@ export function SimplePodium() {
           {loading && isInitialLoad && (
             <div className="text-center py-16">
               <div className="inline-flex items-center gap-3">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                <div 
+                  className="animate-spin rounded-full h-8 w-8 border-b-2"
+                  style={{ borderColor: '#0b869d' }}
+                ></div>
                 <span className="text-lg text-gray-600">Loading champions...</span>
               </div>
               {/* Loading skeleton */}
@@ -501,10 +573,17 @@ export function SimplePodium() {
               text-center mt-12 transition-all duration-200 ease-out transform
               ${fadeClass}
             `}>
-              <div className="inline-flex items-center gap-3 bg-white/90 backdrop-blur-sm rounded-full px-8 py-4 border border-gray-200 shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <Award className="h-6 w-6 text-orange-500" />
-                <span className="font-semibold text-gray-700 text-lg">
-                  {CATEGORIES.find(c => c.id === selectedCategory)?.label || selectedCategory}
+              <div 
+                className="inline-flex items-center gap-4 bg-white/95 backdrop-blur-sm rounded-2xl px-10 py-5 border-2 border-gray-200 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 relative overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%)',
+                  boxShadow: '0 25px 50px -12px rgba(11, 134, 157, 0.15), 0 0 0 1px rgba(255,255,255,0.1) inset'
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-50/50 via-transparent to-red-50/50 pointer-events-none"></div>
+                <Award className="h-7 w-7 relative z-10 drop-shadow-sm" style={{ color: '#0b869d' }} />
+                <span className="font-bold text-gray-800 text-xl relative z-10 drop-shadow-sm">
+                  {getCategoryLabel(selectedCategory)}
                 </span>
               </div>
             </div>

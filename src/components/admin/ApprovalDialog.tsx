@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { X, CheckCircle, XCircle, ExternalLink, Loader2 } from "lucide-react";
+import { formatCategoryName } from "@/lib/utils/category-formatter";
 
 interface ApprovalDialogProps {
   nomination: any;
@@ -99,7 +100,7 @@ export function ApprovalDialog({ nomination, isOpen, onClose, onApprove, onRejec
               {action === 'approve' ? 'Approve Nomination' : action === 'reject' ? 'Reject Nomination' : 'Review Nomination'}
             </h2>
             <p className="text-sm text-gray-500">
-              {nomination.displayName} • {nomination.subcategory_id}
+              {nomination.displayName} • {formatCategoryName(nomination.subcategory_id)}
             </p>
           </div>
           <button
@@ -123,7 +124,7 @@ export function ApprovalDialog({ nomination, isOpen, onClose, onApprove, onRejec
                   <div>
                     <p><strong>Name:</strong> {nomination.displayName}</p>
                     <p><strong>Type:</strong> {nomination.type === 'person' ? 'Individual' : 'Company'}</p>
-                    <p><strong>Category:</strong> {nomination.subcategory_id}</p>
+                    <p><strong>Category:</strong> {formatCategoryName(nomination.subcategory_id)}</p>
                   </div>
                   <div>
                     <p><strong>Votes:</strong> {nomination.votes || 0}</p>

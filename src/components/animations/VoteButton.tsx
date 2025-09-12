@@ -1,10 +1,11 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Vote, X } from "lucide-react";
+import { WSAButton } from "@/components/ui/wsa-button";
+import { Vote, X, Award } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useVotingStatus } from "@/hooks/useVotingStatus";
 
 interface VoteButtonProps {
   showAfterScroll?: number;
@@ -18,6 +19,7 @@ interface VoteButtonProps {
 export function VoteButton({ showAfterScroll = 600, nominee }: VoteButtonProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const votingStatus = useVotingStatus();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +34,17 @@ export function VoteButton({ showAfterScroll = 600, nominee }: VoteButtonProps) 
   const handleDismiss = () => {
     setIsDismissed(true);
   };
+
+  // Determine button content based on voting status
+  const showNominate = !votingStatus.loading && !votingStatus.isVotingOpen;
+  const buttonText = showNominate ? "Nominate Now" : "Vote Now";
+  const buttonHref = showNominate ? "/nominate" : (nominee?.liveUrl || "/nominees");
+  const ButtonIcon = showNominate ? Award : Vote;
+
+  // Don't show button if voting status is still loading
+  if (votingStatus.loading) {
+    return null;
+  }
 
   return (
     <AnimatePresence>
@@ -56,26 +69,25 @@ export function VoteButton({ showAfterScroll = 600, nominee }: VoteButtonProps) 
             </button>
 
             {/* Main Button */}
-            <Button
+            <WSAButton
               asChild
+              variant="primary"
               size="lg"
-              className="bg-orange-500 hover:bg-orange-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 rounded-full px-6 py-3"
             >
-              <Link href={nominee?.liveUrl || "/directory"}>
-                <Vote className="mr-2 h-5 w-5" />
-                {nominee ? `Vote for ${nominee.name}` : "Vote Now"}
+              <Link href={buttonHref} className="flex items-center">
+                <ButtonIcon className="mr-2 h-6 w-6" />
+                {nominee && !showNominate ? `Vote for ${nominee.name}` : buttonText}
               </Link>
-            </Button>
+            </WSAButton>
 
-            {/* Pulse Animation */}
+            {/* Simplified Pulse Animation */}
             <motion.div
-              className="absolute inset-0 bg-orange-500 rounded-full -z-10"
+              className="absolute inset-0 bg-orange-400 rounded-full -z-10 opacity-30"
               animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.7, 0, 0.7],
+                scale: [1, 1.1, 1],
               }}
               transition={{
-                duration: 2,
+                duration: 1.5,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}

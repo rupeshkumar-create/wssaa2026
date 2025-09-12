@@ -79,10 +79,10 @@ export function Step5PersonLinkedIn({ data, onNext, onBack }: Step5PersonLinkedI
             </div>
 
             <div className="flex justify-between">
-              <Button type="button" variant="outline" onClick={onBack}>
+              <Button type="button" variant="outline" onClick={onBack} className="rounded-full">
                 Back
               </Button>
-              <Button type="submit">
+              <Button type="submit" className="rounded-full">
                 Continue
               </Button>
             </div>

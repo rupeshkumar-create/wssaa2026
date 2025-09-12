@@ -27,8 +27,19 @@ export function useRealtimeVotes({
                     const url = `/api/votes/count?nominationId=${nomineeId}`;
                     const response = await fetch(url);
                     if (response.ok) {
-                        const data = await response.json();
-                        onVoteUpdate(data);
+                        const result = await response.json();
+                        // Handle the new response format
+                        if (result.success && result.data) {
+                            onVoteUpdate({
+                                total: result.data.total,
+                                count: result.data.count,
+                                regularVotes: result.data.regularVotes,
+                                additionalVotes: result.data.additionalVotes
+                            });
+                        } else {
+                            // Fallback for old format
+                            onVoteUpdate(result);
+                        }
                     }
                 }
             } catch (error) {

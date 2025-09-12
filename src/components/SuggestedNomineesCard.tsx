@@ -156,7 +156,7 @@ export function SuggestedNomineesCard({ currentNomineeId, currentCategory }: Sug
         
         <div className="pt-2 border-t">
           <Button asChild variant="outline" size="sm" className="w-full">
-            <Link href="/directory">
+            <Link href="/nominees">
               View All Nominees
             </Link>
           </Button>

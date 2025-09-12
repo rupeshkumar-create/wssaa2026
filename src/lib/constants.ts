@@ -30,32 +30,32 @@ export interface CategoryConfig {
 
 export const CATEGORIES: CategoryConfig[] = [
   // Role-Specific Excellence - Recognizing outstanding individual contributors
-  { id: "top-recruiter", label: "Top Recruiter", group: "role-specific-excellence", type: "person" },
-  { id: "top-executive-leader", label: "Top Executive Leader", group: "role-specific-excellence", type: "person" },
-  { id: "rising-star-under-30", label: "Rising Star (Under 30)", group: "role-specific-excellence", type: "person" },
-  { id: "top-staffing-influencer", label: "Top Staffing Influencer", group: "role-specific-excellence", type: "person" },
-  { id: "best-sourcer", label: "Best Sourcer", group: "role-specific-excellence", type: "person" },
+  { id: "top-recruiter", label: "Top Recruiters", group: "role-specific-excellence", type: "person" },
+  { id: "top-executive-leader", label: "Top Executive Leaders", group: "role-specific-excellence", type: "person" },
+  { id: "rising-star-under-30", label: "Rising Stars (Under 30)", group: "role-specific-excellence", type: "person" },
+  { id: "top-staffing-influencer", label: "Top Staffing Influencers", group: "role-specific-excellence", type: "person" },
+  { id: "best-sourcer", label: "Best Sourcers", group: "role-specific-excellence", type: "person" },
   
   // Innovation & Technology - Leading the future of staffing technology
-  { id: "top-ai-driven-staffing-platform", label: "Top AI-Driven Staffing Platform", group: "innovation-technology", type: "company" },
+  { id: "top-ai-driven-staffing-platform", label: "Top AI-Driven Staffing Platforms", group: "innovation-technology", type: "company" },
   { id: "top-digital-experience-for-clients", label: "Top Digital Experience for Clients", group: "innovation-technology", type: "company" },
   
   // Culture & Impact - Making a positive difference in the industry
-  { id: "top-women-led-staffing-firm", label: "Top Women-Led Staffing Firm", group: "culture-impact", type: "company" },
-  { id: "fastest-growing-staffing-firm", label: "Fastest Growing Staffing Firm", group: "culture-impact", type: "company" },
-  { id: "best-diversity-inclusion-initiative", label: "Best Diversity & Inclusion Initiative", group: "culture-impact", type: "company" },
-  { id: "best-candidate-experience", label: "Best Candidate Experience", group: "culture-impact", type: "company" },
+  { id: "top-women-led-staffing-firm", label: "Top Women-Led Staffing Firms", group: "culture-impact", type: "company" },
+  { id: "fastest-growing-staffing-firm", label: "Fastest Growing Staffing Firms", group: "culture-impact", type: "company" },
+  { id: "best-diversity-inclusion-initiative", label: "Best Diversity & Inclusion Initiatives", group: "culture-impact", type: "company" },
+  { id: "best-candidate-experience", label: "Best Candidate Experiences", group: "culture-impact", type: "company" },
   
   // Growth & Performance - Excellence in operations and thought leadership
-  { id: "best-staffing-process-at-scale", label: "Best Staffing Process at Scale", group: "growth-performance", type: "company" },
+  { id: "best-staffing-process-at-scale", label: "Best Staffing Processes at Scale", group: "growth-performance", type: "company" },
   { id: "thought-leadership-and-influence", label: "Thought Leadership & Influence", group: "growth-performance", type: "person" },
-  { id: "best-recruitment-agency", label: "Best Recruitment Agency", group: "growth-performance", type: "company" },
-  { id: "best-in-house-recruitment-team", label: "Best In-House Recruitment Team", group: "growth-performance", type: "company" },
+  { id: "best-recruitment-agency", label: "Best Recruitment Agencies", group: "growth-performance", type: "company" },
+  { id: "best-in-house-recruitment-team", label: "Best In-House Recruitment Teams", group: "growth-performance", type: "company" },
   
   // Geographic Excellence - Regional and global recognition
-  { id: "top-staffing-company-usa", label: "Top Staffing Company - USA", group: "geographic-excellence", type: "company" },
-  { id: "top-staffing-company-europe", label: "Top Staffing Company - Europe", group: "geographic-excellence", type: "company" },
-  { id: "top-global-recruiter", label: "Top Global Recruiter", group: "geographic-excellence", type: "person" },
+  { id: "top-staffing-company-usa", label: "Top Staffing Companies - USA", group: "geographic-excellence", type: "company" },
+  { id: "top-staffing-company-europe", label: "Top Staffing Companies - Europe", group: "geographic-excellence", type: "company" },
+  { id: "top-global-recruiter", label: "Top Global Recruiters", group: "geographic-excellence", type: "person" },
   
   // Special Recognition - Unique contributions to the industry
   { id: "special-recognition", label: "Special Recognition", group: "special-recognition", type: "person" },

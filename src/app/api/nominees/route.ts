@@ -73,18 +73,21 @@ function getDemoNomineesData(subcategoryId?: string, limit?: number) {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const subcategoryId = searchParams.get('subcategoryId') || undefined;
+    const categoryId = searchParams.get('category') || searchParams.get('subcategoryId') || undefined;
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
+    const search = searchParams.get('search') || undefined;
+    const country = searchParams.get('country') || undefined;
+    const random = searchParams.get('random') === 'true';
 
-    console.log('Fetching nominees with params:', { subcategoryId, limit });
+    console.log('Fetching nominees with params:', { categoryId, limit, search, country, random });
 
     // Check if Supabase is configured
     if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
       console.log('Supabase not configured, returning demo data');
       return NextResponse.json({
         success: true,
-        data: getDemoNomineesData(subcategoryId, limit),
-        count: getDemoNomineesData(subcategoryId, limit).length,
+        data: getDemoNomineesData(categoryId, limit),
+        count: getDemoNomineesData(categoryId, limit).length,
         message: 'Demo data - database not configured'
       });
     }
@@ -97,12 +100,33 @@ export async function GET(request: NextRequest) {
         nominees!inner(*),
         nominators!inner(*)
       `)
-      .eq('state', 'approved')  // Use 'state' instead of 'status' to match current schema
-      .order('additional_votes', { ascending: false })
-      .order('created_at', { ascending: false });
+      .eq('state', 'approved');  // Use 'state' instead of 'status' to match current schema
+    
+    if (random) {
+      // For random selection, we'll order by a random function
+      query = query.order('id', { ascending: false }); // Simple ordering for now
+    } else {
+      query = query
+        .order('additional_votes', { ascending: false })
+        .order('created_at', { ascending: false });
+    }
 
-    if (subcategoryId) {
-      query = query.eq('subcategory_id', subcategoryId);  // Use subcategory_id instead of category
+    if (categoryId) {
+      console.log('Filtering by category:', categoryId);
+      query = query.eq('subcategory_id', categoryId);
+    }
+
+    // Add search functionality - handle this after the main query to avoid PostgREST issues
+    let searchFilter = null;
+    if (search) {
+      console.log('Search parameter detected:', search);
+      searchFilter = search.toLowerCase();
+    }
+
+    // Add country filter
+    if (country) {
+      console.log('Applying country filter:', country);
+      query = query.or(`nominees.person_country.ilike.%${country}%,nominees.company_country.ilike.%${country}%`);
     }
 
     if (limit) {
@@ -113,19 +137,73 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Supabase error:', error);
+      console.error('Query parameters:', { categoryId, limit, search, country, random });
+      
       // Return demo data if query fails
       return NextResponse.json({
         success: true,
-        data: getDemoNomineesData(subcategoryId, limit),
-        count: getDemoNomineesData(subcategoryId, limit).length,
+        data: getDemoNomineesData(categoryId, limit),
+        count: getDemoNomineesData(categoryId, limit).length,
         message: 'Demo data - database query failed'
       });
     }
 
     console.log(`Found ${nominations?.length || 0} approved nominations`);
 
+    // Apply search filter in memory if needed
+    let processedNominations = nominations || [];
+    
+    if (searchFilter && processedNominations.length > 0) {
+      console.log(`Applying search filter for: "${searchFilter}"`);
+      processedNominations = processedNominations.filter((nomination: any) => {
+        const nominee = nomination.nominees;
+        if (!nominee) return false;
+        
+        // Create searchable text from all relevant fields
+        const searchableFields = [
+          nominee.firstname,
+          nominee.lastname,
+          nominee.company_name,
+          nominee.jobtitle,
+          nominee.person_company,
+          nominee.company_industry,
+          nominee.person_country,
+          nominee.company_country
+        ].filter(Boolean);
+        
+        const searchableText = searchableFields.join(' ').toLowerCase();
+        const matches = searchableText.includes(searchFilter);
+        
+        if (matches) {
+          console.log(`Search match found: ${nominee.firstname || nominee.company_name}`);
+        }
+        
+        return matches;
+      });
+      
+      console.log(`Search filtered results: ${processedNominations.length} matches`);
+    }
+
+    // Apply country filter in memory if needed
+    if (country && processedNominations.length > 0) {
+      console.log(`Applying country filter for: "${country}"`);
+      const countryLower = country.toLowerCase();
+      processedNominations = processedNominations.filter((nomination: any) => {
+        const nominee = nomination.nominees;
+        if (!nominee) return false;
+        
+        const nomineeCountry = (nominee.person_country || nominee.company_country || '').toLowerCase();
+        return nomineeCountry.includes(countryLower);
+      });
+    }
+
+    // Shuffle nominations if random is requested
+    if (random && processedNominations.length > 0) {
+      processedNominations = [...processedNominations].sort(() => Math.random() - 0.5);
+    }
+
     // Transform nominations data with joined nominee and nominator data
-    const transformedNominees = (nominations || []).map((nomination: any) => {
+    const transformedNominees = processedNominations.map((nomination: any) => {
       // Safety check
       if (!nomination || !nomination.nominees) {
         console.warn('Missing nomination or nominee data');
@@ -223,12 +301,19 @@ export async function GET(request: NextRequest) {
       };
     }).filter(Boolean); // Remove any null entries
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       data: transformedNominees,
       count: transformedNominees.length,
-      message: `Found ${transformedNominees.length} approved nominees${subcategoryId ? ` in category ${subcategoryId}` : ''}`
+      message: `Found ${transformedNominees.length} approved nominees${categoryId ? ` in category ${categoryId}` : ''}`
     });
+
+    // Add cache-busting headers
+    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+
+    return response;
 
   } catch (error) {
     console.error('GET /api/nominees error:', error);

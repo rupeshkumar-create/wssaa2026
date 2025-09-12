@@ -1,181 +1,154 @@
 #!/usr/bin/env node
 
-/**
- * Test Fixed Form Submission
- * Test the form submission with the corrected payload structure
- */
-
+// Load environment variables
 require('dotenv').config({ path: '.env.local' });
 
 async function testFixedFormSubmission() {
   console.log('🧪 Testing Fixed Form Submission...\n');
-  
-  // Test 1: Simulate form data as it would be filled out
-  console.log('1️⃣ Testing with realistic form data...');
-  
-  const formData = {
-    category: 'Top Recruiter', // Old category format
-    nominator: {
-      email: 'john.doe@company.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      linkedin: 'https://linkedin.com/in/john-doe'
-    },
-    personDetails: {
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      title: 'Senior Recruiter',
-      whyVoteForMe: 'I have 10+ years of experience in talent acquisition.'
-    },
-    personLinkedIn: {
-      linkedin: 'https://linkedin.com/in/jane-smith'
-    },
-    imageUrl: 'https://example.com/jane.jpg'
-  };
-  
-  // Map old category to new format (same logic as in the form)
-  const categoryMap = {
-    "Top Recruiter": "top-recruiter",
-    "Top Executive Leader": "top-executive-leader",
-    "Top Staffing Influencer": "top-staffing-influencer",
-    "Rising Star (Under 30)": "rising-star-under-30",
-    "Top AI-Driven Staffing Platform": "top-ai-driven-staffing-platform",
-    "Top Digital Experience for Clients": "top-digital-experience-for-clients",
-    "Top Women-Led Staffing Firm": "top-women-led-staffing-firm",
-    "Fastest Growing Staffing Firm": "fastest-growing-staffing-firm",
-    "Best Staffing Process at Scale": "top-ai-driven-staffing-platform",
-    "Thought Leadership & Influence": "top-thought-leader",
-    "Top Staffing Company - USA": "top-staffing-company-usa",
-    "Top Recruiting Leader - USA": "top-recruiting-leader-usa",
-    "Top AI-Driven Staffing Platform - USA": "top-ai-driven-platform-usa",
-    "Top Staffing Company - Europe": "top-staffing-company-europe",
-    "Top Recruiting Leader - Europe": "top-recruiting-leader-europe",
-    "Top AI-Driven Staffing Platform - Europe": "top-ai-driven-platform-europe",
-    "Top Global Recruiter": "top-global-recruiter",
-    "Top Global Staffing Leader": "top-global-staffing-leader",
-    "Special Recognition": "rising-star-under-30"
-  };
-  
-  const subcategoryId = categoryMap[formData.category] || '';
-  
-  const payload = {
+
+  // Test 1: Public nomination (should check nomination status)
+  console.log('1. Testing Public Nomination:');
+  const publicPayload = {
     type: 'person',
-    categoryGroupId: 'role-specific', // Top Recruiter is in role-specific group
-    subcategoryId,
+    categoryGroupId: 'staffing',
+    subcategoryId: 'best-staffing-firm',
     nominator: {
-      email: formData.nominator.email,
-      firstname: formData.nominator.firstName,
-      lastname: formData.nominator.lastName,
-      linkedin: formData.nominator.linkedin,
-      nominatedDisplayName: formData.personDetails.name
+      firstname: 'John',
+      lastname: 'Doe',
+      email: 'john.doe@example.com',
+      company: 'Test Staffing Co',
+      jobTitle: 'CEO',
+      linkedin: 'https://linkedin.com/in/johndoe',
+      phone: '+1234567890',
+      country: 'United States'
     },
     nominee: {
-      firstname: formData.personDetails.name.split(' ')[0],
-      lastname: formData.personDetails.name.split(' ').slice(1).join(' '),
-      jobtitle: formData.personDetails.title,
-      email: formData.personDetails.email,
-      linkedin: formData.personLinkedIn.linkedin,
-      headshotUrl: formData.imageUrl,
-      whyMe: formData.personDetails.whyVoteForMe
+      firstname: 'Jane',
+      lastname: 'Smith',
+      email: 'jane.smith@example.com',
+      jobtitle: 'Senior Recruiter',
+      company: 'Amazing Staffing',
+      linkedin: 'https://linkedin.com/in/janesmith',
+      phone: '+1987654321',
+      country: 'United States',
+      headshotUrl: 'https://example.com/headshot.jpg',
+      whyMe: 'Exceptional performance in staffing industry with 10+ years experience',
+      liveUrl: 'https://example.com/jane-smith',
+      bio: 'Senior recruiter with expertise in tech staffing',
+      achievements: 'Placed 500+ candidates, 95% retention rate'
     }
   };
-  
-  console.log('Payload:', JSON.stringify(payload, null, 2));
-  
-  try {
-    const response = await fetch('http://localhost:3000/api/nomination/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    
-    const result = await response.json();
-    
-    if (response.ok) {
-      console.log('✅ Form submission successful!');
-      console.log(`   Nomination ID: ${result.nominationId}`);
-      console.log(`   State: ${result.state}`);
-    } else {
-      console.log('❌ Form submission failed:');
-      console.log('   Status:', response.status);
-      console.log('   Error:', JSON.stringify(result, null, 2));
-    }
-  } catch (error) {
-    console.log('❌ Form submission error:', error.message);
-  }
-  
-  // Test 2: Test company nomination
-  console.log('\n2️⃣ Testing company nomination...');
-  
-  const companyFormData = {
-    category: 'Top AI-Driven Staffing Platform',
-    nominator: {
-      email: 'nominator@company.com',
-      firstName: 'Alice',
-      lastName: 'Johnson',
-      linkedin: 'https://linkedin.com/in/alice-johnson'
-    },
-    companyDetails: {
-      name: 'TechStaff Solutions',
-      website: 'https://techstaff.com',
-      whyVoteForMe: 'We revolutionized recruitment with AI technology.'
-    },
-    companyLinkedIn: {
-      linkedin: 'https://linkedin.com/company/techstaff-solutions'
-    },
-    companyImageUrl: 'https://example.com/techstaff-logo.jpg'
+
+  await testSubmission('Public', publicPayload, false);
+
+  console.log('\n' + '='.repeat(60) + '\n');
+
+  // Test 2: Admin nomination (should bypass nomination status)
+  console.log('2. Testing Admin Nomination:');
+  const adminPayload = {
+    ...publicPayload,
+    bypassNominationStatus: true,
+    isAdminNomination: true,
+    adminNotes: 'Submitted via admin panel for testing'
   };
-  
-  const companySubcategoryId = categoryMap[companyFormData.category] || '';
-  
+
+  await testSubmission('Admin', adminPayload, true);
+
+  console.log('\n' + '='.repeat(60) + '\n');
+
+  // Test 3: Company nomination
+  console.log('3. Testing Company Nomination:');
   const companyPayload = {
     type: 'company',
-    categoryGroupId: 'innovation-tech',
-    subcategoryId: companySubcategoryId,
+    categoryGroupId: 'staffing',
+    subcategoryId: 'best-staffing-firm',
     nominator: {
-      email: companyFormData.nominator.email,
-      firstname: companyFormData.nominator.firstName,
-      lastname: companyFormData.nominator.lastName,
-      linkedin: companyFormData.nominator.linkedin,
-      nominatedDisplayName: companyFormData.companyDetails.name
+      firstname: 'Bob',
+      lastname: 'Johnson',
+      email: 'bob.johnson@example.com',
+      company: 'Nominator Company',
+      jobTitle: 'HR Director',
+      linkedin: '',
+      phone: '',
+      country: 'United States'
     },
     nominee: {
-      name: companyFormData.companyDetails.name,
-      website: companyFormData.companyDetails.website,
-      linkedin: companyFormData.companyLinkedIn.linkedin,
-      logoUrl: companyFormData.companyImageUrl,
-      whyUs: companyFormData.companyDetails.whyVoteForMe
-    }
+      name: 'Elite Staffing Solutions',
+      email: 'contact@elitestaffing.com',
+      website: 'https://elitestaffing.com',
+      linkedin: 'https://linkedin.com/company/elite-staffing',
+      phone: '+1555123456',
+      country: 'United States',
+      size: '100-500',
+      industry: 'Staffing & Recruiting',
+      logoUrl: 'https://example.com/logo.png',
+      whyUs: 'Leading staffing firm with innovative solutions',
+      liveUrl: 'https://elitestaffing.com',
+      bio: 'Premier staffing solutions provider',
+      achievements: 'Industry leader for 15+ years'
+    },
+    bypassNominationStatus: true
   };
-  
-  console.log('Company payload:', JSON.stringify(companyPayload, null, 2));
-  
-  try {
-    const response = await fetch('http://localhost:3000/api/nomination/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(companyPayload)
-    });
-    
-    const result = await response.json();
-    
-    if (response.ok) {
-      console.log('✅ Company nomination successful!');
-      console.log(`   Nomination ID: ${result.nominationId}`);
-      console.log(`   State: ${result.state}`);
-    } else {
-      console.log('❌ Company nomination failed:');
-      console.log('   Status:', response.status);
-      console.log('   Error:', JSON.stringify(result, null, 2));
-    }
-  } catch (error) {
-    console.log('❌ Company nomination error:', error.message);
-  }
-  
-  console.log('\n📊 Fixed Form Test Summary:');
-  console.log('   - Proper category mapping from old to new format');
-  console.log('   - Correct payload structure with all required fields');
-  console.log('   - Both person and company nomination flows');
+
+  await testSubmission('Company', companyPayload, true);
 }
 
-testFixedFormSubmission();
+async function testSubmission(testName, payload, isAdmin) {
+  try {
+    console.log(`   Submitting ${testName} nomination...`);
+    console.log(`   Payload preview: ${payload.type} - ${payload.nominee.firstname || payload.nominee.name}`);
+
+    const startTime = Date.now();
+    
+    const response = await fetch('http://localhost:3000/api/nomination/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const endTime = Date.now();
+    const responseTime = endTime - startTime;
+
+    console.log(`   Response Status: ${response.status}`);
+    console.log(`   Response Time: ${responseTime}ms`);
+
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log('   ✅ SUCCESS!');
+      console.log(`   Nomination ID: ${result.nominationId}`);
+      console.log(`   State: ${result.state}`);
+      console.log(`   Processing Time: ${result.processingTime}ms`);
+      
+      if (result.hubspotSync) {
+        console.log(`   HubSpot Sync - Nominator: ${result.hubspotSync.nominatorSynced ? '✅' : '❌'}, Nominee: ${result.hubspotSync.nomineeSynced ? '✅' : '❌'}`);
+      }
+      
+      if (result.loopsSync) {
+        console.log(`   Loops Sync - Nominator: ${result.loopsSync.nominatorSynced ? '✅' : '❌'}`);
+      }
+      
+      if (result.emails) {
+        console.log(`   Email Sent: ${result.emails.nominatorConfirmationSent ? '✅' : '❌'}`);
+      }
+    } else {
+      console.log('   ❌ FAILED!');
+      console.log(`   Error: ${result.error}`);
+      if (result.details) {
+        console.log(`   Details:`, result.details);
+      }
+      if (result.validationErrors) {
+        console.log(`   Validation Errors:`, result.validationErrors);
+      }
+    }
+
+  } catch (error) {
+    console.log('   ❌ REQUEST FAILED!');
+    console.log(`   Error: ${error.message}`);
+  }
+}
+
+// Run the test
+testFixedFormSubmission().catch(console.error);

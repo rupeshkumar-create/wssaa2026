@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Upload, X } from "lucide-react";
+import { formatCategoryName } from "@/lib/utils/category-formatter";
 
 interface EditNominationDialogProps {
   nomination: any;
@@ -189,7 +190,7 @@ export function EditNominationDialog({ nomination, isOpen, onClose, onSave }: Ed
             <div className="text-sm space-y-1">
               <p><strong>Name:</strong> {nomination?.displayName}</p>
               <p><strong>Type:</strong> {nomination?.type}</p>
-              <p><strong>Category:</strong> {nomination?.subcategory_id}</p>
+              <p><strong>Category:</strong> {formatCategoryName(nomination?.subcategory_id)}</p>
               <p><strong>Status:</strong> {nomination?.state}</p>
               <p><strong>Votes:</strong> {nomination?.votes || 0}</p>
             </div>

@@ -15,6 +15,53 @@ export async function POST(request: NextRequest) {
       )
     ]);
     
+    // Check if this is an admin bypass request
+    const bypassNominationStatus = body.bypassNominationStatus === true;
+    
+    // Check nomination status (unless admin bypass)
+    if (!bypassNominationStatus) {
+      try {
+        // Check if nominations are open - try multiple table names for compatibility
+        let settings = null;
+        
+        // Try system_settings first
+        const { data: systemSettings, error: systemError } = await supabase
+          .from('system_settings')
+          .select('setting_key, setting_value')
+          .eq('setting_key', 'nominations_enabled')
+          .single();
+        
+        if (!systemError && systemSettings) {
+          settings = { nominations_open: systemSettings.setting_value === 'true' };
+        } else {
+          // Fallback to settings table
+          const { data: fallbackSettings, error: fallbackError } = await supabase
+            .from('settings')
+            .select('nominations_open')
+            .single();
+          
+          if (!fallbackError) {
+            settings = fallbackSettings;
+          }
+        }
+
+        // If we can't check settings, allow nominations (fail open for better UX)
+        if (settings && !settings.nominations_open) {
+          return NextResponse.json(
+            { 
+              success: false,
+              error: 'Nominations are currently closed',
+              timestamp: new Date().toISOString()
+            },
+            { status: 403 }
+          );
+        }
+      } catch (settingsError) {
+        console.warn('Could not check nomination status, allowing submission:', settingsError);
+        // Continue with submission if we can't check settings
+      }
+    }
+    
     // Fast validation
     const validatedData = NominationSubmitSchema.parse(body);
     
@@ -118,7 +165,9 @@ export async function POST(request: NextRequest) {
       category_group_id: validatedData.categoryGroupId,
       subcategory_id: validatedData.subcategoryId,
       state: 'submitted' as const, // Changed from 'pending' to 'submitted' to match schema
-      votes: 0
+      votes: 0,
+      admin_notes: body.adminNotes || null
+      // Note: nomination_source column removed for compatibility
     };
 
     const { data: nomination, error: nominationError } = await supabase
@@ -310,10 +359,87 @@ export async function POST(request: NextRequest) {
       console.warn('Loops outbox not available (non-blocking):', loopsOutboxError);
     }
 
+    // 6. Send emails
+    let nominatorEmailSent = false;
+    let nomineeEmailSent = false;
+    
+    try {
+      const { loopsTransactional } = await import('@/server/loops/transactional');
+      
+      // Get category name for email
+      const { data: categoryData } = await supabase
+        .from('subcategories')
+        .select('name, category_groups(name)')
+        .eq('id', validatedData.subcategoryId)
+        .single();
+
+      const categoryName = categoryData?.category_groups?.name || 'Unknown Category';
+      const subcategoryName = categoryData?.name || 'Unknown Subcategory';
+      
+      const nomineeDisplayName = validatedData.type === 'person' 
+        ? `${(validatedData.nominee as any).firstname || ''} ${(validatedData.nominee as any).lastname || ''}`.trim()
+        : (validatedData.nominee as any).name || '';
+
+      // Send nominator confirmation email (always)
+      const nominatorEmailResult = await loopsTransactional.sendNominatorConfirmationEmail({
+        nominatorFirstName: validatedData.nominator.firstname,
+        nominatorLastName: validatedData.nominator.lastname,
+        nominatorEmail: validatedData.nominator.email,
+        nominatorCompany: validatedData.nominator.company,
+        nominatorJobTitle: validatedData.nominator.jobTitle,
+        nomineeDisplayName,
+        categoryName,
+        subcategoryName,
+        submissionTimestamp: new Date().toISOString()
+      });
+
+      if (nominatorEmailResult.success) {
+        nominatorEmailSent = true;
+        console.log('✅ Nominator confirmation email sent successfully');
+      } else {
+        console.warn('⚠️ Failed to send nominator confirmation email:', nominatorEmailResult.error);
+      }
+
+      // Send nominee direct nomination email (only for admin nominations)
+      // NOTE: This is disabled to prevent duplicate emails since admin approval also sends emails
+      if (bypassNominationStatus && body.sendNomineeEmail === true) {
+        const nomineeEmail = validatedData.type === 'person' 
+          ? (validatedData.nominee as any).email 
+          : (validatedData.nominee as any).email;
+
+        if (nomineeEmail) {
+          console.log('📧 Admin requested nominee email to be sent immediately');
+          const nomineeEmailResult = await loopsTransactional.sendNomineeDirectNominationEmail({
+            nomineeFirstName: validatedData.type === 'person' ? (validatedData.nominee as any).firstname : undefined,
+            nomineeLastName: validatedData.type === 'person' ? (validatedData.nominee as any).lastname : undefined,
+            nomineeEmail,
+            nomineeDisplayName,
+            categoryName,
+            subcategoryName,
+            nominationTimestamp: new Date().toISOString()
+          });
+
+          if (nomineeEmailResult.success) {
+            nomineeEmailSent = true;
+            console.log('✅ Nominee direct nomination email sent successfully');
+          } else {
+            console.warn('⚠️ Failed to send nominee direct nomination email:', nomineeEmailResult.error);
+          }
+        } else {
+          console.warn('⚠️ No email address found for nominee, skipping nominee notification email');
+        }
+      } else if (bypassNominationStatus) {
+        console.log('📧 Admin nomination: Nominee email will be sent during approval process to prevent duplicates');
+      }
+    } catch (error) {
+      console.warn('Email sending failed (non-blocking):', error);
+    }
+
     const totalTime = Date.now() - startTime;
     console.log(`Nomination submitted successfully: ${nomination.id} (${totalTime}ms)`);
 
     return NextResponse.json({
+      success: true,
       nominationId: nomination.id,
       nominatorId: nominator.id,
       nomineeId: nominee.id,
@@ -327,21 +453,66 @@ export async function POST(request: NextRequest) {
       loopsSync: {
         nominatorSynced: nominatorLoopsSyncSuccess,
         outboxCreated: true
-      }
+      },
+      emails: {
+        nominatorConfirmationSent: nominatorEmailSent
+      },
+      timestamp: new Date().toISOString()
     }, { status: 201 });
 
   } catch (error) {
     console.error('POST /api/nomination/submit error:', error);
+    console.error('Error type:', typeof error);
+    console.error('Error constructor:', error?.constructor?.name);
     console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     
     if (error instanceof z.ZodError) {
       console.error('Zod validation error:', error.issues);
       return NextResponse.json(
         {
+          success: false,
           error: 'Invalid nomination data',
-          details: error.issues
+          details: error.issues,
+          validationErrors: error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+            code: issue.code
+          })),
+          timestamp: new Date().toISOString()
         },
         { status: 400 }
+      );
+    }
+
+    // Handle database errors specifically
+    if (error && typeof error === 'object' && 'code' in error) {
+      console.error('Database error code:', error.code);
+      console.error('Database error details:', error.details);
+      console.error('Database error hint:', error.hint);
+      console.error('Database error message:', error.message);
+      
+      let userFriendlyMessage = 'Database error occurred';
+      if (error.code === '23505') {
+        userFriendlyMessage = 'A nomination with similar details already exists';
+      } else if (error.code === '23503') {
+        userFriendlyMessage = 'Invalid category or reference data';
+      } else if (error.code === '23502') {
+        userFriendlyMessage = 'Missing required field data';
+      }
+      
+      return NextResponse.json(
+        {
+          success: false,
+          error: userFriendlyMessage,
+          details: process.env.NODE_ENV === 'development' ? {
+            code: error.code,
+            message: error.message,
+            details: error.details,
+            hint: error.hint
+          } : undefined,
+          timestamp: new Date().toISOString()
+        },
+        { status: 500 }
       );
     }
 
@@ -350,8 +521,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
-        error: errorMessage,
-        details: error instanceof Error ? error.stack : 'Unknown error'
+        success: false,
+        error: errorMessage || 'An unexpected error occurred',
+        details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.stack : 'Unknown error') : undefined,
+        timestamp: new Date().toISOString()
       },
       { status: 500 }
     );

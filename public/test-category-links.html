@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Category Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .category-link {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+        .category-link:hover {
+            background-color: #e0e0e0;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .api-test {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Category Links Test Page</h1>
+    <p>This page tests the category filtering functionality by providing direct links to the nominees page with different category parameters.</p>
+    
+    <div class="test-section">
+        <h2>🏠 Home Page Category Links (Most Common)</h2>
+        <p>These are the categories that users typically click from the home page:</p>
+        
+        <a href="/nominees?category=top-recruiter" class="category-link">Top Recruiters (25 nominees)</a>
+        <a href="/nominees?category=top-executive-leader" class="category-link">Top Executive Leaders (17 nominees)</a>
+        <a href="/nominees?category=rising-star-under-30" class="category-link">Rising Stars Under 30 (8 nominees)</a>
+        <a href="/nominees?category=top-staffing-influencer" class="category-link">Top Staffing Influencers (3 nominees)</a>
+        <a href="/nominees?category=best-sourcer" class="category-link">Best Sourcers (0 nominees)</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>🚀 Innovation & Technology</h2>
+        <a href="/nominees?category=top-ai-driven-staffing-platform" class="category-link">Top AI-Driven Platforms (3 nominees)</a>
+        <a href="/nominees?category=top-digital-experience-for-clients" class="category-link">Top Digital Experience (2 nominees)</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>🌍 Culture & Impact</h2>
+        <a href="/nominees?category=fastest-growing-staffing-firm" class="category-link">Fastest Growing Firms (2 nominees)</a>
+        <a href="/nominees?category=top-women-led-staffing-firm" class="category-link">Women-Led Firms (0 nominees)</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>📈 Growth & Performance</h2>
+        <a href="/nominees?category=best-recruitment-agency" class="category-link">Best Recruitment Agencies (2 nominees)</a>
+        <a href="/nominees?category=thought-leadership-and-influence" class="category-link">Thought Leadership (0 nominees)</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>🌐 Geographic Excellence</h2>
+        <a href="/nominees?category=top-global-recruiter" class="category-link">Top Global Recruiters (1 nominee)</a>
+        <a href="/nominees?category=top-staffing-company-usa" class="category-link">Top USA Companies (0 nominees)</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>🧪 Test Controls</h2>
+        <a href="/nominees" class="category-link">All Nominees (No Filter)</a>
+        <a href="/nominees?category=invalid-category" class="category-link">Invalid Category (Should show 0)</a>
+        <a href="/nominees?category=" class="category-link">Empty Category (Should show all)</a>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔍 API Test Results</h2>
+        <p>Click the button below to test the API endpoints directly:</p>
+        <button onclick="testAPIs()" style="padding: 10px 20px; font-size: 16px;">Test All APIs</button>
+        <div id="api-results"></div>
+    </div>
+    
+    <script>
+        async function testAPIs() {
+            const resultsDiv = document.getElementById('api-results');
+            resultsDiv.innerHTML = '<p>Testing APIs...</p>';
+            
+            const categories = [
+                'top-recruiter',
+                'top-executive-leader', 
+                'rising-star-under-30',
+                'top-staffing-influencer',
+                'top-ai-driven-staffing-platform'
+            ];
+            
+            let results = '<h3>API Test Results:</h3>';
+            
+            for (const category of categories) {
+                try {
+                    const response = await fetch(`/api/nominees?category=${category}&_t=${Date.now()}`);
+                    const data = await response.json();
+                    const count = data.data?.length || 0;
+                    
+                    results += `<div class="api-test">
+                        ✅ ${category}: ${count} nominees
+                        <br>API URL: /api/nominees?category=${category}
+                        <br>Frontend URL: /nominees?category=${category}
+                    </div>`;
+                } catch (error) {
+                    results += `<div class="api-test">❌ ${category}: Error - ${error.message}</div>`;
+                }
+            }
+            
+            resultsDiv.innerHTML = results;
+        }
+        
+        // Add click tracking
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('category-link')) {
+                console.log('🔗 Category link clicked:', e.target.href);
+                console.log('🔗 Category parameter:', new URL(e.target.href).searchParams.get('category'));
+            }
+        });
+    </script>
+</body>
+</html>

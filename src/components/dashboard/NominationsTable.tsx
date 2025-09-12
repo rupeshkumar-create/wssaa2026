@@ -12,6 +12,7 @@ import { ConflictDialog } from "./ConflictDialog";
 import { EditWhyVoteDialog } from "./EditWhyVoteDialog";
 import { PhotoManagementDialog } from "@/components/admin/PhotoManagementDialog";
 import { getNomineeImage } from "@/lib/nominee-image";
+import { CATEGORIES } from "@/lib/constants";
 
 interface NominationsTableProps {
   nominations: Nomination[];
@@ -129,7 +130,7 @@ export function NominationsTable({ nominations, onUpdateStatus, onUpdateWhyVote,
               </TableCell>
               <TableCell>
                 <div className="max-w-[200px]">
-                  <div className="truncate">{nomination.category}</div>
+                  <div className="truncate">{CATEGORIES.find(c => c.id === nomination.category)?.label || nomination.category}</div>
                 </div>
               </TableCell>
               <TableCell>

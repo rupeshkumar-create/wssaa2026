@@ -1,16 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { WSAButton } from "@/components/ui/wsa-button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CheckCircle, Loader2, Vote, AlertTriangle } from "lucide-react";
 import { VoterSchema, VoterData } from "@/lib/validation";
 import { Nomination } from "@/lib/types";
+import { getCategoryLabel } from "@/lib/utils/category-utils";
+import { useVotingStatus } from "@/hooks/useVotingStatus";
+import { VotingClosedDialog } from "./VotingClosedDialog";
 
 interface VoteDialogProps {
   open: boolean;
@@ -21,6 +24,7 @@ interface VoteDialogProps {
 
 export function VoteDialog({ open, onOpenChange, nomination, onVoteSuccess }: VoteDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showVotingClosed, setShowVotingClosed] = useState(false);
   const [result, setResult] = useState<{ 
     success?: boolean; 
     blocked?: boolean; 
@@ -31,6 +35,8 @@ export function VoteDialog({ open, onOpenChange, nomination, onVoteSuccess }: Vo
     nomineeId?: string;
   } | null>(null);
 
+  const votingStatus = useVotingStatus();
+
   const form = useForm<VoterData>({
     resolver: zodResolver(VoterSchema),
     defaultValues: {
@@ -40,6 +46,17 @@ export function VoteDialog({ open, onOpenChange, nomination, onVoteSuccess }: Vo
       linkedin: "",
     },
   });
+
+  // Check voting status when dialog opens
+  useEffect(() => {
+    if (open && !votingStatus.loading) {
+      if (!votingStatus.isVotingOpen) {
+        // Close the vote dialog and show voting closed dialog
+        onOpenChange(false);
+        setShowVotingClosed(true);
+      }
+    }
+  }, [open, votingStatus.loading, votingStatus.isVotingOpen, onOpenChange]);
 
   const onSubmit = async (data: VoterData) => {
     setIsSubmitting(true);
@@ -147,9 +164,15 @@ export function VoteDialog({ open, onOpenChange, nomination, onVoteSuccess }: Vo
             <p className="text-muted-foreground mb-4">
               {result.message}
             </p>
-            <Button onClick={handleClose} className="mt-4">
+            <WSAButton 
+              onClick={handleClose} 
+              variant="primary"
+              style={{
+                width: '180.66px',
+              }}
+            >
               Back to Directory
-            </Button>
+            </WSAButton>
           </div>
         </DialogContent>
       </Dialog>
@@ -165,7 +188,7 @@ export function VoteDialog({ open, onOpenChange, nomination, onVoteSuccess }: Vo
             Cast Your Vote
           </DialogTitle>
           <DialogDescription>
-            Vote for {nomination.nominee.name} in the {nomination.category} category
+            Vote for {nomination.nominee.name} in the {getCategoryLabel(nomination.category)} category
           </DialogDescription>
         </DialogHeader>
 
@@ -251,28 +274,45 @@ export function VoteDialog({ open, onOpenChange, nomination, onVoteSuccess }: Vo
             )}
 
             <div className="flex justify-end gap-3 pt-4">
-              <Button 
+              <WSAButton 
                 type="button" 
-                variant="outline" 
+                variant="secondary" 
                 onClick={handleClose}
                 disabled={isSubmitting}
+                style={{
+                  width: '180.66px',
+                }}
               >
                 Cancel
-              </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              </WSAButton>
+              <WSAButton 
+                type="submit" 
+                variant="primary"
+                disabled={isSubmitting} 
+                style={{
+                  width: '180.66px',
+                }}
+              >
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Submitting...
                   </>
                 ) : (
-                  `Vote for ${nomination.nominee.name}`
+                  "Submit"
                 )}
-              </Button>
+              </WSAButton>
             </div>
           </form>
         </Form>
       </DialogContent>
+      
+      {/* Voting Closed Dialog */}
+      <VotingClosedDialog
+        open={showVotingClosed}
+        onOpenChange={setShowVotingClosed}
+        startDate={votingStatus.startDate}
+      />
     </Dialog>
   );
 }

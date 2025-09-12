@@ -1,17 +1,22 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { ExternalLink, Vote, ArrowLeft, Building2, User } from "lucide-react";
+import { motion } from "framer-motion";
+import { WSAButton } from "@/components/ui/wsa-button";
+import { ArrowLeft } from "lucide-react";
 import { VoteDialog } from "@/components/VoteDialog";
-import { ShareButtons } from "@/components/ShareButtons";
+import { VotingClosedDialog } from "@/components/VotingClosedDialog";
+import { ContactButton } from "@/components/ContactSection";
 import { useRealtimeVotes } from "@/hooks/useRealtimeVotes";
+import { useVotingStatus } from "@/hooks/useVotingStatus";
 import { Nomination } from "@/lib/types";
-import Image from "next/image";
 import { SuggestedNomineesCard } from "@/components/SuggestedNomineesCard";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { EnhancedNomineeHero } from "@/components/nominee/EnhancedNomineeHero";
+import { VoteSection } from "@/components/nominee/VoteSection";
+import { NomineeStats } from "@/components/nominee/NomineeStats";
+import { TabsSection } from "@/components/nominee/TabsSection";
+import { getCategoryLabel } from "@/lib/utils/category-utils";
 
 interface NomineeData extends Nomination {
   nomineeId: string;
@@ -54,28 +59,75 @@ interface NomineeProfileClientProps {
 
 export function NomineeProfileClient({ nominee: nomineeData }: NomineeProfileClientProps) {
   const [isClient, setIsClient] = useState(false);
-  const [voteCount, setVoteCount] = useState<number>(nomineeData?.votes || 0);
+  // Initialize with total votes from API (already includes regular + additional votes)
+  const initialVoteCount = nomineeData?.votes || 0;
+  const [voteCount, setVoteCount] = useState<number>(initialVoteCount);
+  
+  // Debug logging
+  useEffect(() => {
+    console.log('🔍 NomineeProfileClient - Vote count debug:', {
+      nomineeDataVotes: nomineeData?.votes,
+      additionalVotes: nomineeData?.additionalVotes,
+      initialVoteCount,
+      currentVoteCount: voteCount,
+      nomineeDataName: nomineeData?.name || nomineeData?.displayName,
+      nomineeId: nomineeData?.id
+    });
+  }, [nomineeData, initialVoteCount, voteCount]);
   const [showVoteDialog, setShowVoteDialog] = useState(false);
+  const [showVotingClosed, setShowVotingClosed] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const votingStatus = useVotingStatus();
+
+  // Handle scroll effect for floating button
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 100); // Start floating after 100px scroll
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  // Update vote count when nominee data changes
+  useEffect(() => {
+    if (nomineeData?.votes !== undefined) {
+      setVoteCount(nomineeData.votes);
+    }
+  }, [nomineeData?.votes]);
+
   // Add safety checks for nomineeData
   if (!nomineeData || !nomineeData.nominee) {
     return (
-      <div className="min-h-screen bg-background py-8">
+      <div className="min-h-screen bg-gradient-to-br from-white via-slate-50 to-blue-50 py-8">
         <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-center py-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-12"
+          >
             <h1 className="text-2xl font-bold mb-4">Nominee Not Found</h1>
             <p className="text-muted-foreground mb-6">
               The nominee you're looking for could not be found or may have been removed.
             </p>
-            <Button variant="outline" onClick={() => window.history.back()}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
+            <WSAButton 
+              variant="secondary" 
+              onClick={() => window.history.back()}
+              style={{
+                width: '180.66px',
+                backgroundColor: '#D4ECF4'
+              }}
+            >
+              <ArrowLeft className="h-6 w-6 mr-2" />
               Go Back
-            </Button>
-          </div>
+            </WSAButton>
+          </motion.div>
         </div>
       </div>
     );
@@ -84,20 +136,34 @@ export function NomineeProfileClient({ nominee: nomineeData }: NomineeProfileCli
   // Real-time vote updates
   const handleVoteUpdate = useCallback((data: any) => {
     // Update vote count from polling data
+    console.log('🔄 Real-time vote update received:', data);
     if (data && typeof data.total === 'number') {
+      console.log('✅ Updating vote count to:', data.total);
       setVoteCount(data.total);
+    } else if (data && typeof data.count === 'number') {
+      console.log('✅ Updating vote count to:', data.count);
+      setVoteCount(data.count);
     }
   }, []);
 
-  // Only enable real-time updates after client hydration
+  // Only enable real-time updates after client hydration and with a longer interval
   useRealtimeVotes(isClient ? {
     nomineeId: nomineeData.id,
     onVoteUpdate: handleVoteUpdate,
+    pollInterval: 30000, // Poll every 30 seconds instead of 5 seconds
   } : {});
 
   const handleVoteSuccess = (newTotal: number) => {
     // Optimistically update vote count
     setVoteCount(newTotal);
+  };
+
+  const handleVoteClick = () => {
+    if (!votingStatus.loading && !votingStatus.isVotingOpen) {
+      setShowVotingClosed(true);
+    } else {
+      setShowVoteDialog(true);
+    }
   };
 
   const isPersonNomination = nomineeData.type === "person";
@@ -116,283 +182,147 @@ export function NomineeProfileClient({ nominee: nomineeData }: NomineeProfileCli
   const websiteUrl = nominee.website || nominee.companyWebsite || nominee.liveUrl || nomineeData.liveUrl || null;
 
   return (
-    <div className="min-h-screen bg-background py-8">
-      <div className="container mx-auto px-4 max-w-4xl">
-        {/* Back Button */}
-        <Button variant="outline" className="mb-6" onClick={() => window.history.back()}>
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Directory
-        </Button>
+    <div className="min-h-screen bg-white">
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Floating Back Button - appears when scrolled */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ 
+          opacity: isScrolled ? 1 : 0,
+          scale: isScrolled ? 1 : 0.8,
+          pointerEvents: isScrolled ? 'auto' : 'none'
+        }}
+        transition={{ duration: 0.3 }}
+        className="fixed top-6 left-6 z-50"
+      >
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <WSAButton 
+            size="icon"
+            onClick={() => window.history.back()}
+            className="w-12 h-12 rounded-full text-gray-600 shadow-lg hover:shadow-xl transition-all duration-300 border-0"
+            style={{ backgroundColor: '#D4ECF4' }}
+            title="Back to Directory"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </WSAButton>
+        </motion.div>
+      </motion.div>
+
+      {/* Enhanced Hero Section with Navigation */}
+      <EnhancedNomineeHero
+        nominee={nominee}
+        nomineeData={nomineeData}
+        imageUrl={imageUrl}
+        linkedinUrl={linkedinUrl}
+        isPersonNomination={isPersonNomination}
+        onVoteClick={handleVoteClick}
+        votingStatus={votingStatus}
+      />
+
+      {/* Statistics Section */}
+      <NomineeStats 
+        nomineeData={nomineeData}
+        voteCount={voteCount}
+      />
+
+      {/* Main Content Grid */}
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 py-8 lg:py-16">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Hero Card */}
-            <Card className="mb-8">
-              <CardContent className="p-8">
-                <div className="flex flex-col md:flex-row gap-6">
-                  {/* Image */}
-                  <div className="flex-shrink-0">
-                    <div className="w-32 h-32 rounded-xl overflow-hidden border bg-gray-100 flex items-center justify-center">
-                      {imageUrl ? (
-                        <Image 
-                          src={imageUrl}
-                          alt={nominee.displayName || nominee.name || 'Nominee'}
-                          width={128}
-                          height={128}
-                          className={`w-full h-full ${isPersonNomination ? "object-cover" : "object-contain bg-white p-2"}`}
-                          unoptimized={imageUrl.startsWith('data:') || imageUrl.includes('unsplash')}
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                          {isPersonNomination ? (
-                            <User className="h-12 w-12 text-white" />
-                          ) : (
-                            <Building2 className="h-12 w-12 text-white" />
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Info */}
-                  <div className="flex-1">
-                    <div className="mb-4">
-                      <h1 className="text-5xl font-black text-gray-900 mb-4">
-                        {nominee.displayName || nominee.name || 'Unknown Nominee'}
-                      </h1>
-                      <div className="mb-3 flex items-center gap-2">
-                        <Badge variant="outline" className="text-xs font-normal px-2 py-1">
-                          {nomineeData.category || 'Unknown Category'}
-                        </Badge>
-                        <Badge variant={isPersonNomination ? "default" : "secondary"} className="text-xs">
-                          {isPersonNomination ? "Individual" : "Company"}
-                        </Badge>
-                      </div>
-                    </div>
-
-                    {/* Details */}
-                    <div className="space-y-2 mb-6">
-                      {isPersonNomination && (nominee.title || nominee.jobtitle) && (
-                        <p className="text-sm font-medium text-gray-600">
-                          {nominee.title || nominee.jobtitle}
-                        </p>
-                      )}
-                      {!isPersonNomination && nominee.industry && (
-                        <p className="text-sm font-medium text-gray-600">{nominee.industry}</p>
-                      )}
-                      {!isPersonNomination && websiteUrl && (
-                        <p className="text-sm">
-                          <a 
-                            href={websiteUrl.startsWith('http') ? websiteUrl : `https://${websiteUrl}`} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline flex items-center gap-1"
-                          >
-                            {websiteUrl}
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex flex-wrap gap-3">
-                      {linkedinUrl && (
-                        <Button asChild variant="outline">
-                          <a 
-                            href={linkedinUrl.startsWith('http') ? linkedinUrl : `https://${linkedinUrl}`} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2"
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                            LinkedIn Profile
-                          </a>
-                        </Button>
-                      )}
-
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Why Vote Section */}
-            {whyVoteText && (
-              <Card className="mb-6">
-                <CardHeader>
-                  <CardTitle>
-                    Why you should vote for {nominee.displayName || nominee.name || 'this nominee'}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                    {whyVoteText}
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Nomination Details */}
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Nomination Details</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium mb-1">Category</h4>
-                    <p className="text-muted-foreground">{nomineeData.category || 'Unknown Category'}</p>
-                  </div>
-                  <Separator />
-                  <div>
-                    <h4 className="font-medium mb-1">Type</h4>
-                    <p className="text-muted-foreground">
-                      {isPersonNomination ? "Individual Nomination" : "Company Nomination"}
-                    </p>
-                  </div>
-                  <Separator />
-                  <div>
-                    <h4 className="font-medium mb-1">Nomination Date</h4>
-                    <p className="text-muted-foreground">
-                      {nomineeData.createdAt ? new Date(nomineeData.createdAt).toLocaleDateString() : 'Unknown'}
-                    </p>
-                  </div>
-                  {nomineeData.approvedAt && (
-                    <>
-                      <Separator />
-                      <div>
-                        <h4 className="font-medium mb-1">Approved Date</h4>
-                        <p className="text-muted-foreground">
-                          {new Date(nomineeData.approvedAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Share Section */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Share This Nomination</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ShareButtons 
-                  nomineeName={nominee.displayName || nominee.name || 'Nominee'}
-                  liveUrl={nomineeData.liveUrl || ''}
+            {/* Tabbed Content Section */}
+            <TabsSection
+              nominee={nominee}
+              nomineeData={nomineeData}
+              whyVoteText={whyVoteText}
+              isPersonNomination={isPersonNomination}
+            />
+            
+            {/* Suggested Nominees - Moved below tabs */}
+            <div className="mt-12">
+              <ScrollReveal delay={0.4}>
+                <SuggestedNomineesCard 
+                  currentNomineeId={nomineeData.id}
+                  currentCategory={nomineeData.category}
                 />
-              </CardContent>
-            </Card>
-
-            {/* Mobile Vote Section */}
-            <div className="lg:hidden mt-8 space-y-6">
-              <Card>
-                <CardHeader className="text-center">
-                  <CardTitle className="flex items-center justify-center gap-2">
-                    <Vote className="h-5 w-5" />
-                    Vote for {nominee.displayName || nominee.name || 'this nominee'}
-                  </CardTitle>
-                  <CardDescription>
-                    Support this nominee in the World Staffing Awards 2026
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <div className="mb-4">
-                    <div className="text-3xl font-bold text-primary">{voteCount}</div>
-                    <div className="text-sm text-muted-foreground">votes received</div>
-                  </div>
-                  <Button 
-                    onClick={() => setShowVoteDialog(true)}
-                    className="w-full"
-                    size="lg"
-                  >
-                    Cast Your Vote
-                  </Button>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    One vote per nominee per category
-                  </p>
-                </CardContent>
-              </Card>
-
-              <SuggestedNomineesCard 
-                currentNomineeId={nomineeData.id}
-                currentCategory={nomineeData.category}
-              />
+              </ScrollReveal>
             </div>
           </div>
 
           {/* Sidebar */}
-          <div className="hidden lg:block lg:col-span-1 sticky top-24 space-y-6">
-            {/* Vote Card */}
-            <Card>
-              <CardHeader className="text-center">
-                <CardTitle className="flex items-center justify-center gap-2">
-                  <Vote className="h-5 w-5" />
-                  Vote for {nominee.displayName || nominee.name || 'this nominee'}
-                </CardTitle>
-                <CardDescription>
-                  Support this nominee in the World Staffing Awards 2026
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="text-center">
-                <div className="mb-4">
-                  <div className="text-3xl font-bold text-primary">{voteCount}</div>
-                  <div className="text-sm text-muted-foreground">votes received</div>
+          <div className="lg:col-span-1">
+            <div className="sticky top-24 space-y-6">
+              {/* Desktop Vote Section */}
+              <div className="hidden lg:block">
+                <VoteSection
+                  voteCount={voteCount}
+                  nominee={nominee}
+                  onVoteClick={handleVoteClick}
+                  votingStatus={votingStatus}
+                  isDesktop={true}
+                />
+              </div>
+
+              {/* Category Info Card */}
+              <ScrollReveal delay={0.3}>
+                <div className="bg-gradient-to-br from-slate-50 to-blue-50 rounded-2xl p-6 border border-slate-200">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900">About This Category</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      <span className="font-medium text-gray-700">
+                        {getCategoryLabel(nomineeData.category) || 'Unknown Category'}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      This category recognizes outstanding {isPersonNomination ? "individuals" : "companies"} 
+                      who have made significant contributions to the staffing industry.
+                    </p>
+                  </div>
                 </div>
-                <Button 
-                  onClick={() => setShowVoteDialog(true)}
-                  className="w-full"
-                  size="lg"
-                >
-                  Cast Your Vote
-                </Button>
-                <p className="text-xs text-muted-foreground mt-2">
-                  One vote per nominee per category
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Category Info */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">About This Category</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Badge variant="outline" className="mb-3">
-                  {nomineeData.category || 'Unknown Category'}
-                </Badge>
-                <p className="text-sm text-muted-foreground">
-                  This category recognizes outstanding {isPersonNomination ? "individuals" : "companies"} 
-                  who have made significant contributions to the staffing industry.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Suggested Nominees */}
-            <SuggestedNomineesCard 
-              currentNomineeId={nomineeData.id}
-              currentCategory={nomineeData.category}
-            />
+              </ScrollReveal>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Vote Dialog */}
-        <VoteDialog
-          open={showVoteDialog}
-          onOpenChange={setShowVoteDialog}
-          nomination={{
-            ...nomineeData,
-            nominee: {
-              name: nominee.displayName || nominee.name || 'Unknown Nominee',
-              ...nominee
-            }
-          }}
-          onVoteSuccess={handleVoteSuccess}
+      {/* Mobile Vote Section */}
+      <div className="lg:hidden px-4 pb-8">
+        <VoteSection
+          voteCount={voteCount}
+          nominee={nominee}
+          onVoteClick={handleVoteClick}
+          votingStatus={votingStatus}
+          isDesktop={false}
         />
       </div>
+
+      {/* Contact Button */}
+      <ContactButton position="right" />
+
+      {/* Vote Dialog */}
+      <VoteDialog
+        open={showVoteDialog}
+        onOpenChange={setShowVoteDialog}
+        nomination={{
+          ...nomineeData,
+          nominee: {
+            name: nominee.displayName || nominee.name || 'Unknown Nominee',
+            ...nominee
+          }
+        }}
+        onVoteSuccess={handleVoteSuccess}
+      />
+
+      {/* Voting Closed Dialog */}
+      <VotingClosedDialog
+        open={showVotingClosed}
+        onOpenChange={setShowVotingClosed}
+        startDate={votingStatus.startDate}
+      />
     </div>
   );
 }

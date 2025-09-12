@@ -1,6 +1,7 @@
 "use client";
 
 import { X, Info } from "lucide-react";
+import { WSAButton } from "@/components/ui/wsa-button";
 
 interface NominationClosedDialogProps {
   isOpen: boolean;
@@ -44,13 +45,13 @@ export function NominationClosedDialog({ isOpen, onClose, message }: NominationC
 
         {/* Footer */}
         <div className="flex justify-end p-6 border-t bg-gray-50">
-          <button
-            type="button"
+          <WSAButton
             onClick={onClose}
-            className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors"
+            variant="primary"
+            size="lg"
           >
             Got it
-          </button>
+          </WSAButton>
         </div>
       </div>
     </div>

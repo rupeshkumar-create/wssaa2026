@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Category Filtering</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .result { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        .loading { color: #666; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Category Filtering Test</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: All Nominees</h2>
+        <button onclick="testAllNominees()">Load All Nominees</button>
+        <div id="all-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Top Recruiters</h2>
+        <button onclick="testTopRecruiters()">Load Top Recruiters</button>
+        <div id="recruiters-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Top Executive Leaders</h2>
+        <button onclick="testExecutiveLeaders()">Load Executive Leaders</button>
+        <div id="leaders-result" class="result"></div>
+    </div>
+
+    <script>
+        async function testAllNominees() {
+            const resultDiv = document.getElementById('all-result');
+            resultDiv.innerHTML = '<div class="loading">Loading...</div>';
+            
+            try {
+                const response = await fetch('/api/nominees');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const categories = [...new Set(result.data.map(n => n.category))];
+                    resultDiv.innerHTML = `
+                        <div class="success">✅ Success</div>
+                        <div>Total nominees: ${result.data.length}</div>
+                        <div>Categories: ${categories.join(', ')}</div>
+                        <div>Sample: ${result.data.slice(0, 3).map(n => `${n.name} (${n.category})`).join(', ')}</div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Error: ${result.error}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function testTopRecruiters() {
+            const resultDiv = document.getElementById('recruiters-result');
+            resultDiv.innerHTML = '<div class="loading">Loading...</div>';
+            
+            try {
+                const response = await fetch('/api/nominees?category=top-recruiter');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const categories = [...new Set(result.data.map(n => n.category))];
+                    const isFiltered = categories.length === 1 && categories[0] === 'top-recruiter';
+                    
+                    resultDiv.innerHTML = `
+                        <div class="${isFiltered ? 'success' : 'error'}">${isFiltered ? '✅' : '❌'} ${isFiltered ? 'Correctly filtered' : 'Filtering failed'}</div>
+                        <div>Found nominees: ${result.data.length}</div>
+                        <div>Categories: ${categories.join(', ')}</div>
+                        <div>Sample: ${result.data.slice(0, 3).map(n => `${n.name} (${n.category})`).join(', ')}</div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Error: ${result.error}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function testExecutiveLeaders() {
+            const resultDiv = document.getElementById('leaders-result');
+            resultDiv.innerHTML = '<div class="loading">Loading...</div>';
+            
+            try {
+                const response = await fetch('/api/nominees?category=top-executive-leader');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const categories = [...new Set(result.data.map(n => n.category))];
+                    const isFiltered = categories.length === 1 && categories[0] === 'top-executive-leader';
+                    
+                    resultDiv.innerHTML = `
+                        <div class="${isFiltered ? 'success' : 'error'}">${isFiltered ? '✅' : '❌'} ${isFiltered ? 'Correctly filtered' : 'Filtering failed'}</div>
+                        <div>Found nominees: ${result.data.length}</div>
+                        <div>Categories: ${categories.join(', ')}</div>
+                        <div>Sample: ${result.data.slice(0, 3).map(n => `${n.name} (${n.category})`).join(', ')}</div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">❌ Error: ${result.error}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trophy, Medal, Award, Crown, User, Building2 } from "lucide-react";
 import { CATEGORIES } from "@/lib/constants";
+import { getCategoryLabel } from "@/lib/utils/category-utils";
 
 interface TopNominee {
   id: string;
@@ -138,7 +139,7 @@ export function TopNomineesPanel({ nominations = [], onCategoryChange }: TopNomi
           <CardDescription>
             {selectedCategory === 'all' 
               ? 'Highest vote counts across all categories'
-              : `Top nominees in ${CATEGORIES.find(c => c.id === selectedCategory)?.name || selectedCategory}`
+              : `Top nominees in ${getCategoryLabel(selectedCategory)}`
             }
           </CardDescription>
         </CardHeader>
@@ -190,7 +191,7 @@ export function TopNomineesPanel({ nominations = [], onCategoryChange }: TopNomi
                       {nominee.displayName}
                     </div>
                     <div className="text-sm text-gray-700 mb-2 leading-tight">
-                      {CATEGORIES.find(c => c.id === nominee.subcategoryId)?.name || nominee.subcategoryId}
+                      {getCategoryLabel(nominee.subcategoryId)}
                     </div>
                     <div className="flex items-center justify-between">
                       <Badge variant="outline" className="text-xs px-2 py-1 bg-white/80 border-gray-400">
