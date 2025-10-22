@@ -12,10 +12,12 @@ import { Shield, LogOut, RefreshCw, Users, CheckCircle, XCircle, Edit, Search, B
 import { EnhancedEditDialog } from "@/components/admin/EnhancedEditDialog";
 import { ApprovalDialog } from "@/components/admin/ApprovalDialog";
 import { NominationToggle } from "@/components/admin/NominationToggle";
-import { ManualVoteUpdate } from "@/components/admin/ManualVoteUpdate";
+import { NomineeEmailSender } from "@/components/admin/NomineeEmailSender";
 import { TopNomineesPanel } from "@/components/admin/TopNomineesPanel";
 import { AdminNominationFlow } from "@/components/admin/AdminNominationFlow";
 import { AdvancedAnalytics } from "@/components/admin/AdvancedAnalytics";
+import { SimpleLeaderboard } from "@/components/admin/SimpleLeaderboard";
+import { TimelineManager } from "@/components/admin/TimelineManager";
 
 
 // Bulk upload components temporarily removed
@@ -59,8 +61,6 @@ interface AdminNomination {
   liveUrl?: string;
   imageUrl?: string;
   displayName?: string;
-  votes?: number;
-  additionalVotes?: number;
   nominatorName?: string;
   nominatorEmail?: string;
   nominatorCompany?: string;
@@ -72,21 +72,11 @@ interface AdminNomination {
   
   // Source tracking
   nominationSource?: 'public' | 'admin';
-}
-
-interface EnhancedStats {
-  totalNominations: number;
-  pendingNominations: number;
-  approvedNominations: number;
-  rejectedNominations: number;
-  totalVotes: number;
-  totalVoters: number;
-  averageVotesPerNominee: number;
-  topCategories: Array<{ category: string; count: number }>;
-  recentActivity: Array<{ type: string; count: number; timestamp: string }>;
-  conversionRate: number;
-  hubspotSyncStatus: 'synced' | 'pending' | 'error';
-  loopsSyncStatus: 'synced' | 'pending' | 'error';
+  nomination_source?: 'public' | 'admin';
+  
+  // Email tracking
+  last_email_sent_at?: string;
+  email_sent_count?: number;
 }
 
 interface ConnectionStatus {
@@ -94,6 +84,10 @@ interface ConnectionStatus {
   loops: 'connected' | 'error' | 'checking';
   supabase: 'connected' | 'error' | 'checking';
 }
+
+
+
+
 
 
 
@@ -109,14 +103,15 @@ export default function AdminPage() {
   const [statusFilter, setStatusFilter] = useState<'all' | 'submitted' | 'approved' | 'rejected'>('all');
   const [typeFilter, setTypeFilter] = useState<'all' | 'person' | 'company'>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [enhancedStats, setEnhancedStats] = useState<EnhancedStats | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>({
     hubspot: 'checking',
     loops: 'checking',
     supabase: 'checking'
   });
+  const [enhancedStats, setEnhancedStats] = useState<any>(null);
   const [statsLoading, setStatsLoading] = useState(false);
   const [lastStatsUpdate, setLastStatsUpdate] = useState<Date | null>(null);
+
 
   useEffect(() => {
     // Authentication is now handled by middleware
@@ -125,14 +120,64 @@ export default function AdminPage() {
     checkConnectionStatus();
   }, []);
 
-  // Real-time stats polling
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchEnhancedStats();
-    }, 30000); // Update every 30 seconds
+  const checkConnectionStatus = async () => {
+    try {
+      // Check HubSpot connection
+      const hubspotResponse = await fetch('/api/sync/hubspot/run', { method: 'GET' });
+      setConnectionStatus(prev => ({ 
+        ...prev, 
+        hubspot: hubspotResponse.ok ? 'connected' : 'error' 
+      }));
+    } catch {
+      setConnectionStatus(prev => ({ ...prev, hubspot: 'error' }));
+    }
 
-    return () => clearInterval(interval);
-  }, []);
+    try {
+      // Check Loops connection
+      const loopsResponse = await fetch('/api/sync/loops/run', { method: 'GET' });
+      setConnectionStatus(prev => ({ 
+        ...prev, 
+        loops: loopsResponse.ok ? 'connected' : 'error' 
+      }));
+    } catch {
+      setConnectionStatus(prev => ({ ...prev, loops: 'error' }));
+    }
+
+    try {
+      // Check Supabase connection
+      const supabaseResponse = await fetch('/api/nominees', { method: 'GET' });
+      setConnectionStatus(prev => ({ 
+        ...prev, 
+        supabase: supabaseResponse.ok ? 'connected' : 'error' 
+      }));
+    } catch {
+      setConnectionStatus(prev => ({ ...prev, supabase: 'error' }));
+    }
+  };
+
+  const fetchEnhancedStats = async () => {
+    setStatsLoading(true);
+    try {
+      const response = await fetch('/api/admin/top-nominees', {
+        cache: 'no-store',
+        headers: { 
+          'Cache-Control': 'no-cache'
+        },
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          setEnhancedStats(result.stats);
+          setLastStatsUpdate(new Date());
+        }
+      }
+    } catch (err) {
+      console.error('Stats fetch error:', err);
+    } finally {
+      setStatsLoading(false);
+    }
+  };
 
   // Filter nominations when filters or search term changes
   useEffect(() => {
@@ -174,40 +219,7 @@ export default function AdminPage() {
     }
   };
 
-  const checkConnectionStatus = async () => {
-    try {
-      // Check HubSpot connection
-      const hubspotResponse = await fetch('/api/sync/hubspot/run', { method: 'GET' });
-      setConnectionStatus(prev => ({ 
-        ...prev, 
-        hubspot: hubspotResponse.ok ? 'connected' : 'error' 
-      }));
-    } catch {
-      setConnectionStatus(prev => ({ ...prev, hubspot: 'error' }));
-    }
 
-    try {
-      // Check Loops connection
-      const loopsResponse = await fetch('/api/sync/loops/run', { method: 'GET' });
-      setConnectionStatus(prev => ({ 
-        ...prev, 
-        loops: loopsResponse.ok ? 'connected' : 'error' 
-      }));
-    } catch {
-      setConnectionStatus(prev => ({ ...prev, loops: 'error' }));
-    }
-
-    try {
-      // Check Supabase connection
-      const supabaseResponse = await fetch('/api/nominees', { method: 'GET' });
-      setConnectionStatus(prev => ({ 
-        ...prev, 
-        supabase: supabaseResponse.ok ? 'connected' : 'error' 
-      }));
-    } catch {
-      setConnectionStatus(prev => ({ ...prev, supabase: 'error' }));
-    }
-  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -225,8 +237,7 @@ export default function AdminPage() {
         const result = await response.json();
         if (result.success) {
           setNominations(result.data);
-          // Fetch enhanced stats after nominations are loaded
-          await fetchEnhancedStats();
+
         } else {
           setError(result.error || 'Failed to fetch nominations');
         }
@@ -241,29 +252,7 @@ export default function AdminPage() {
     }
   };
 
-  const fetchEnhancedStats = async () => {
-    setStatsLoading(true);
-    try {
-      const response = await fetch('/api/admin/top-nominees', {
-        cache: 'no-store',
-        headers: { 
-          'Cache-Control': 'no-cache'
-        },
-      });
-      
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setEnhancedStats(result.stats);
-          setLastStatsUpdate(new Date());
-        }
-      }
-    } catch (err) {
-      console.error('Stats fetch error:', err);
-    } finally {
-      setStatsLoading(false);
-    }
-  };
+
 
   const handleApprove = async (liveUrl: string, adminNotes?: string) => {
     if (!selectedNomination) return;
@@ -284,7 +273,6 @@ export default function AdminPage() {
 
       if (response.ok) {
         await fetchData();
-        await fetchEnhancedStats();
         // Trigger real-time data sync across all components
         triggerAdminDataRefresh();
         setIsApprovalDialogOpen(false);
@@ -318,7 +306,6 @@ export default function AdminPage() {
 
       if (response.ok) {
         await fetchData();
-        await fetchEnhancedStats();
         // Trigger real-time data sync across all components
         triggerAdminDataRefresh();
         setIsApprovalDialogOpen(false);
@@ -347,8 +334,27 @@ export default function AdminPage() {
       });
 
       if (response.ok) {
+        // Also update local JSON file for synchronization
+        try {
+          const syncResponse = await fetch('/api/admin/update-local-nomination', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              nominationId,
+              updates
+            })
+          });
+
+          if (syncResponse.ok) {
+            console.log('✅ Local data synchronized after edit');
+          }
+        } catch (syncError) {
+          console.warn('⚠️ Local sync error (non-blocking):', syncError);
+        }
+
         await fetchData();
-        await fetchEnhancedStats();
         // Trigger real-time data sync across all components
         triggerAdminDataRefresh();
         setIsEditDialogOpen(false);
@@ -378,7 +384,6 @@ export default function AdminPage() {
 
       if (response.ok) {
         await fetchData();
-        await fetchEnhancedStats();
         // Trigger real-time data sync across all components
         triggerAdminDataRefresh();
       } else {
@@ -467,17 +472,31 @@ export default function AdminPage() {
           </Alert>
         )}
 
-        {/* Compact Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        {/* Clean Stats Cards - No Vote Data */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <Card className="border hover:shadow-md transition-all duration-200">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
-                  <p className="text-xs text-gray-600">Total Nominations</p>
+                  <p className="text-xs text-gray-600">Total Nominees</p>
                 </div>
                 <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <Users className="h-4 w-4 text-blue-600" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="border hover:shadow-md transition-all duration-200">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-2xl font-bold text-green-600">{stats.approved}</div>
+                  <p className="text-xs text-gray-600">Live Nominees</p>
+                </div>
+                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle className="h-4 w-4 text-green-600" />
                 </div>
               </div>
             </CardContent>
@@ -491,58 +510,31 @@ export default function AdminPage() {
                   <p className="text-xs text-gray-600">Pending Review</p>
                 </div>
                 <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                  <RefreshCw className="h-4 w-4 text-orange-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card className="border hover:shadow-md transition-all duration-200">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-2xl font-bold text-green-600">{stats.approved}</div>
-                  <p className="text-xs text-gray-600">Approved</p>
-                </div>
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card className="border hover:shadow-md transition-all duration-200">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-2xl font-bold text-red-600">{stats.rejected}</div>
-                  <p className="text-xs text-gray-600">Rejected</p>
-                </div>
-                <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                  <XCircle className="h-4 w-4 text-red-600" />
+                  <Clock className="h-4 w-4 text-orange-600" />
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Dashboard Layout: 35% Sidebar + 65% Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-10 gap-4">
-          {/* Left Sidebar: Top Nominees (35%) */}
-          <div className="lg:col-span-3">
-            <TopNomineesPanel nominations={nominations} />
-          </div>
+        {/* Main Content Area - Full Width */}
+        <div className="w-full">
+          <div className="flex gap-6 h-full">
+            {/* Left Sidebar - 30% - Leaderboards and Stats */}
+            <div className="w-[30%] space-y-6">
+              <SimpleLeaderboard />
+            </div>
 
-          {/* Main Content Area (65%) */}
-          <div className="lg:col-span-7">
-            <Tabs defaultValue="nominations" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-5">
-                <TabsTrigger value="nominations">Nominations</TabsTrigger>
-                <TabsTrigger value="admin-add">Add Nominee</TabsTrigger>
-                <TabsTrigger value="manual-votes">Manual Votes</TabsTrigger>
-                <TabsTrigger value="settings">Settings</TabsTrigger>
-                <TabsTrigger value="stats">Analytics</TabsTrigger>
-              </TabsList>
+            {/* Right Content - 70% - Admin Functions */}
+            <div className="w-[70%]">
+              <Tabs defaultValue="nominations" className="space-y-6">
+                <TabsList className="grid w-full grid-cols-5">
+                  <TabsTrigger value="nominations">Nominations</TabsTrigger>
+                  <TabsTrigger value="admin-add">Add Nominee</TabsTrigger>
+                  <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                  <TabsTrigger value="settings">Settings</TabsTrigger>
+                  <TabsTrigger value="stats">Analytics</TabsTrigger>
+                </TabsList>
 
           <TabsContent value="nominations" className="space-y-6">
             {/* Enhanced Filters */}
@@ -690,22 +682,36 @@ export default function AdminPage() {
                                 </div>
                                 <div>
                                   <p className="text-sm text-gray-600 mb-1">
-                                    <span className="font-medium">Votes:</span> {(nomination.votes || 0) + (nomination.additionalVotes || 0)} total
+                                    <span className="font-medium">Status:</span> Live Nominee
                                   </p>
                                   <p className="text-xs text-gray-500">
-                                    {nomination.votes || 0} real + {nomination.additionalVotes || 0} additional
+                                    Ready for public viewing
                                   </p>
                                 </div>
                               </div>
                               
-                              <div className="flex items-center justify-between">
-                                <p className="text-sm text-gray-600">
-                                  <span className="font-medium">Nominated by:</span> {nomination.nominatorName || nomination.nominatorEmail || 'Unknown'}
-                                </p>
-                                {nomination.nominationSource === 'admin' && (
-                                  <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800 border-blue-200">
-                                    Added by Admin
-                                  </Badge>
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <p className="text-sm text-gray-600">
+                                    <span className="font-medium">Nominated by:</span> {
+                                      nomination.nomination_source === 'admin' || nomination.nominationSource === 'admin' 
+                                        ? 'Admin' 
+                                        : nomination.nominatorName || nomination.nominatorEmail || 'Unknown'
+                                    }
+                                  </p>
+                                  {(nomination.nomination_source === 'admin' || nomination.nominationSource === 'admin') && (
+                                    <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800 border-blue-200">
+                                      Added by Admin
+                                    </Badge>
+                                  )}
+                                </div>
+                                
+                                {/* Email tracking info */}
+                                {nomination.last_email_sent_at && (
+                                  <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded">
+                                    <span className="font-medium">Last email:</span> {new Date(nomination.last_email_sent_at).toLocaleDateString()} 
+                                    ({nomination.email_sent_count || 0} total)
+                                  </div>
                                 )}
                               </div>
                             </div>
@@ -743,6 +749,12 @@ export default function AdminPage() {
                               Edit
                             </Button>
                             
+                            {/* Email Button */}
+                            <NomineeEmailSender 
+                              nomination={nomination}
+                              onEmailSent={fetchData}
+                            />
+                            
                             {/* Delete Button */}
                             <Button
                               variant="outline"
@@ -770,9 +782,11 @@ export default function AdminPage() {
             <AdminNominationFlow onSuccess={fetchData} />
           </TabsContent>
 
-          <TabsContent value="manual-votes">
-            <ManualVoteUpdate nominations={nominations} onVoteUpdate={fetchData} />
+          <TabsContent value="timeline">
+            <TimelineManager />
           </TabsContent>
+
+
 
 
 
@@ -836,8 +850,7 @@ export default function AdminPage() {
                           onClick={async () => {
                             try {
                               await fetch('/api/sync/hubspot/run', { method: 'POST' });
-                              checkConnectionStatus();
-                            } catch (error) {
+                              } catch (error) {
                               console.error('HubSpot sync error:', error);
                             }
                           }}
@@ -869,8 +882,7 @@ export default function AdminPage() {
                           onClick={async () => {
                             try {
                               await fetch('/api/sync/loops/run', { method: 'POST' });
-                              checkConnectionStatus();
-                            } catch (error) {
+                              } catch (error) {
                               console.error('Loops sync error:', error);
                             }
                           }}
@@ -887,195 +899,10 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="stats">
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Enhanced Analytics</CardTitle>
-                  <CardDescription>
-                    Detailed statistics and insights
-                    {lastStatsUpdate && (
-                      <span className="block text-xs mt-1">
-                        Last updated: {lastStatsUpdate.toLocaleTimeString()}
-                      </span>
-                    )}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {statsLoading ? (
-                    <div className="text-center py-8">
-                      <div className="inline-flex items-center gap-3">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                        <span>Loading analytics...</span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                      {/* Voting Statistics */}
-                      <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                        <h4 className="font-semibold text-blue-900 mb-3">Voting Statistics</h4>
-                        <div className="space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-sm text-blue-700">Total Votes:</span>
-                            <span className="font-medium text-blue-900">
-                              {enhancedStats?.totalVotes || nominations.reduce((sum, n) => sum + (n.votes || 0) + (n.additionalVotes || 0), 0)}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-blue-700">Real Votes:</span>
-                            <span className="font-medium text-blue-900">
-                              {nominations.reduce((sum, n) => sum + (n.votes || 0), 0)}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-blue-700">Additional:</span>
-                            <span className="font-medium text-blue-900">
-                              {nominations.reduce((sum, n) => sum + (n.additionalVotes || 0), 0)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Nomination Statistics */}
-                      <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                        <h4 className="font-semibold text-green-900 mb-3">Nominations</h4>
-                        <div className="space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-sm text-green-700">Total:</span>
-                            <span className="font-medium text-green-900">{nominations.length}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-green-700">Approved:</span>
-                            <span className="font-medium text-green-900">
-                              {nominations.filter(n => n.state === 'approved').length}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-green-700">Pending:</span>
-                            <span className="font-medium text-green-900">
-                              {nominations.filter(n => n.state === 'submitted').length}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Type Breakdown */}
-                      <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-                        <h4 className="font-semibold text-purple-900 mb-3">Type Breakdown</h4>
-                        <div className="space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-sm text-purple-700">People:</span>
-                            <span className="font-medium text-purple-900">
-                              {nominations.filter(n => n.type === 'person').length}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-purple-700">Companies:</span>
-                            <span className="font-medium text-purple-900">
-                              {nominations.filter(n => n.type === 'company').length}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-purple-700">Avg Votes:</span>
-                            <span className="font-medium text-purple-900">
-                              {nominations.length > 0 
-                                ? (nominations.reduce((sum, n) => sum + (n.votes || 0) + (n.additionalVotes || 0), 0) / nominations.length).toFixed(1)
-                                : '0'
-                              }
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Performance Metrics */}
-                      <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
-                        <h4 className="font-semibold text-orange-900 mb-3">Performance</h4>
-                        <div className="space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-sm text-orange-700">Approval Rate:</span>
-                            <span className="font-medium text-orange-900">
-                              {nominations.length > 0 
-                                ? ((nominations.filter(n => n.state === 'approved').length / nominations.length) * 100).toFixed(1)
-                                : '0'
-                              }%
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-orange-700">Top Category:</span>
-                            <span className="font-medium text-orange-900 text-xs">
-                              {(() => {
-                                const categoryCount = nominations.reduce((acc, n) => {
-                                  const cat = n.subcategory_id || 'unknown';
-                                  acc[cat] = (acc[cat] || 0) + 1;
-                                  return acc;
-                                }, {} as Record<string, number>);
-                                const topCategory = Object.entries(categoryCount).sort(([,a], [,b]) => b - a)[0];
-                                return topCategory ? getCategoryLabel(topCategory[0]).slice(0, 15) : 'None';
-                              })()}
-                            </span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-orange-700">Active:</span>
-                            <span className="font-medium text-orange-900">
-                              {nominations.filter(n => (n.votes || 0) + (n.additionalVotes || 0) > 0).length}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Category Breakdown Chart */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Category Distribution</CardTitle>
-                  <CardDescription>Nominations by category</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {(() => {
-                      const categoryStats = nominations.reduce((acc, n) => {
-                        const catId = n.subcategory_id || 'unknown';
-                        const catName = getCategoryLabel(catId);
-                        if (!acc[catName]) {
-                          acc[catName] = { total: 0, approved: 0, votes: 0 };
-                        }
-                        acc[catName].total += 1;
-                        if (n.state === 'approved') acc[catName].approved += 1;
-                        acc[catName].votes += (n.votes || 0) + (n.additionalVotes || 0);
-                        return acc;
-                      }, {} as Record<string, { total: number; approved: number; votes: number }>);
-
-                      return Object.entries(categoryStats)
-                        .sort(([,a], [,b]) => b.total - a.total)
-                        .slice(0, 10)
-                        .map(([category, stats]) => (
-                          <div key={category} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                            <div className="flex-1">
-                              <div className="font-medium text-sm">{category}</div>
-                              <div className="text-xs text-gray-600">
-                                {stats.approved}/{stats.total} approved • {stats.votes} votes
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <div className="w-20 bg-gray-200 rounded-full h-2">
-                                <div 
-                                  className="bg-blue-600 h-2 rounded-full" 
-                                  style={{ width: `${(stats.approved / Math.max(stats.total, 1)) * 100}%` }}
-                                ></div>
-                              </div>
-                              <span className="text-sm font-medium w-8 text-right">{stats.total}</span>
-                            </div>
-                          </div>
-                        ));
-                    })()}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            <AdvancedAnalytics />
           </TabsContent>
         </Tabs>
+            </div>
           </div>
         </div>
       </div>

@@ -23,43 +23,33 @@ export function PopularCategories({ onCategoryClick }: PopularCategoriesProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch('/api/categories/trending', {
-          cache: 'no-store',
-          headers: {
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-          },
-        });
-        
-        if (response.ok) {
-          const result = await response.json();
-          setCategories(result.data || []);
-        }
-      } catch (error) {
-        console.error('Error fetching popular categories:', error);
-        // Fallback to demo data
-        const demoCategories = [
-          'top-recruiter',
-          'top-executive-leader', 
-          'rising-star-under-30',
-          'top-ai-driven-staffing-platform',
-          'best-recruitment-agency'
-        ];
-        
-        setCategories(demoCategories.map((categoryId, index) => ({
-          id: categoryId,
-          label: getCategoryLabel(categoryId),
-          nominationCount: 45 - (index * 2),
-          voteCount: 1250 - (index * 90),
-          trendingScore: 95 - (index * 3)
-        })));
-      } finally {
-        setLoading(false);
+    // Fixed categories for Top 100 WSS winners
+    const wssCategories = [
+      {
+        id: 'best-staffing-leader',
+        label: 'Top 100 Staffing Leaders to Watch in 2026',
+        nominationCount: 100,
+        voteCount: 2500,
+        trendingScore: 100
+      },
+      {
+        id: 'best-staffing-firm',
+        label: 'Top 100 Staffing Companies to Work for in 2026',
+        nominationCount: 100,
+        voteCount: 2300,
+        trendingScore: 98
+      },
+      {
+        id: 'best-recruiter',
+        label: 'Top 100 Recruiters to work with in 2026',
+        nominationCount: 100,
+        voteCount: 2200,
+        trendingScore: 96
       }
-    };
-
-    fetchCategories();
+    ];
+    
+    setCategories(wssCategories);
+    setLoading(false);
   }, []);
 
   if (loading) {
@@ -88,15 +78,6 @@ export function PopularCategories({ onCategoryClick }: PopularCategoriesProps) {
     );
   }
 
-  const topCategories = categories.slice(0, 5);
-
-  // Function to convert category names to proper case
-  const toProperCase = (str: string) => {
-    return str.split(' ').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-    ).join(' ');
-  };
-
   return (
     <motion.div 
       className="text-center mb-8"
@@ -116,14 +97,14 @@ export function PopularCategories({ onCategoryClick }: PopularCategoriesProps) {
         Popular Categories
       </motion.h3>
       <div className="max-w-4xl mx-auto">
-        {/* First Row - Top 3 categories */}
+        {/* Single Row - All 3 categories */}
         <motion.div 
-          className="flex flex-wrap justify-center gap-4 mb-4"
+          className="flex flex-wrap justify-center gap-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, staggerChildren: 0.1 }}
         >
-          {topCategories.slice(0, 3).map((category, index) => (
+          {categories.map((category, index) => (
             <motion.div
               key={category.id}
               initial={{ opacity: 0, scale: 0.8 }}
@@ -137,45 +118,13 @@ export function PopularCategories({ onCategoryClick }: PopularCategoriesProps) {
                 className="cursor-pointer px-6 py-3 text-sm font-medium rounded-full transition-all duration-200 relative border-2 border-gray-300 text-gray-900 hover:border-gray-400 hover:text-black shadow-sm"
                 style={{ backgroundColor: '#D4ECF4' }}
                 onClick={() => {
-                  console.log('🏷️ Category clicked:', category.id, 'Label:', getCategoryLabel(category.id));
+                  console.log('🏷️ Category clicked:', category.id, 'Label:', category.label);
                   onCategoryClick?.(category.id);
                 }}
               >
                 <div className="flex items-center gap-2">
                   {index === 0 && <Flame className="h-3 w-3 text-red-500" />}
-                  <span>{getCategoryLabel(category.id)}</span>
-                </div>
-              </Badge>
-            </motion.div>
-          ))}
-        </motion.div>
-        {/* Second Row - Next 2 categories */}
-        <motion.div 
-          className="flex flex-wrap justify-center gap-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, staggerChildren: 0.1 }}
-        >
-          {topCategories.slice(3, 5).map((category, index) => (
-            <motion.div
-              key={category.id}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.7 + (index * 0.1) }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Badge
-                variant="outline"
-                className="cursor-pointer px-6 py-3 text-sm font-medium rounded-full transition-all duration-200 border-2 border-gray-300 text-gray-900 hover:border-gray-400 hover:text-black shadow-sm"
-                style={{ backgroundColor: '#D4ECF4' }}
-                onClick={() => {
-                  console.log('🏷️ Category clicked:', category.id, 'Label:', getCategoryLabel(category.id));
-                  onCategoryClick?.(category.id);
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <span>{getCategoryLabel(category.id)}</span>
+                  <span>{category.label}</span>
                 </div>
               </Badge>
             </motion.div>

@@ -1,113 +1,82 @@
 #!/usr/bin/env node
 
 /**
- * Setup Vercel Environment Variables
- * This script helps you configure the required environment variables for Vercel
+ * Script to help set up Vercel environment variables
  */
 
-const fs = require('fs');
-const path = require('path');
+console.log('🚀 Vercel Environment Variables Setup');
+console.log('====================================');
 
-function readEnvFile(filePath) {
-  try {
-    const content = fs.readFileSync(filePath, 'utf8');
-    const env = {};
-    
-    content.split('\n').forEach(line => {
-      line = line.trim();
-      if (line && !line.startsWith('#')) {
-        const [key, ...valueParts] = line.split('=');
-        if (key && valueParts.length > 0) {
-          env[key.trim()] = valueParts.join('=').trim();
-        }
-      }
-    });
-    
-    return env;
-  } catch (error) {
-    console.error(`Failed to read ${filePath}:`, error.message);
-    return {};
-  }
-}
+console.log('\n📋 Required Environment Variables for Vercel:');
+console.log('Copy and paste these into your Vercel Dashboard → Settings → Environment Variables\n');
 
-function main() {
-  console.log('🚀 Vercel Environment Setup Helper\n');
+const envVars = {
+  // Essential for admin panel
+  'ADMIN_EMAILS': 'admin@worldstaffingawards.com',
+  'ADMIN_PASSWORD_HASHES': '"\\$2b\\$12\\$31ImP/z1Exj0CFCAgIdNsupEKMWjLNgGsD371n55ZL9/hhz9MY/Ti"',
+  'SERVER_SESSION_SECRET': '05a0b6592ce764cd4a58a7624c30372398960a163bfc41ae5ec8fde21c3cf8ca',
   
-  // Read local environment
-  const localEnv = readEnvFile('.env.local');
-  const prodTemplate = readEnvFile('.env.vercel.template');
-  
-  console.log('📋 Required Environment Variables for Vercel:');
-  console.log('='.repeat(50));
-  
-  // Essential variables for database connection
-  const requiredVars = [
-    'SUPABASE_URL',
-    'SUPABASE_SERVICE_ROLE_KEY', 
-    'NEXT_PUBLIC_SUPABASE_URL',
-    'ADMIN_EMAILS',
-    'ADMIN_PASSWORD_HASHES',
-    'SERVER_SESSION_SECRET',
-    'CRON_SECRET',
-    'SYNC_SECRET'
-  ];
-  
-  // Optional but recommended
-  const optionalVars = [
-    'HUBSPOT_ACCESS_TOKEN',
-    'LOOPS_API_KEY',
-    'LOOPS_SYNC_ENABLED'
-  ];
-  
-  console.log('\n🔑 REQUIRED Variables (copy these to Vercel):');
-  console.log('-'.repeat(40));
-  
-  requiredVars.forEach(varName => {
-    const value = localEnv[varName] || prodTemplate[varName] || '';
-    if (value) {
-      console.log(`${varName}=${value}`);
-    } else {
-      console.log(`${varName}=<MISSING - PLEASE SET>`);
-    }
-  });
-  
-  console.log('\n⚙️  OPTIONAL Variables:');
-  console.log('-'.repeat(40));
-  
-  optionalVars.forEach(varName => {
-    const value = localEnv[varName] || prodTemplate[varName] || '';
-    if (value) {
-      console.log(`${varName}=${value}`);
-    } else {
-      console.log(`${varName}=<not set>`);
-    }
-  });
-  
-  console.log('\n🌐 Don\'t forget to set:');
-  console.log(`NEXT_PUBLIC_APP_URL=https://your-vercel-app-name.vercel.app`);
-  
-  console.log('\n📝 Steps to configure Vercel:');
-  console.log('1. Go to https://vercel.com/dashboard');
-  console.log('2. Select your project');
-  console.log('3. Go to Settings > Environment Variables');
-  console.log('4. Add each variable above');
-  console.log('5. Redeploy your application');
-  
-  console.log('\n🔍 After deployment, test with:');
-  console.log('   https://your-app.vercel.app/api/test-env');
-  console.log('   https://your-app.vercel.app/api/nominees');
-  
-  // Check if we have the essential database config
-  const hasSupabaseUrl = !!(localEnv.SUPABASE_URL || localEnv.NEXT_PUBLIC_SUPABASE_URL);
-  const hasSupabaseKey = !!localEnv.SUPABASE_SERVICE_ROLE_KEY;
-  
-  if (hasSupabaseUrl && hasSupabaseKey) {
-    console.log('\n✅ Your local configuration looks good!');
-    console.log('   The same values should work on Vercel.');
-  } else {
-    console.log('\n❌ Missing database configuration in local files.');
-    console.log('   Please check your .env.local file first.');
-  }
-}
+  // Security
+  'CRON_SECRET': '966be53c4a0af438dfac5333a982d56f',
+  'SYNC_SECRET': 'ad673d564afffa2a3ab7e81fb9c86ddd',
+};
 
-main();
+const optionalVars = {
+  // Database (optional - leave empty for demo mode)
+  'SUPABASE_URL': 'https://your-project-id.supabase.co',
+  'SUPABASE_SERVICE_ROLE_KEY': 'your_service_role_key_here',
+  'NEXT_PUBLIC_SUPABASE_URL': 'https://your-project-id.supabase.co',
+  
+  // Integrations (optional)
+  'HUBSPOT_ACCESS_TOKEN': 'your_hubspot_token_here',
+  'LOOPS_API_KEY': 'your_loops_api_key_here',
+};
+
+console.log('🔴 REQUIRED (Minimum for admin panel to work):');
+console.log('=' .repeat(50));
+Object.entries(envVars).forEach(([key, value]) => {
+  console.log(`${key}=${value}`);
+});
+
+console.log('\n🟡 OPTIONAL (For full functionality):');
+console.log('=' .repeat(50));
+Object.entries(optionalVars).forEach(([key, value]) => {
+  console.log(`${key}=${value}`);
+});
+
+console.log('\n📝 Instructions:');
+console.log('1. Go to https://vercel.com/dashboard');
+console.log('2. Select your project');
+console.log('3. Go to Settings → Environment Variables');
+console.log('4. Add each variable above');
+console.log('5. Set Environment: Production, Preview, Development');
+console.log('6. Click "Save"');
+console.log('7. Go to Deployments → Latest → "..." → "Redeploy"');
+
+console.log('\n🔑 Admin Login Credentials:');
+console.log('Email: admin@worldstaffingawards.com');
+console.log('Password: WSA2026Admin!Secure');
+
+console.log('\n⚠️  Important Notes:');
+console.log('- The password hash MUST include escaped $ characters (\\$)');
+console.log('- If you don\'t have Supabase, leave database variables empty');
+console.log('- After adding variables, you MUST redeploy for changes to take effect');
+
+console.log('\n🧪 Test Your Deployment:');
+console.log('1. Visit: https://your-app.vercel.app');
+console.log('2. Visit: https://your-app.vercel.app/admin');
+console.log('3. Login with credentials above');
+console.log('4. Check: https://your-app.vercel.app/api/test-env');
+
+console.log('\n✅ Success Indicators:');
+console.log('- Home page loads without errors');
+console.log('- Admin login page shows login form');
+console.log('- Can login with provided credentials');
+console.log('- Admin panel shows dashboard');
+
+console.log('\n🆘 If Still Having Issues:');
+console.log('Run: node scripts/diagnose-vercel-admin-issues.js');
+console.log('This will help identify specific problems with your deployment.');
+
+console.log('\n🎉 Once working, your admin panel will be at:');
+console.log('https://your-app.vercel.app/admin');

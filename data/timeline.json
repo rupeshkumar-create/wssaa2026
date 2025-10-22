@@ -1,0 +1,56 @@
+[
+  {
+    "id": "nominations-open",
+    "title": "Nominations Open",
+    "description": "Start accepting nominations for all award categories",
+    "date": "2025-01-01T00:00:00Z",
+    "type": "nomination",
+    "status": "completed",
+    "isEditable": true
+  },
+  {
+    "id": "nominations-close",
+    "title": "Nominations Close",
+    "description": "Final deadline for all nominations",
+    "date": "2025-03-31T23:59:59Z",
+    "type": "nomination",
+    "status": "upcoming",
+    "isEditable": true
+  },
+  {
+    "id": "voting-open",
+    "title": "Public Voting Opens",
+    "description": "Community voting begins for all nominees",
+    "date": "2025-04-01T00:00:00Z",
+    "type": "voting",
+    "status": "upcoming",
+    "isEditable": true
+  },
+  {
+    "id": "voting-close",
+    "title": "Public Voting Closes",
+    "description": "Final deadline for community votes",
+    "date": "2025-05-31T23:59:59Z",
+    "type": "voting",
+    "status": "upcoming",
+    "isEditable": true
+  },
+  {
+    "id": "winners-announcement",
+    "title": "Winners Announcement",
+    "description": "Official announcement of all award winners",
+    "date": "2025-06-15T12:00:00Z",
+    "type": "announcement",
+    "status": "upcoming",
+    "isEditable": true
+  },
+  {
+    "id": "awards-ceremony",
+    "title": "Awards Ceremony",
+    "description": "World Staffing Summit Awards Ceremony 2026",
+    "date": "2025-07-15T18:00:00Z",
+    "type": "ceremony",
+    "status": "upcoming",
+    "isEditable": true
+  }
+]

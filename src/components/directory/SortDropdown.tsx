@@ -9,7 +9,6 @@ interface SortDropdownProps {
 }
 
 const sortOptions = [
-  { value: "votes", label: "Most Votes", icon: Trophy },
   { value: "name", label: "Name (A-Z)", icon: User },
   { value: "category", label: "Category", icon: Tag },
   { value: "recent", label: "Most Recent", icon: Calendar },

@@ -159,8 +159,8 @@ export function TopNomineesPanel({ nominations = [], onCategoryChange }: TopNomi
                     </span>
                   </div>
                   <div className="text-right">
-                    <div className="text-xl font-bold text-primary">{nominee.votes}</div>
-                    <div className="text-xs text-gray-500">votes</div>
+                    <div className="text-xl font-bold text-primary">TOP</div>
+                    <div className="text-xs text-gray-500">nominee</div>
                   </div>
                 </div>
 

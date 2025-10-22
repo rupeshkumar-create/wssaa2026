@@ -63,7 +63,7 @@ export function CardNominee({ nomination }: CardNomineeProps) {
             {/* Photo - Square Shape */}
             <div className="flex justify-center mb-3">
               <motion.div 
-                className="w-16 h-16 rounded-lg overflow-hidden border-2 border-gray-200 group-hover:border-orange-300 transition-colors duration-300"
+                className="w-24 h-24 rounded-lg overflow-hidden border-2 border-gray-200 group-hover:border-orange-300 transition-colors duration-300"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
@@ -72,16 +72,16 @@ export function CardNominee({ nomination }: CardNomineeProps) {
                     src={imageData.src}
                     alt={imageData.alt}
                     loading="lazy"
-                    width={64}
-                    height={64}
+                    width={96}
+                    height={96}
                     className="w-full h-full object-cover"
                   />
                 ) : (
                   <Image 
                     src={imageData.src}
                     alt={imageData.alt}
-                    width={64}
-                    height={64}
+                    width={96}
+                    height={96}
                     className={`w-full h-full ${isPersonNomination ? "object-cover" : "object-contain bg-white p-1"}`}
                     unoptimized={imageData.src.startsWith('data:')}
                   />
@@ -106,10 +106,14 @@ export function CardNominee({ nomination }: CardNomineeProps) {
               </Badge>
             </div>
 
-            {/* Vote Count */}
+            {/* WSS Top 100 Badge - No Vote Counts */}
             <div className="flex items-center justify-center gap-1 mb-3">
-              <Vote className="h-3 w-3 text-muted-foreground" />
-              <span className="text-xs font-medium text-foreground">{nomination.votes} votes</span>
+              <Badge 
+                variant="outline" 
+                className="text-xs border-orange-300 text-orange-700 bg-orange-50 px-2 py-1"
+              >
+                WSS Top 100 Nominee
+              </Badge>
             </div>
 
             {/* View Button */}

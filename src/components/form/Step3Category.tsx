@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
+
 import { CATEGORY_TREE, getAllSubcategories } from "@/lib/categories";
 import { Category } from "@/lib/constants";
 
@@ -49,12 +49,7 @@ export function Step3Category({ selectedCategory, onNext, onBack }: Step3Categor
                   </div>
                   {group.subcategories.map((subcategory) => (
                     <SelectItem key={subcategory.id} value={subcategory.id}>
-                      <div className="flex items-center gap-2">
-                        <span>{subcategory.label}</span>
-                        <Badge variant="outline" className="text-xs">
-                          {subcategory.type}
-                        </Badge>
-                      </div>
+                      <span>{subcategory.label}</span>
                     </SelectItem>
                   ))}
                 </div>

@@ -10,10 +10,28 @@ export async function GET(request: NextRequest) {
   try {
     console.log('🔍 Fetching settings from database...');
     
-    // Check if Supabase is configured
-    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      console.log('⚠️ Supabase not configured, returning defaults');
-      throw new Error('Supabase not configured');
+    // Check if Supabase is configured with real values (not placeholders)
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    
+    if (!supabaseUrl || !supabaseKey || 
+        supabaseUrl.includes('your-project') || 
+        supabaseKey.includes('your_service_role_key')) {
+      console.log('⚠️ Supabase not configured with real values, returning defaults');
+      
+      // Return default settings for local development
+      return NextResponse.json({
+        success: true,
+        settings: {
+          voting_start_date: '',
+          voting_end_date: '',
+          nominations_enabled: true
+        },
+        voting_start_date: '',
+        voting_end_date: '',
+        nominations_enabled: true,
+        message: 'Using default settings (Supabase not configured)'
+      });
     }
 
     // Try system_settings table first (used by admin panel)

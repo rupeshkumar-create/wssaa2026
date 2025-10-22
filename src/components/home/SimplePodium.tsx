@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Trophy, Crown, Medal, Award, User, Building2, Star, Sparkles } from "lucide-react";
 import { getCategoryLabel } from "@/lib/utils/category-utils";
-import { CATEGORIES } from "@/lib/constants";
+import { CATEGORY_TREE, getAllSubcategories } from "@/lib/categories";
 
 type PodiumItem = {
   rank: 1 | 2 | 3;
@@ -16,46 +16,19 @@ type PodiumItem = {
   live_slug: string;
 };
 
-// Generate category groups dynamically from constants
-const categoryGroups = [
-  {
-    id: 'role-specific-excellence',
-    label: 'Role-Specific Excellence',
-    categories: CATEGORIES.filter(c => c.group === 'role-specific-excellence').map(c => c.id)
-  },
-  {
-    id: 'innovation-technology',
-    label: 'Innovation & Technology',
-    categories: CATEGORIES.filter(c => c.group === 'innovation-technology').map(c => c.id)
-  },
-  {
-    id: 'culture-impact',
-    label: 'Culture & Impact',
-    categories: CATEGORIES.filter(c => c.group === 'culture-impact').map(c => c.id)
-  },
-  {
-    id: 'growth-performance',
-    label: 'Growth & Performance',
-    categories: CATEGORIES.filter(c => c.group === 'growth-performance').map(c => c.id)
-  },
-  {
-    id: 'geographic-excellence',
-    label: 'Geographic Excellence',
-    categories: CATEGORIES.filter(c => c.group === 'geographic-excellence').map(c => c.id)
-  },
-  {
-    id: 'special-recognition',
-    label: 'Special Recognition',
-    categories: CATEGORIES.filter(c => c.group === 'special-recognition').map(c => c.id)
-  }
-];
+// Use the correct category groups from the categories file
+const categoryGroups = CATEGORY_TREE.map(group => ({
+  id: group.id,
+  label: group.label,
+  categories: group.subcategories.map(sub => sub.id)
+}));
 
 export function SimplePodium() {
   const [podiumData, setPodiumData] = useState<PodiumItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedGroup, setSelectedGroup] = useState('innovation-technology');
-  const [selectedCategory, setSelectedCategory] = useState('top-ai-driven-staffing-platform');
+  const [selectedGroup, setSelectedGroup] = useState('staffing');
+  const [selectedCategory, setSelectedCategory] = useState('best-staffing-leader');
   const [isAnimating, setIsAnimating] = useState(false);
   const [fadeClass, setFadeClass] = useState('opacity-100 translate-y-0');
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -337,28 +310,27 @@ export function SimplePodium() {
                   {getCategoryLabel(nominee.category)}
                 </p>
 
-                {/* Votes */}
+                {/* WSS Top 100 Badge - No Vote Counts */}
                 <div 
                   className={`
-                    bg-white/90 backdrop-blur-sm rounded-full px-5 py-3 ${isGold ? 'mb-5' : isSilver ? 'mb-4' : 'mb-4'}
-                    border-2 ${isGold ? 'border-yellow-200' : isSilver ? 'border-gray-200' : 'border-orange-200'}
+                    bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full px-5 py-3 ${isGold ? 'mb-5' : isSilver ? 'mb-4' : 'mb-4'}
                     shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105
                   `}
                   style={{
-                    boxShadow: `0 10px 25px -5px ${isGold ? 'rgba(245, 158, 11, 0.2)' : isSilver ? 'rgba(107, 114, 128, 0.2)' : 'rgba(217, 119, 6, 0.2)'}`
+                    boxShadow: '0 10px 25px -5px rgba(249, 115, 22, 0.4)'
                   }}
                 >
                   <p className={`
-                    font-bold ${textColors[rank as keyof typeof textColors]} drop-shadow-sm
-                    ${isGold ? 'text-2xl' : isSilver ? 'text-xl' : 'text-lg'}
+                    font-bold text-white drop-shadow-sm
+                    ${isGold ? 'text-lg' : isSilver ? 'text-base' : 'text-sm'}
                   `}>
-                    {nominee.votes}
+                    WSS Top 100
                   </p>
                   <p className={`
-                    text-gray-600 font-medium
-                    ${isGold ? 'text-sm' : 'text-xs'}
+                    text-orange-100 font-medium
+                    ${isGold ? 'text-xs' : 'text-xs'}
                   `}>
-                    votes
+                    2026 Nominee
                   </p>
                 </div>
 
@@ -426,7 +398,7 @@ export function SimplePodium() {
             Champions Podium
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            Celebrating excellence in the staffing industry. See who's leading in each category based on community votes.
+            Celebrating excellence in the staffing industry. Recognizing outstanding professionals and companies in our community.
           </p>
         </div>
 
@@ -434,7 +406,7 @@ export function SimplePodium() {
         <div className="mb-6">
           <div className="flex flex-wrap justify-center gap-3 mb-4">
             {availableCategories.map((categoryId) => {
-              const category = CATEGORIES.find(c => c.id === categoryId);
+              const category = getAllSubcategories().find(c => c.id === categoryId);
               if (!category) return null;
               
               return (

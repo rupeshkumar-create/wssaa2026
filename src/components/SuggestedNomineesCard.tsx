@@ -140,7 +140,7 @@ export function SuggestedNomineesCard({ currentNomineeId, currentCategory }: Sug
                       {nominee.nominee.name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {nominee.votes} votes
+                      WSS Top 100 Nominee
                     </p>
                   </div>
                   <Button asChild variant="ghost" size="sm" className="h-8 px-3 text-xs flex-shrink-0">

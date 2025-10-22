@@ -133,7 +133,7 @@ export function ManualVoteUpdate({ nominations: propNominations = [], onVoteUpda
       <CardHeader>
         <CardTitle>Manual Vote Update</CardTitle>
         <CardDescription>
-          Add additional votes to any approved nominee. This will be added to their real vote count.
+          Manage nominee rankings and positions. This feature will be available when voting opens.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

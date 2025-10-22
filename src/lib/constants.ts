@@ -1,25 +1,25 @@
 export type CategoryType = "person" | "company";
 
 export type Category =
-  | "top-recruiter"
-  | "top-executive-leader"
-  | "rising-star-under-30"
-  | "top-staffing-influencer"
-  | "best-sourcer"
-  | "top-ai-driven-staffing-platform"
-  | "top-digital-experience-for-clients"
-  | "top-women-led-staffing-firm"
-  | "fastest-growing-staffing-firm"
-  | "best-staffing-process-at-scale"
-  | "thought-leadership-and-influence"
-  | "best-recruitment-agency"
-  | "best-in-house-recruitment-team"
-  | "top-staffing-company-usa"
-  | "top-staffing-company-europe"
-  | "top-global-recruiter"
-  | "best-diversity-inclusion-initiative"
-  | "best-candidate-experience"
-  | "special-recognition";
+  | "Best Staffing Process at Scale"
+  | "Fastest Growing Staffing Firm"
+  | "Rising Star (Under 30)"
+  | "Special Recognition"
+  | "Thought Leadership & Influence"
+  | "Top AI-Driven Staffing Platform"
+  | "Top AI-Driven Staffing Platform - Europe"
+  | "Top AI-Driven Staffing Platform - USA"
+  | "Top Digital Experience for Clients"
+  | "Top Executive Leader"
+  | "Top Global Recruiter"
+  | "Top Global Staffing Leader"
+  | "Top Recruiter"
+  | "Top Recruiting Leader - Europe"
+  | "Top Recruiting Leader - USA"
+  | "Top Staffing Company - Europe"
+  | "Top Staffing Company - USA"
+  | "Top Staffing Influencer"
+  | "Top Women-Led Staffing Firm";
 
 export interface CategoryConfig {
   id: Category;
@@ -29,36 +29,28 @@ export interface CategoryConfig {
 }
 
 export const CATEGORIES: CategoryConfig[] = [
-  // Role-Specific Excellence - Recognizing outstanding individual contributors
-  { id: "top-recruiter", label: "Top Recruiters", group: "role-specific-excellence", type: "person" },
-  { id: "top-executive-leader", label: "Top Executive Leaders", group: "role-specific-excellence", type: "person" },
-  { id: "rising-star-under-30", label: "Rising Stars (Under 30)", group: "role-specific-excellence", type: "person" },
-  { id: "top-staffing-influencer", label: "Top Staffing Influencers", group: "role-specific-excellence", type: "person" },
-  { id: "best-sourcer", label: "Best Sourcers", group: "role-specific-excellence", type: "person" },
+  // Person Categories
+  { id: "Top Recruiter", label: "Top Recruiter", group: "individual", type: "person" },
+  { id: "Top Executive Leader", label: "Top Executive Leader", group: "individual", type: "person" },
+  { id: "Top Staffing Influencer", label: "Top Staffing Influencer", group: "individual", type: "person" },
+  { id: "Rising Star (Under 30)", label: "Rising Star (Under 30)", group: "individual", type: "person" },
+  { id: "Thought Leadership & Influence", label: "Thought Leadership & Influence", group: "individual", type: "person" },
+  { id: "Top Recruiting Leader - USA", label: "Top Recruiting Leader - USA", group: "regional", type: "person" },
+  { id: "Top Recruiting Leader - Europe", label: "Top Recruiting Leader - Europe", group: "regional", type: "person" },
+  { id: "Top Global Recruiter", label: "Top Global Recruiter", group: "global", type: "person" },
+  { id: "Top Global Staffing Leader", label: "Top Global Staffing Leader", group: "global", type: "person" },
+  { id: "Special Recognition", label: "Special Recognition", group: "special", type: "person" },
   
-  // Innovation & Technology - Leading the future of staffing technology
-  { id: "top-ai-driven-staffing-platform", label: "Top AI-Driven Staffing Platforms", group: "innovation-technology", type: "company" },
-  { id: "top-digital-experience-for-clients", label: "Top Digital Experience for Clients", group: "innovation-technology", type: "company" },
-  
-  // Culture & Impact - Making a positive difference in the industry
-  { id: "top-women-led-staffing-firm", label: "Top Women-Led Staffing Firms", group: "culture-impact", type: "company" },
-  { id: "fastest-growing-staffing-firm", label: "Fastest Growing Staffing Firms", group: "culture-impact", type: "company" },
-  { id: "best-diversity-inclusion-initiative", label: "Best Diversity & Inclusion Initiatives", group: "culture-impact", type: "company" },
-  { id: "best-candidate-experience", label: "Best Candidate Experiences", group: "culture-impact", type: "company" },
-  
-  // Growth & Performance - Excellence in operations and thought leadership
-  { id: "best-staffing-process-at-scale", label: "Best Staffing Processes at Scale", group: "growth-performance", type: "company" },
-  { id: "thought-leadership-and-influence", label: "Thought Leadership & Influence", group: "growth-performance", type: "person" },
-  { id: "best-recruitment-agency", label: "Best Recruitment Agencies", group: "growth-performance", type: "company" },
-  { id: "best-in-house-recruitment-team", label: "Best In-House Recruitment Teams", group: "growth-performance", type: "company" },
-  
-  // Geographic Excellence - Regional and global recognition
-  { id: "top-staffing-company-usa", label: "Top Staffing Companies - USA", group: "geographic-excellence", type: "company" },
-  { id: "top-staffing-company-europe", label: "Top Staffing Companies - Europe", group: "geographic-excellence", type: "company" },
-  { id: "top-global-recruiter", label: "Top Global Recruiters", group: "geographic-excellence", type: "person" },
-  
-  // Special Recognition - Unique contributions to the industry
-  { id: "special-recognition", label: "Special Recognition", group: "special-recognition", type: "person" },
+  // Company Categories
+  { id: "Top AI-Driven Staffing Platform", label: "Top AI-Driven Staffing Platform", group: "technology", type: "company" },
+  { id: "Top Digital Experience for Clients", label: "Top Digital Experience for Clients", group: "technology", type: "company" },
+  { id: "Top Women-Led Staffing Firm", label: "Top Women-Led Staffing Firm", group: "diversity", type: "company" },
+  { id: "Fastest Growing Staffing Firm", label: "Fastest Growing Staffing Firm", group: "growth", type: "company" },
+  { id: "Best Staffing Process at Scale", label: "Best Staffing Process at Scale", group: "operations", type: "company" },
+  { id: "Top Staffing Company - USA", label: "Top Staffing Company - USA", group: "regional", type: "company" },
+  { id: "Top Staffing Company - Europe", label: "Top Staffing Company - Europe", group: "regional", type: "company" },
+  { id: "Top AI-Driven Staffing Platform - USA", label: "Top AI-Driven Staffing Platform - USA", group: "regional-tech", type: "company" },
+  { id: "Top AI-Driven Staffing Platform - Europe", label: "Top AI-Driven Staffing Platform - Europe", group: "regional-tech", type: "company" },
 ];
 
 // Free email domains to block

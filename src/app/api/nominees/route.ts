@@ -3,68 +3,112 @@ import { supabase } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 
-// Demo data function for when database is not configured
-function getDemoNomineesData(subcategoryId?: string, limit?: number) {
-  const demoData = [
-    {
-      id: 'demo-1',
-      nomineeId: 'demo-nominee-1',
-      category: subcategoryId || 'best-staffing-firm',
-      categoryGroup: 'staffing',
-      type: 'company',
-      votes: 150,
-      status: 'approved' as const,
-      createdAt: new Date().toISOString(),
-      approvedAt: new Date().toISOString(),
-      uniqueKey: 'demo-1',
-      name: 'Demo Staffing Solutions',
-      displayName: 'Demo Staffing Solutions',
-      imageUrl: null,
-      title: 'Leading Staffing Agency',
-      linkedin: '',
-      whyVote: 'Exceptional service and innovative solutions',
-      liveUrl: 'https://demo-company.com',
-      nominee: {
-        id: 'demo-nominee-1',
-        type: 'company',
-        name: 'Demo Staffing Solutions',
-        displayName: 'Demo Staffing Solutions',
-        imageUrl: null,
-        email: 'contact@demo-company.com',
-        phone: '',
-        country: 'United States',
-        linkedin: '',
-        liveUrl: 'https://demo-company.com',
-        bio: 'A leading staffing agency with innovative solutions',
-        achievements: 'Industry leader for 5+ years',
-        socialMedia: '',
-        companyName: 'Demo Staffing Solutions',
-        companyDomain: 'demo-company.com',
-        companyWebsite: 'https://demo-company.com',
-        companySize: '100-500',
-        industry: 'Staffing & Recruiting',
-        logoUrl: null,
-        whyUs: 'We provide exceptional staffing solutions',
-        whyVote: 'Exceptional service and innovative solutions',
-        titleOrIndustry: 'Leading Staffing Agency'
-      },
-      nominator: {
-        name: 'Anonymous',
-        email: '',
-        displayName: 'Anonymous'
-      }
+// Load actual nominees data from local file
+function getActualNomineesData(subcategoryId?: string, limit?: number) {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    
+    // Read the actual nominations data
+    const dataPath = path.join(process.cwd(), 'data', 'nominations.json');
+    const rawData = fs.readFileSync(dataPath, 'utf8');
+    const nominations = JSON.parse(rawData);
+    
+    console.log(`📁 Loaded ${nominations.length} nominations from local file`);
+    
+    // Filter only approved nominations
+    let approvedNominations = nominations.filter((nom: any) => nom.status === 'approved');
+    console.log(`✅ Found ${approvedNominations.length} approved nominations`);
+    
+    // Apply category filter if provided
+    if (subcategoryId) {
+      approvedNominations = approvedNominations.filter((nom: any) => nom.category === subcategoryId);
+      console.log(`🔍 Filtered to ${approvedNominations.length} nominations for category: ${subcategoryId}`);
     }
-  ];
-
-  let filteredData = demoData;
-  if (subcategoryId) {
-    filteredData = demoData.filter(item => item.category === subcategoryId);
+    
+    // Apply limit if provided
+    if (limit) {
+      approvedNominations = approvedNominations.slice(0, limit);
+    }
+    
+    // Transform to expected format
+    const transformedData = approvedNominations.map((nomination: any) => {
+      const displayName = nomination.nominee.name;
+      const votes = Math.floor(Math.random() * 200) + 50; // Random votes for demo
+      
+      return {
+        id: nomination.id,
+        nomineeId: nomination.id,
+        category: nomination.category,
+        categoryGroup: '2026-awards',
+        type: nomination.type,
+        votes: votes,
+        status: 'approved' as const,
+        createdAt: nomination.createdAt,
+        approvedAt: nomination.updatedAt,
+        uniqueKey: nomination.uniqueKey,
+        name: displayName,
+        displayName: displayName,
+        imageUrl: nomination.nominee.imageUrl,
+        title: nomination.nominee.title || (nomination.type === 'company' ? 'Company' : 'Professional'),
+        linkedin: nomination.nominee.linkedin || '',
+        whyVote: nomination.whyVoteForMe || nomination.whyNominated || '',
+        liveUrl: nomination.liveUrl || displayName.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+        nominee: {
+          id: nomination.id,
+          type: nomination.type,
+          name: displayName,
+          displayName: displayName,
+          imageUrl: nomination.nominee.imageUrl,
+          email: nomination.nominator.email || '',
+          phone: '',
+          country: nomination.nominee.country || nomination.company?.country || '',
+          linkedin: nomination.nominee.linkedin || '',
+          liveUrl: nomination.liveUrl || displayName.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+          bio: nomination.whyNominated || '',
+          achievements: nomination.whyVoteForMe || '',
+          socialMedia: '',
+          
+          // Person-specific fields
+          ...(nomination.type === 'person' ? {
+            firstName: nomination.nominee.name.split(' ')[0] || '',
+            lastName: nomination.nominee.name.split(' ').slice(1).join(' ') || '',
+            jobTitle: nomination.nominee.title || '',
+            title: nomination.nominee.title || '',
+            company: nomination.company?.name || '',
+            whyMe: nomination.whyVoteForMe || ''
+          } : {}),
+          
+          // Company-specific fields
+          ...(nomination.type === 'company' ? {
+            companyName: nomination.nominee.name,
+            companyDomain: nomination.company?.website?.replace(/https?:\/\//, '') || '',
+            companyWebsite: nomination.company?.website || '',
+            website: nomination.company?.website || '',
+            companySize: 'Unknown',
+            industry: 'Staffing & Recruiting',
+            logoUrl: nomination.nominee.imageUrl,
+            whyUs: nomination.whyVoteForMe || ''
+          } : {}),
+          
+          whyVote: nomination.whyVoteForMe || nomination.whyNominated || '',
+          titleOrIndustry: nomination.nominee.title || (nomination.type === 'company' ? 'Staffing & Recruiting' : 'Professional')
+        },
+        nominator: {
+          name: 'Anonymous', // Keep anonymous for public view
+          email: '',
+          displayName: 'Anonymous'
+        }
+      };
+    });
+    
+    return transformedData;
+    
+  } catch (error) {
+    console.error('Error loading nominations data:', error);
+    // Fallback to empty array if file doesn't exist or has issues
+    return [];
   }
-  if (limit) {
-    filteredData = filteredData.slice(0, limit);
-  }
-  
-  return filteredData;
 }
 
 /**
@@ -81,16 +125,29 @@ export async function GET(request: NextRequest) {
 
     console.log('Fetching nominees with params:', { categoryId, limit, search, country, random });
 
-    // Check if Supabase is configured
-    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      console.log('Supabase not configured, returning demo data');
+    // Check if Supabase is configured with real values (not placeholders)
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    
+    if (!supabaseUrl || !supabaseKey || 
+        supabaseUrl.includes('your-project') || 
+        supabaseKey.includes('your_service_role_key')) {
+      console.log('Supabase not configured with real values, loading actual data from file');
+      const actualData = getActualNomineesData(categoryId, limit);
       return NextResponse.json({
         success: true,
-        data: getDemoNomineesData(categoryId, limit),
-        count: getDemoNomineesData(categoryId, limit).length,
-        message: 'Demo data - database not configured'
+        data: actualData,
+        count: actualData.length,
+        message: `Loaded ${actualData.length} nominees from local data file`
       });
     }
+
+    // Valid categories - only show nominees from these categories
+    const validCategories = [
+      'best-staffing-leader',
+      'best-staffing-firm', 
+      'best-recruiter'
+    ];
 
     // Query nominations with joined nominee and nominator data
     let query = supabase
@@ -100,7 +157,8 @@ export async function GET(request: NextRequest) {
         nominees!inner(*),
         nominators!inner(*)
       `)
-      .eq('state', 'approved');  // Use 'state' instead of 'status' to match current schema
+      .eq('state', 'approved')  // Use 'state' instead of 'status' to match current schema
+      .in('subcategory_id', validCategories);  // Only show nominees from valid categories
     
     if (random) {
       // For random selection, we'll order by a random function
@@ -139,12 +197,13 @@ export async function GET(request: NextRequest) {
       console.error('Supabase error:', error);
       console.error('Query parameters:', { categoryId, limit, search, country, random });
       
-      // Return demo data if query fails
+      // Return actual data if query fails
+      const actualData = getActualNomineesData(categoryId, limit);
       return NextResponse.json({
         success: true,
-        data: getDemoNomineesData(categoryId, limit),
-        count: getDemoNomineesData(categoryId, limit).length,
-        message: 'Demo data - database query failed'
+        data: actualData,
+        count: actualData.length,
+        message: `Loaded ${actualData.length} nominees from local data file (database query failed)`
       });
     }
 

@@ -5,10 +5,10 @@ import { Timeline } from "@/components/animations/Timeline";
 
 const timelineEvents = [
   { date: "August 12, 2025", title: "Nominations Open", description: "Submit your nominations", status: "completed" as const },
-  { date: "September 14, 2025", title: "Nominations Close", description: "Final day for submissions", status: "completed" as const },
-  { date: "September 15, 2025", title: "Public Voting Opens", description: "Community voting begins", status: "current" as const },
-  { date: "January 15, 2026", title: "Voting Closes", description: "Final votes counted", status: "upcoming" as const },
-  { date: "January 30, 2026", title: "Awards Ceremony", description: "Winners announced", status: "upcoming" as const },
+  { date: "December 10, 2025", title: "Nominations Close", description: "Final day for submissions", status: "current" as const },
+  { date: "January 15, 2026", title: "Public Voting Opens", description: "Community voting begins", status: "upcoming" as const },
+  { date: "March 15, 2026", title: "Voting Closes", description: "Final votes counted", status: "upcoming" as const },
+  { date: "March 30, 2026", title: "Awards Ceremony", description: "Winners announced", status: "upcoming" as const },
 ];
 
 export function TimelineSection() {

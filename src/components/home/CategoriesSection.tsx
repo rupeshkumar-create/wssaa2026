@@ -7,46 +7,25 @@ import { CATEGORIES } from "@/lib/constants";
 // Create category groups with PNG images
 const categories = [
   {
-    title: "Role-Specific Excellence",
-    description: "Recognizing outstanding individual contributors",
+    title: "Top 100 Staffing Leaders to Watch in 2026",
+    description: "Recognizing the most influential leaders shaping the future of staffing",
     iconImage: "/Role Specific.png",
-    gradient: "bg-slate-700",
-    badges: CATEGORIES.filter(c => c.group === 'role-specific-excellence').map(c => ({ id: c.id, label: c.label }))
+    gradient: "bg-orange-500",
+    badges: [{ id: "top-100-staffing-leaders-2026", label: "Top 100 Staffing Leaders to Watch in 2026" }]
   },
   {
-    title: "Innovation & Technology", 
-    description: "Leading the future of staffing technology",
-    iconImage: "/Innovation & Technology.png",
-    gradient: "bg-slate-700",
-    badges: CATEGORIES.filter(c => c.group === 'innovation-technology').map(c => ({ id: c.id, label: c.label }))
-  },
-  {
-    title: "Culture & Impact",
-    description: "Making a positive difference in the industry", 
+    title: "Top 100 Staffing Companies to Work for in 2026", 
+    description: "The best companies creating exceptional workplace experiences",
     iconImage: "/Culture & Impact.png",
     gradient: "bg-slate-700",
-    badges: CATEGORIES.filter(c => c.group === 'culture-impact').map(c => ({ id: c.id, label: c.label }))
+    badges: [{ id: "top-100-staffing-companies-2026", label: "Top 100 Staffing Companies to Work for in 2026" }]
   },
   {
-    title: "Growth & Performance",
-    description: "Excellence in operations and thought leadership",
-    iconImage: "/Growth & Performance.png", 
+    title: "Top 100 Recruiters to work with in 2026",
+    description: "Outstanding recruiters delivering exceptional results", 
+    iconImage: "/Growth & Performance.png",
     gradient: "bg-slate-700",
-    badges: CATEGORIES.filter(c => c.group === 'growth-performance').map(c => ({ id: c.id, label: c.label }))
-  },
-  {
-    title: "Geographic Excellence",
-    description: "Regional and global recognition",
-    iconImage: "/Geographic Excellence.png",
-    gradient: "bg-orange-500", 
-    badges: CATEGORIES.filter(c => c.group === 'geographic-excellence').map(c => ({ id: c.id, label: c.label }))
-  },
-  {
-    title: "Special Recognition",
-    description: "Unique contributions to the industry",
-    iconImage: "/Special Recognition.png",
-    gradient: "bg-slate-700",
-    badges: CATEGORIES.filter(c => c.group === 'special-recognition').map(c => ({ id: c.id, label: c.label }))
+    badges: [{ id: "top-100-recruiters-2026", label: "Top 100 Recruiters to work with in 2026" }]
   }
 ];
 
@@ -62,7 +41,7 @@ export function CategoriesSection() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
             {categories.map((category, index) => (
               <CategoryCard
                 key={category.title}

@@ -15,11 +15,9 @@ interface TrendingCategory {
 // Demo trending categories for when database is not configured
 function getDemoTrendingCategories(): TrendingCategory[] {
   const demoCategories = [
-    'top-recruiter',
-    'top-executive-leader', 
-    'rising-star-under-30',
-    'top-ai-driven-staffing-platform',
-    'best-recruitment-agency'
+    'top-100-staffing-leaders-2026',
+    'top-100-staffing-companies-2026',
+    'top-100-recruiters-2026'
   ];
   
   return demoCategories.map((categoryId, index) => ({

@@ -101,7 +101,7 @@ export function Step10ReviewSubmit({
             <Button 
               variant="outline" 
               onClick={() => window.location.href = "/nominate"}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 text-lg font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0"
+              className="bg-orange-500 hover:bg-orange-600 text-white text-lg font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 border-0"
             >
               Submit Another Nomination
             </Button>

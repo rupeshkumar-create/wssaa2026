@@ -8,7 +8,7 @@ import { SimplePodium } from "@/components/home/SimplePodium";
 import { AnimatedHero } from "@/components/animations/AnimatedHero";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { CategoriesSection } from "@/components/home/CategoriesSection";
-import { TimelineSection } from "@/components/home/TimelineSection";
+import { AwardsTimeline } from "@/components/home/AwardsTimeline";
 import { VoteButton } from "@/components/animations/VoteButton";
 import { useVotingStatus } from "@/hooks/useVotingStatus";
 import NomineeBackgroundCards from "@/components/animations/NomineeBackgroundCards";
@@ -53,7 +53,9 @@ export default function HomePage() {
       <CategoriesSection />
 
       {/* Enhanced Timeline */}
-      <TimelineSection />
+      <ScrollReveal>
+        <AwardsTimeline />
+      </ScrollReveal>
 
       {/* Enhanced CTA Section */}
       <ScrollReveal>

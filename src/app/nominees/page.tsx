@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useEffect, useCallback, Suspense, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
 import { SimpleSearchBar } from "@/components/directory/SimpleSearchBar";
@@ -27,49 +27,40 @@ function NomineesContent() {
   // Get search query from URL parameters
   const searchQuery = searchParams.get("q") || "";
   const categoryParam = searchParams.get("category") || "";
-  const sortBy = searchParams.get("sort") || "votes";
+  const sortBy = searchParams.get("sort") || "name";
   
-  // Debug logging for URL parameters
-  console.log('🔍 Nominees - URL Parameters:', {
-    searchQuery,
-    categoryParam,
-    sortBy,
-    fullURL: typeof window !== 'undefined' ? window.location.href : 'SSR'
-  });
+
 
   // Local state for immediate UI updates without page refresh
   const [localSearchQuery, setLocalSearchQuery] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [localCategoryFilter, setLocalCategoryFilter] = useState("");
-  const [localSortBy, setLocalSortBy] = useState("votes");
+  const [localSortBy, setLocalSortBy] = useState("name");
+  const [allNominees, setAllNominees] = useState<NominationWithVotes[]>([]);
+  const [filteredNominees, setFilteredNominees] = useState<NominationWithVotes[]>([]);
 
   useEffect(() => {
     setIsClient(true);
-    console.log('🔍 Nominees - Component mounted');
   }, []);
 
   // Sync local state with URL params on mount and when URL changes
   useEffect(() => {
     if (isClient) {
-      console.log('🔍 Nominees - Syncing URL params:', {
-        searchQuery,
-        categoryParam,
-        sortBy
-      });
-      
       setLocalSearchQuery(searchQuery);
+      setDebouncedSearchQuery(searchQuery);
       setLocalCategoryFilter(categoryParam);
       setLocalSortBy(sortBy);
-      
-      console.log('🔍 Nominees - Local state updated:', {
-        localSearchQuery: searchQuery,
-        localCategoryFilter: categoryParam,
-        localSortBy: sortBy
-      });
-      
-      // Force a re-fetch when URL parameters change
-      console.log('🔍 Nominees - URL parameters changed, will trigger re-fetch');
     }
   }, [isClient, searchQuery, categoryParam, sortBy]);
+
+  // Debounce search query to prevent excessive filtering
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(localSearchQuery);
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timer);
+  }, [localSearchQuery]);
 
   // Sorting function
   const sortNominees = (nominees: NominationWithVotes[], sortBy: string) => {
@@ -105,7 +96,7 @@ function NomineesContent() {
     }
   };
 
-  // Fetch nominees data
+  // Fetch nominees data only once or when category changes
   useEffect(() => {
     if (!isClient) return;
     
@@ -118,11 +109,6 @@ function NomineesContent() {
         let apiUrl = `/api/nominees?_t=${timestamp}`;
         if (localCategoryFilter) {
           apiUrl += `&category=${localCategoryFilter}`;
-          console.log('🔍 Nominees - Fetching with category filter:', localCategoryFilter);
-          console.log('🔍 Nominees - API URL:', apiUrl);
-        } else {
-          console.log('🔍 Nominees - Fetching all nominees (no category filter)');
-          console.log('🔍 Nominees - localCategoryFilter value:', localCategoryFilter);
         }
         
         const response = await fetch(apiUrl, {
@@ -142,42 +128,9 @@ function NomineesContent() {
         }
         
         const data = result.data || [];
-        console.log('🔍 Nominees - Loaded:', data.length, 'nominees');
-        
-        if (localCategoryFilter && data.length > 0) {
-          const categories = [...new Set(data.map(n => n.category))];
-          console.log('🔍 Nominees - Categories in response:', categories);
-          console.log('🔍 Nominees - Expected category:', localCategoryFilter);
-          console.log('🔍 Nominees - Filtering working:', categories.length === 1 && categories[0] === localCategoryFilter ? '✅' : '❌');
-        }
-        
-        // Apply client-side search filtering if needed
-        let filteredData = [...data];
-        if (localSearchQuery && !localCategoryFilter) {
-          filteredData = filteredData.filter((nominee: any) => {
-            const name = nominee.nominee?.name || nominee.displayName || nominee.name || '';
-            const category = nominee.category || '';
-            const company = nominee.nominee?.company || nominee.company || '';
-            const title = nominee.nominee?.jobtitle || nominee.jobtitle || '';
-            
-            const searchLower = localSearchQuery.toLowerCase();
-            
-            return name.toLowerCase().includes(searchLower) ||
-                   category.toLowerCase().includes(searchLower) ||
-                   getCategoryLabel(category).toLowerCase().includes(searchLower) ||
-                   company.toLowerCase().includes(searchLower) ||
-                   title.toLowerCase().includes(searchLower);
-          });
-        }
-        
-        // Apply sorting
-        filteredData = sortNominees(filteredData, localSortBy);
-        
-        console.log('🔍 Nominees - Final result:', filteredData.length, 'nominees');
-        setNominees(filteredData);
+        setAllNominees(data);
         
       } catch (err) {
-        console.error('🔍 Nominees - Error:', err);
         setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
         setLoading(false);
@@ -185,7 +138,42 @@ function NomineesContent() {
     };
 
     fetchNominees();
-  }, [isClient, localCategoryFilter, localSearchQuery, localSortBy]);
+  }, [isClient, localCategoryFilter]); // Only refetch when category changes
+
+  // Filter and sort nominees client-side using debounced search
+  const filteredAndSortedNominees = useMemo(() => {
+    if (!allNominees.length) {
+      return [];
+    }
+
+    let filteredData = [...allNominees];
+    
+    // Apply client-side search filtering using debounced query
+    if (debouncedSearchQuery) {
+      filteredData = filteredData.filter((nominee: any) => {
+        const name = nominee.nominee?.name || nominee.displayName || nominee.name || '';
+        const category = nominee.category || '';
+        const company = nominee.nominee?.company || nominee.company || '';
+        const title = nominee.nominee?.jobtitle || nominee.jobtitle || '';
+        
+        const searchLower = debouncedSearchQuery.toLowerCase();
+        
+        return name.toLowerCase().includes(searchLower) ||
+               category.toLowerCase().includes(searchLower) ||
+               getCategoryLabel(category).toLowerCase().includes(searchLower) ||
+               company.toLowerCase().includes(searchLower) ||
+               title.toLowerCase().includes(searchLower);
+      });
+    }
+    
+    // Apply sorting
+    return sortNominees(filteredData, localSortBy);
+  }, [allNominees, debouncedSearchQuery, localSortBy]);
+
+  // Update nominees when filtered data changes
+  useEffect(() => {
+    setNominees(filteredAndSortedNominees);
+  }, [filteredAndSortedNominees]);
 
   // Real-time vote updates
   const handleVoteUpdate = useCallback(() => {
@@ -212,15 +200,16 @@ function NomineesContent() {
 
   // Category click handler
   const handleCategoryClick = (categoryId: string) => {
-    console.log('🏷️ Category clicked:', categoryId);
     setLocalCategoryFilter(categoryId);
     setLocalSearchQuery("");
+    setDebouncedSearchQuery("");
   };
 
   const handleClearSearch = () => {
     setLocalSearchQuery("");
+    setDebouncedSearchQuery("");
     setLocalCategoryFilter("");
-    setLocalSortBy("votes");
+    setLocalSortBy("name");
   };
 
   if (loading) {
@@ -330,18 +319,7 @@ function NomineesContent() {
         </div>
       </section>
 
-      {/* Debug Panel - Remove in production */}
-      {process.env.NODE_ENV === 'development' && (
-        <section className="px-4 py-4 bg-yellow-50 border-b border-yellow-200">
-          <div className="container mx-auto">
-            <div className="text-xs text-yellow-800 bg-yellow-100 p-3 rounded">
-              <strong>Debug Info:</strong> URL Category: "{categoryParam}" | Local Category: "{localCategoryFilter}" | 
-              Search: "{localSearchQuery}" | Sort: "{localSortBy}" | 
-              Nominees: {nominees.length} | Loading: {loading ? 'Yes' : 'No'}
-            </div>
-          </div>
-        </section>
-      )}
+
 
       {/* Results Section */}
       <section className="px-4 pb-16">
@@ -366,10 +344,7 @@ function NomineesContent() {
                       ×
                     </button>
                   </Badge>
-                  {/* Debug info - remove in production */}
-                  <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">
-                    Debug: {localCategoryFilter || 'no-filter'} | {nominees.length} results
-                  </span>
+
                 </div>
                 <SortDropdown value={localSortBy} onChange={handleSortChange} />
               </div>

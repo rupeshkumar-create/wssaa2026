@@ -12,9 +12,121 @@ export async function GET(request: NextRequest) {
   if (!validateAdminAuth(request)) {
     return createAuthErrorResponse();
   }
+  
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
+
+    // Check if Supabase is configured with real values (not placeholders)
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    
+    if (!supabaseUrl || !supabaseKey || 
+        supabaseUrl.includes('your-project') || 
+        supabaseKey.includes('your_service_role_key')) {
+      
+      console.log('Supabase not configured, loading nominations from local file');
+      
+      // Load from local file
+      const fs = require('fs');
+      const path = require('path');
+      
+      try {
+        const dataPath = path.join(process.cwd(), 'data', 'nominations.json');
+        const rawData = fs.readFileSync(dataPath, 'utf8');
+        const nominations = JSON.parse(rawData);
+        
+        // Filter by status if provided
+        let filteredNominations = nominations;
+        if (status) {
+          filteredNominations = nominations.filter((nom: any) => nom.status === status);
+        }
+        
+        // Transform to admin format
+        const adminNominations = filteredNominations.map((nom: any) => ({
+          id: nom.id,
+          type: nom.type,
+          state: nom.status, // Map status to state
+          categoryGroupId: '2026-awards',
+          subcategoryId: nom.category,
+          subcategory_id: nom.category,
+          
+          // Person fields
+          firstname: nom.nominee.name.split(' ')[0] || '',
+          lastname: nom.nominee.name.split(' ').slice(1).join(' ') || '',
+          jobtitle: nom.nominee.title || '',
+          personEmail: nom.type === 'person' ? nom.nominator.email : '',
+          personLinkedin: nom.nominee.linkedin || '',
+          personPhone: '',
+          personCompany: nom.company?.name || '',
+          personCountry: nom.nominee.country || '',
+          headshotUrl: nom.nominee.imageUrl,
+          headshot_url: nom.nominee.imageUrl,
+          whyMe: nom.whyVoteForMe || '',
+          
+          // Company fields
+          companyName: nom.type === 'company' ? nom.nominee.name : nom.company?.name || '',
+          company_name: nom.type === 'company' ? nom.nominee.name : nom.company?.name || '',
+          companyWebsite: nom.company?.website || '',
+          companyLinkedin: nom.type === 'company' ? nom.nominee.linkedin : '',
+          companyEmail: nom.type === 'company' ? nom.nominator.email : '',
+          companyPhone: '',
+          companyCountry: nom.type === 'company' ? nom.nominee.country : '',
+          logoUrl: nom.type === 'company' ? nom.nominee.imageUrl : null,
+          logo_url: nom.type === 'company' ? nom.nominee.imageUrl : null,
+          whyUs: nom.type === 'company' ? nom.whyVoteForMe : '',
+          
+          // Shared fields
+          liveUrl: nom.liveUrl || '',
+          votes: Math.floor(Math.random() * 200) + 50, // Random votes for demo
+          additionalVotes: 0,
+          totalVotes: Math.floor(Math.random() * 200) + 50,
+          createdAt: nom.createdAt,
+          created_at: nom.createdAt,
+          updatedAt: nom.updatedAt,
+          
+          // Contact info
+          email: nom.nominator.email,
+          phone: '',
+          linkedin: nom.nominee.linkedin || '',
+          
+          // Nominator info
+          nominatorEmail: nom.nominator.email,
+          nominatorName: nom.nominator.name,
+          nominatorCompany: nom.nominator.company || '',
+          nominatorJobTitle: '',
+          nominatorPhone: '',
+          nominatorCountry: '',
+          
+          // Computed fields
+          displayName: nom.nominee.name,
+          imageUrl: nom.nominee.imageUrl,
+          
+          // Admin fields
+          adminNotes: '',
+          rejectionReason: '',
+          approvedAt: nom.status === 'approved' ? nom.updatedAt : null,
+          approvedBy: '',
+          nominationSource: 'local-file'
+        }));
+
+        return NextResponse.json({
+          success: true,
+          data: adminNominations,
+          count: adminNominations.length,
+          message: `Loaded ${adminNominations.length} nominations from local file`
+        });
+        
+      } catch (fileError) {
+        console.error('Error reading local nominations file:', fileError);
+        return NextResponse.json({
+          success: true,
+          data: [],
+          count: 0,
+          message: 'No local nominations file found'
+        });
+      }
+    }
 
     let query = supabaseAdmin
       .from('nominations')

@@ -23,6 +23,15 @@ export function EnhancedEditDialog({ nomination, isOpen, onClose, onSave }: Enha
   const [linkedin, setLinkedin] = useState("");
   const [adminNotes, setAdminNotes] = useState("");
   const [rejectionReason, setRejectionReason] = useState("");
+  
+  // Name editing state
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  
+  // Manual votes state
+  const [additionalVotes, setAdditionalVotes] = useState(0);
+  const [voteUpdateLoading, setVoteUpdateLoading] = useState(false);
 
   // Initialize form data when nomination changes
   useEffect(() => {
@@ -43,6 +52,14 @@ export function EnhancedEditDialog({ nomination, isOpen, onClose, onSave }: Enha
       setRejectionReason(nomination.rejectionReason || "");
       setImagePreview(null);
       setImageFile(null);
+      
+      // Initialize name fields
+      setFirstname(nomination.firstname || "");
+      setLastname(nomination.lastname || "");
+      setCompanyName(nomination.companyName || nomination.company_name || "");
+      
+      // Initialize vote fields
+      setAdditionalVotes(nomination.additionalVotes || 0);
     }
   }, [nomination]);
 
@@ -104,7 +121,40 @@ export function EnhancedEditDialog({ nomination, isOpen, onClose, onSave }: Enha
         }
       }
 
+      // Save changes through the main API
       await onSave(updates);
+
+      // Also update the local JSON file to ensure synchronization
+      try {
+        const syncResponse = await fetch('/api/admin/update-local-nomination', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nominationId: nomination.id,
+            updates
+          })
+        });
+
+        if (syncResponse.ok) {
+          console.log('✅ Local data synchronized successfully');
+        } else {
+          console.warn('⚠️ Failed to sync local data, but main update succeeded');
+        }
+      } catch (syncError) {
+        console.warn('⚠️ Local sync error (non-blocking):', syncError);
+      }
+
+      // Trigger data refresh across all components
+      const { triggerAdminDataRefresh } = await import('@/lib/utils/data-sync');
+      triggerAdminDataRefresh();
+
+      // Force refresh the page to ensure all data is updated
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+
       onClose();
     } catch (error) {
       console.error('Error saving nomination:', error);
@@ -170,6 +220,17 @@ export function EnhancedEditDialog({ nomination, isOpen, onClose, onSave }: Enha
               }`}
             >
               Content & Media
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('votes')}
+              className={`px-6 py-3 text-sm font-medium border-b-2 ${
+                activeTab === 'votes'
+                  ? 'border-brand-500 text-brand-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Votes & Name
             </button>
             <button
               type="button"
@@ -348,6 +409,188 @@ export function EnhancedEditDialog({ nomination, isOpen, onClose, onSave }: Enha
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   {whyText.length}/1000 characters
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'votes' && (
+            <div className="space-y-6">
+              {/* Name Editing Section */}
+              <div className="bg-orange-50 p-4 rounded-lg">
+                <h4 className="font-medium mb-3 flex items-center gap-2">
+                  Edit Name
+                  <span className={`px-2 py-1 text-xs rounded-full ${
+                    nomination.type === 'person' 
+                      ? 'bg-orange-100 text-orange-800' 
+                      : 'bg-green-100 text-green-800'
+                  }`}>
+                    {nomination.type === 'person' ? 'Person' : 'Company'}
+                  </span>
+                </h4>
+                
+                {nomination.type === 'person' ? (
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="firstname" className="block text-sm font-medium mb-2">
+                        First Name
+                      </label>
+                      <input
+                        id="firstname"
+                        type="text"
+                        value={firstname}
+                        onChange={(e) => setFirstname(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        placeholder="First name"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="lastname" className="block text-sm font-medium mb-2">
+                        Last Name
+                      </label>
+                      <input
+                        id="lastname"
+                        type="text"
+                        value={lastname}
+                        onChange={(e) => setLastname(e.target.value)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        placeholder="Last name"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <label htmlFor="companyName" className="block text-sm font-medium mb-2">
+                      Company Name
+                    </label>
+                    <input
+                      id="companyName"
+                      type="text"
+                      value={companyName}
+                      onChange={(e) => setCompanyName(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      placeholder="Company name"
+                    />
+                  </div>
+                )}
+                
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const response = await fetch('/api/admin/update-nominee-name', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          nominationId: nomination.id,
+                          type: nomination.type,
+                          firstname: firstname.trim(),
+                          lastname: lastname.trim(),
+                          companyName: companyName.trim()
+                        })
+                      });
+                      
+                      if (response.ok) {
+                        const result = await response.json();
+                        alert('Name updated successfully!');
+                        
+                        // Update the nomination object with new name
+                        if (nomination.type === 'person') {
+                          nomination.firstname = result.data.firstname;
+                          nomination.lastname = result.data.lastname;
+                          nomination.displayName = result.data.displayName;
+                        } else {
+                          nomination.companyName = result.data.companyName;
+                          nomination.company_name = result.data.companyName;
+                          nomination.displayName = result.data.displayName;
+                        }
+                        
+                        // Trigger a page refresh to update all admin panel data
+                        window.location.reload();
+                      } else {
+                        const error = await response.json();
+                        throw new Error(error.error || 'Failed to update name');
+                      }
+                    } catch (error) {
+                      alert('Failed to update name: ' + (error instanceof Error ? error.message : 'Unknown error'));
+                    }
+                  }}
+                  className="mt-3 px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 text-sm"
+                >
+                  Update Name
+                </button>
+              </div>
+
+              {/* Manual Votes Section */}
+              <div className="bg-orange-50 p-4 rounded-lg">
+                <h4 className="font-medium mb-3">Manual Vote Management</h4>
+                
+                <div className="grid grid-cols-3 gap-4 mb-4 text-sm">
+                  <div className="bg-white p-3 rounded border">
+                    <div className="text-gray-600">Real Votes</div>
+                    <div className="text-xl font-bold text-green-600">{nomination.votes || 0}</div>
+                  </div>
+                  <div className="bg-white p-3 rounded border">
+                    <div className="text-gray-600">Manual Votes</div>
+                    <div className="text-xl font-bold text-orange-600">{nomination.additionalVotes || 0}</div>
+                  </div>
+                  <div className="bg-white p-3 rounded border">
+                    <div className="text-gray-600">Total Votes</div>
+                    <div className="text-xl font-bold text-blue-600">{(nomination.votes || 0) + (nomination.additionalVotes || 0)}</div>
+                  </div>
+                </div>
+                
+                <div className="flex gap-3 items-end">
+                  <div className="flex-1">
+                    <label htmlFor="additionalVotes" className="block text-sm font-medium mb-2">
+                      Set Manual Votes
+                    </label>
+                    <input
+                      id="additionalVotes"
+                      type="number"
+                      min="0"
+                      value={additionalVotes}
+                      onChange={(e) => setAdditionalVotes(parseInt(e.target.value) || 0)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                      placeholder="0"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      setVoteUpdateLoading(true);
+                      try {
+                        const response = await fetch('/api/admin/update-votes', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            nominationId: nomination.id,
+                            additionalVotes: additionalVotes
+                          })
+                        });
+                        
+                        if (response.ok) {
+                          const result = await response.json();
+                          alert(`Votes updated! Real: ${result.realVotes}, Manual: ${result.additionalVotes}, Total: ${result.totalVotes}`);
+                        } else {
+                          const error = await response.json();
+                          throw new Error(error.error || 'Failed to update votes');
+                        }
+                      } catch (error) {
+                        alert('Failed to update votes: ' + (error instanceof Error ? error.message : 'Unknown error'));
+                      } finally {
+                        setVoteUpdateLoading(false);
+                      }
+                    }}
+                    disabled={voteUpdateLoading}
+                    className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:opacity-50 text-sm"
+                  >
+                    {voteUpdateLoading ? 'Updating...' : 'Update Votes'}
+                  </button>
+                </div>
+                
+                <p className="text-xs text-gray-600 mt-2">
+                  Manual votes are only visible in the admin panel. Public pages show combined total.
                 </p>
               </div>
             </div>

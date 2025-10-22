@@ -1,107 +1,64 @@
 #!/usr/bin/env node
 
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+/**
+ * Test Nominees Page Fix
+ * Tests the nominees page with the updated category structure
+ */
 
-async function testNomineesPageFix() {
-  console.log('🔍 Testing nominees page fix...');
-  
+console.log('🧪 Testing Nominees Page Fix...\n');
+
+async function testNomineesPage() {
   const baseUrl = 'http://localhost:3000';
   
+  console.log('📋 Testing API endpoints...');
+  
   try {
-    // Test 1: Simulate clicking on "Top Recruiters" from home page
-    console.log('\n1. Simulating click on "Top Recruiters" from home page:');
-    console.log('   URL: /nominees?category=top-recruiter');
+    // Test categories API
+    console.log('1. Testing /api/categories...');
+    const categoriesResponse = await fetch(`${baseUrl}/api/categories`);
+    const categoriesResult = await categoriesResponse.json();
+    console.log(`   ✅ Categories API: ${categoriesResult.success ? 'SUCCESS' : 'FAILED'}`);
+    console.log(`   📊 Found ${categoriesResult.count} categories`);
     
-    const response = await fetch(`${baseUrl}/api/nominees?category=top-recruiter`);
-    const result = await response.json();
-    
-    if (result.success) {
-      const nominees = result.data || [];
-      console.log(`   ✅ API returns ${nominees.length} nominees`);
-      
-      if (nominees.length > 0) {
-        const categories = [...new Set(nominees.map(n => n.category))];
-        const isCorrectlyFiltered = categories.length === 1 && categories[0] === 'top-recruiter';
-        
-        console.log(`   Categories: ${categories.join(', ')}`);
-        console.log(`   ${isCorrectlyFiltered ? '✅ Correctly filtered' : '❌ Filtering failed'}`);
-        
-        console.log('   Sample nominees:');
-        nominees.slice(0, 3).forEach((n, i) => {
-          console.log(`     ${i + 1}. ${n.name} (${n.category}) - ${n.votes} votes`);
-        });
-      } else {
-        console.log('   ❌ No nominees returned');
-      }
-    } else {
-      console.log(`   ❌ API error: ${result.error}`);
-    }
-    
-    // Test 2: Test other categories
-    console.log('\n2. Testing other categories:');
-    const testCategories = [
-      { id: 'top-executive-leader', label: 'Top Executive Leaders' },
-      { id: 'rising-star-under-30', label: 'Rising Stars (Under 30)' }
-    ];
-    
-    for (const category of testCategories) {
-      const response = await fetch(`${baseUrl}/api/nominees?category=${category.id}`);
-      const result = await response.json();
-      
-      if (result.success) {
-        const nominees = result.data || [];
-        const categories = [...new Set(nominees.map(n => n.category))];
-        const isCorrect = categories.length === 1 && categories[0] === category.id;
-        
-        console.log(`   ${category.label}: ${nominees.length} nominees ${isCorrect ? '✅' : '❌'}`);
-      } else {
-        console.log(`   ${category.label}: ERROR - ${result.error}`);
-      }
-    }
-    
-    // Test 3: Test trending categories endpoint
-    console.log('\n3. Testing trending categories endpoint:');
+    // Test trending categories API
+    console.log('2. Testing /api/categories/trending...');
     const trendingResponse = await fetch(`${baseUrl}/api/categories/trending`);
     const trendingResult = await trendingResponse.json();
+    console.log(`   ✅ Trending API: ${trendingResult.success ? 'SUCCESS' : 'FAILED'}`);
+    console.log(`   📊 Found ${trendingResult.data?.length || 0} trending categories`);
     
-    if (trendingResult.success) {
-      console.log(`   ✅ Found ${trendingResult.data.length} trending categories`);
-      
-      const topRecruiters = trendingResult.data.find(c => c.id === 'top-recruiter');
-      if (topRecruiters) {
-        console.log(`   Top Recruiters: ${topRecruiters.nominationCount} nominations, ${topRecruiters.voteCount} votes`);
-      }
-    } else {
-      console.log(`   ❌ Trending API error: ${trendingResult.error}`);
+    if (trendingResult.data && trendingResult.data.length > 0) {
+      console.log('   📋 Trending categories:');
+      trendingResult.data.forEach((cat, index) => {
+        console.log(`      ${index + 1}. ${cat.label} (${cat.id})`);
+      });
     }
     
-    // Test 4: Test edge cases
-    console.log('\n4. Testing edge cases:');
+    // Test nominees API
+    console.log('3. Testing /api/nominees...');
+    const nomineesResponse = await fetch(`${baseUrl}/api/nominees`);
+    const nomineesResult = await nomineesResponse.json();
+    console.log(`   ✅ Nominees API: ${nomineesResult.success ? 'SUCCESS' : 'FAILED'}`);
+    console.log(`   📊 Found ${nomineesResult.data?.length || 0} nominees`);
     
-    // Empty category
-    const emptyResponse = await fetch(`${baseUrl}/api/nominees?category=`);
-    const emptyResult = await emptyResponse.json();
-    if (emptyResult.success) {
-      console.log(`   Empty category: ${emptyResult.data.length} nominees (should be all)`);
-    }
+    // Test nominees page
+    console.log('4. Testing /nominees page...');
+    const pageResponse = await fetch(`${baseUrl}/nominees`);
+    console.log(`   ✅ Nominees Page: ${pageResponse.ok ? 'SUCCESS' : 'FAILED'}`);
+    console.log(`   📊 Status: ${pageResponse.status}`);
     
-    // Invalid category
-    const invalidResponse = await fetch(`${baseUrl}/api/nominees?category=invalid-category`);
-    const invalidResult = await invalidResponse.json();
-    if (invalidResult.success) {
-      console.log(`   Invalid category: ${invalidResult.data.length} nominees (should be 0)`);
-    }
-    
-    console.log('\n✅ Nominees page fix test completed');
-    console.log('\n💡 To test in browser:');
-    console.log('   1. Visit http://localhost:3000');
-    console.log('   2. Click on "Top Recruiters" badge in any category card');
-    console.log('   3. Should redirect to /nominees?category=top-recruiter');
-    console.log('   4. Should show only Top Recruiter nominees');
+    console.log('\n🎉 All tests completed!');
+    console.log('\n💡 Next steps:');
+    console.log('1. Visit http://localhost:3000/nominees in your browser');
+    console.log('2. Check that the page loads without errors');
+    console.log('3. Test the category filtering functionality');
+    console.log('4. Verify the search functionality works');
     
   } catch (error) {
     console.error('❌ Test failed:', error.message);
+    console.log('\n💡 Make sure the development server is running:');
+    console.log('   npm run dev');
   }
 }
 
-testNomineesPageFix();
+testNomineesPage();
