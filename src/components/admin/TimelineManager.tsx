@@ -34,6 +34,31 @@ export function TimelineManager() {
     type: 'nomination' as TimelineEvent['type']
   });
 
+  // Define the 3 fixed phases
+  const fixedPhases = [
+    {
+      id: 'phase-1',
+      title: 'Nominations Open',
+      description: 'Submit nominations for outstanding individuals and companies in the staffing industry',
+      type: 'nomination' as const,
+      icon: <Users className="h-4 w-4" />
+    },
+    {
+      id: 'phase-2', 
+      title: 'Public Voting Opens',
+      description: 'Community voting begins for all nominees across categories',
+      type: 'voting' as const,
+      icon: <CheckCircle className="h-4 w-4" />
+    },
+    {
+      id: 'phase-3',
+      title: 'Winners & Awards Ceremony', 
+      description: 'Official announcement of winners and World Staffing Summit Awards Ceremony',
+      type: 'ceremony' as const,
+      icon: <Trophy className="h-4 w-4" />
+    }
+  ];
+
   useEffect(() => {
     fetchTimeline();
   }, []);
@@ -197,13 +222,12 @@ export function TimelineManager() {
               Awards Timeline
             </CardTitle>
             <CardDescription>
-              Manage important dates and milestones for the awards program
+              Set dates for the 3 main phases: Nominations, Voting, and Awards Ceremony
             </CardDescription>
           </div>
-          <Button onClick={openCreateDialog} className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Event
-          </Button>
+          <div className="text-sm text-gray-600">
+            3-Phase Timeline System
+          </div>
         </div>
       </CardHeader>
       <CardContent>
@@ -217,68 +241,77 @@ export function TimelineManager() {
           <div className="text-center py-8">Loading timeline...</div>
         ) : (
           <div className="space-y-4">
-            {timeline.map((event, index) => (
-              <div key={event.id} className="relative">
-                {/* Timeline line */}
-                {index < timeline.length - 1 && (
-                  <div className="absolute left-6 top-12 w-0.5 h-16 bg-gray-200"></div>
-                )}
-                
-                <div className="flex items-start gap-4 p-4 border rounded-lg hover:shadow-md transition-shadow">
-                  {/* Timeline dot */}
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${getTypeColor(event.type)}`}>
-                    {getTypeIcon(event.type)}
-                  </div>
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <h4 className="font-semibold text-blue-900 mb-2">3-Phase Timeline System</h4>
+              <p className="text-blue-700 text-sm">
+                The awards timeline consists of exactly 3 phases. You can only edit the dates for each phase.
+              </p>
+            </div>
+            
+            {fixedPhases.map((phase, index) => {
+              // Find corresponding timeline event or create default
+              const timelineEvent = timeline.find(t => t.type === phase.type) || {
+                id: phase.id,
+                title: phase.title,
+                description: phase.description,
+                date: new Date().toISOString(),
+                type: phase.type,
+                status: 'upcoming' as const,
+                isEditable: true
+              };
+              
+              return (
+                <div key={phase.id} className="relative">
+                  {/* Timeline line */}
+                  {index < fixedPhases.length - 1 && (
+                    <div className="absolute left-6 top-12 w-0.5 h-16 bg-gray-200"></div>
+                  )}
                   
-                  {/* Event content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-semibold text-lg text-gray-900">{event.title}</h3>
-                      <div className="flex items-center gap-2 ml-4">
-                        <Badge className={getStatusColor(event.status)}>
-                          {event.status}
-                        </Badge>
-                        <Badge variant="outline" className={getTypeColor(event.type)}>
-                          {event.type}
-                        </Badge>
-                      </div>
+                  <div className="flex items-start gap-4 p-4 border rounded-lg hover:shadow-md transition-shadow">
+                    {/* Timeline dot */}
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${getTypeColor(phase.type)}`}>
+                      {phase.icon}
                     </div>
                     
-                    <p className="text-gray-600 mb-3">{event.description}</p>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
-                        <Clock className="h-4 w-4" />
-                        {formatDate(event.date)}
+                    {/* Event content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="font-semibold text-lg text-gray-900">{phase.title}</h3>
+                        <div className="flex items-center gap-2 ml-4">
+                          <Badge className={getStatusColor(timelineEvent.status)}>
+                            {timelineEvent.status}
+                          </Badge>
+                          <Badge variant="outline" className={getTypeColor(phase.type)}>
+                            Phase {index + 1}
+                          </Badge>
+                        </div>
                       </div>
                       
-                      {event.isEditable && (
+                      <p className="text-gray-600 mb-3">{phase.description}</p>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <Clock className="h-4 w-4" />
+                          {timelineEvent.date ? formatDate(timelineEvent.date) : 'Date not set'}
+                        </div>
+                        
                         <div className="flex items-center gap-2">
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => openEditDialog(event)}
+                            onClick={() => openEditDialog({...timelineEvent, title: phase.title, description: phase.description})}
                             className="text-blue-600 hover:text-blue-700"
                           >
                             <Edit className="h-4 w-4 mr-1" />
-                            Edit
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleDelete(event.id)}
-                            className="text-red-600 hover:text-red-700"
-                          >
-                            <Trash2 className="h-4 w-4 mr-1" />
-                            Delete
+                            Set Date
                           </Button>
                         </div>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
@@ -327,18 +360,15 @@ export function TimelineManager() {
               </div>
               
               <div>
-                <Label htmlFor="type">Type</Label>
-                <select
+                <Label htmlFor="type">Phase</Label>
+                <Input
                   id="type"
-                  value={formData.type}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value as TimelineEvent['type'] })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="nomination">Nomination</option>
-                  <option value="voting">Voting</option>
-                  <option value="announcement">Announcement</option>
-                  <option value="ceremony">Ceremony</option>
-                </select>
+                  value={formData.type === 'nomination' ? 'Phase 1: Nominations' : 
+                         formData.type === 'voting' ? 'Phase 2: Voting' : 
+                         'Phase 3: Awards Ceremony'}
+                  disabled
+                  className="bg-gray-50"
+                />
               </div>
             </div>
             

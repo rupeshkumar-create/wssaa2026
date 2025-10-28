@@ -1,11 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loopsClient } from '@/server/loops/client';
-import { 
-  syncNominatorToLoops, 
-  syncNomineeToLoops, 
-  syncVoterToLoops,
-  updateNominatorToLive 
-} from '@/server/loops/realtime-sync';
+
+// Lazy import to avoid build-time errors
+let loopsClient: any;
+let syncNominatorToLoops: any;
+let syncNomineeToLoops: any;
+let syncVoterToLoops: any;
+let updateNominatorToLive: any;
+
+async function initializeLoops() {
+  if (!loopsClient) {
+    try {
+      const { loopsClient: client } = await import('@/server/loops/client');
+      const sync = await import('@/server/loops/realtime-sync');
+      
+      loopsClient = client;
+      syncNominatorToLoops = sync.syncNominatorToLoops;
+      syncNomineeToLoops = sync.syncNomineeToLoops;
+      syncVoterToLoops = sync.syncVoterToLoops;
+      updateNominatorToLive = sync.updateNominatorToLive;
+    } catch (error) {
+      console.error('Failed to initialize Loops:', error);
+      throw error;
+    }
+  }
+}
 
 /**
  * Development endpoint to test Loops list integration
@@ -30,6 +48,22 @@ export async function POST(request: NextRequest) {
         { status: 403 }
       );
     }
+
+    // Check if Loops API key is configured
+    if (!process.env.LOOPS_API_KEY) {
+      return NextResponse.json(
+        { 
+          error: 'Loops API key not configured',
+          loopsEnabled: false,
+          apiKeyConfigured: false,
+          syncEnabled: process.env.LOOPS_SYNC_ENABLED === 'true'
+        },
+        { status: 400 }
+      );
+    }
+
+    // Initialize Loops client
+    await initializeLoops();
 
     // Check if Loops is enabled
     if (!loopsClient.constructor.isEnabled()) {
@@ -231,6 +265,14 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
+  // Only allow in development
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { error: 'This endpoint is only available in development' },
+      { status: 403 }
+    );
+  }
+
   return NextResponse.json({
     message: 'Loops List Integration Test Endpoint',
     description: 'Use POST with action parameter to test different list operations',
@@ -248,6 +290,7 @@ export async function GET() {
       NOMINEES: 'cmegxubbj0jr60h33ahctgicr',
       NOMINATORS: 'cmegxuqag0jth0h334yy17csd',
       NOMINATOR_LIVE: 'cmf5a92vx13r10i1mgbyr8wgv'
-    }
+    },
+    configured: !!process.env.LOOPS_API_KEY
   });
 }

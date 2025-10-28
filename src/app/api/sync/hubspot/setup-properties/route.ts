@@ -1,5 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { setupHubSpotCustomProperties } from '@/server/hubspot/realtime-sync';
+
+// Lazy import to avoid build-time errors
+let setupHubSpotCustomProperties: any;
+
+async function initializeHubSpot() {
+  if (!setupHubSpotCustomProperties) {
+    try {
+      const sync = await import('@/server/hubspot/realtime-sync');
+      setupHubSpotCustomProperties = sync.setupHubSpotCustomProperties;
+    } catch (error) {
+      console.error('Failed to initialize HubSpot:', error);
+      throw error;
+    }
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,6 +22,16 @@ export async function POST(request: NextRequest) {
     // Check if HubSpot sync is enabled
     const hubspotEnabled = process.env.HUBSPOT_SYNC_ENABLED === 'true' && 
                           (process.env.HUBSPOT_ACCESS_TOKEN || process.env.HUBSPOT_TOKEN);
+
+    if (!hubspotEnabled) {
+      return NextResponse.json({
+        success: false,
+        error: 'HubSpot sync is not enabled or configured'
+      });
+    }
+
+    // Initialize HubSpot client
+    await initializeHubSpot();
 
     if (!hubspotEnabled) {
       return NextResponse.json({

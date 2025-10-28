@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline Debug</title>
+</head>
+<body>
+    <h1>Timeline Debug Test</h1>
+    <div id="results"></div>
+    
+    <script>
+        async function debugTimeline() {
+            const results = document.getElementById('results');
+            
+            try {
+                console.log('🧪 Testing timeline API from browser...');
+                
+                const response = await fetch('/api/timeline', {
+                    cache: 'no-store',
+                    headers: { 'Cache-Control': 'no-cache' }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ Timeline API Response:', data);
+                    
+                    results.innerHTML = `
+                        <h2>Timeline API Response:</h2>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                        
+                        <h2>Voting Events:</h2>
+                        ${data.data.filter(event => event.type === 'voting').map(event => `
+                            <div>
+                                <strong>${event.title}</strong><br>
+                                Date: ${event.date}<br>
+                                Status: ${event.status}<br>
+                                ID: ${event.id}
+                            </div>
+                        `).join('<hr>')}
+                    `;
+                    
+                    // Test the phase calculation logic
+                    const votingEvent = data.data.find(event => event.type === 'voting');
+                    if (votingEvent) {
+                        console.log('🗳️ Found voting event:', votingEvent);
+                        
+                        const eventDate = new Date(votingEvent.date);
+                        console.log('📅 Parsed date:', eventDate);
+                        console.log('📅 Formatted date:', eventDate.toLocaleDateString('en-US', {
+                            month: 'long',
+                            day: 'numeric',
+                            year: 'numeric'
+                        }));
+                    }
+                } else {
+                    console.error('❌ Timeline API failed:', response.status);
+                    results.innerHTML = `<p style="color: red;">API Error: ${response.status}</p>`;
+                }
+            } catch (error) {
+                console.error('❌ Timeline API error:', error);
+                results.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Run the test when page loads
+        debugTimeline();
+        
+        // Also test the actual homepage component behavior
+        setTimeout(() => {
+            console.log('🔍 Checking if AwardsTimeline component is working...');
+            
+            // Look for timeline elements
+            const timelineElements = document.querySelectorAll('[class*="timeline"], [class*="Timeline"]');
+            console.log('Timeline elements found:', timelineElements.length);
+            
+            // Check for phase titles
+            const phaseElements = document.querySelectorAll('*');
+            let foundPhases = [];
+            phaseElements.forEach(el => {
+                if (el.textContent && (
+                    el.textContent.includes('Nominations Open') ||
+                    el.textContent.includes('Public Voting Opens') ||
+                    el.textContent.includes('Awards Ceremony')
+                )) {
+                    foundPhases.push(el.textContent.trim());
+                }
+            });
+            
+            console.log('Phase titles found:', foundPhases);
+        }, 2000);
+    </script>
+</body>
+</html>

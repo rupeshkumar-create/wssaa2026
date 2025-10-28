@@ -9,6 +9,7 @@ import { AnimatedHero } from "@/components/animations/AnimatedHero";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { CategoriesSection } from "@/components/home/CategoriesSection";
 import { AwardsTimeline } from "@/components/home/AwardsTimeline";
+import { WorldStaffingSummitBanner } from "@/components/home/WorldStaffingSummitBanner";
 import { VoteButton } from "@/components/animations/VoteButton";
 import { useVotingStatus } from "@/hooks/useVotingStatus";
 import NomineeBackgroundCards from "@/components/animations/NomineeBackgroundCards";
@@ -55,6 +56,11 @@ export default function HomePage() {
       {/* Enhanced Timeline */}
       <ScrollReveal>
         <AwardsTimeline />
+      </ScrollReveal>
+
+      {/* World Staffing Summit Banner */}
+      <ScrollReveal>
+        <WorldStaffingSummitBanner />
       </ScrollReveal>
 
       {/* Enhanced CTA Section */}

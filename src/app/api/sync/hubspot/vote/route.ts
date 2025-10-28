@@ -1,6 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { onVote } from '@/server/hubspot/sync';
 import { z } from 'zod';
+
+// Lazy import to avoid build-time errors
+let onVote: any;
+
+async function initializeHubSpot() {
+  if (!onVote) {
+    try {
+      const sync = await import('@/server/hubspot/sync');
+      onVote = sync.onVote;
+    } catch (error) {
+      console.error('Failed to initialize HubSpot:', error);
+      throw error;
+    }
+  }
+}
 
 // Validation schema
 const VoteSyncSchema = z.object({
@@ -24,6 +38,19 @@ const VoteSyncSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if HubSpot is configured
+    if (!process.env.HUBSPOT_ACCESS_TOKEN && !process.env.HUBSPOT_TOKEN) {
+      return NextResponse.json(
+        { 
+          error: 'HubSpot not configured',
+          configured: false
+        },
+        { status: 400 }
+      );
+    }
+
+    // Initialize HubSpot client
+    await initializeHubSpot();
     const body = await request.json();
     
     // Validate request body

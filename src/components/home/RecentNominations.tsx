@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { WSAButton } from "@/components/ui/wsa-button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ExternalLink } from "lucide-react";
@@ -80,9 +80,9 @@ export function RecentNominations() {
             <p className="text-muted-foreground mb-8">
               No approved nominations yet. Be the first to nominate!
             </p>
-            <Button asChild>
+            <WSAButton asChild variant="primary">
               <Link href="/nominate">Submit Nomination</Link>
-            </Button>
+            </WSAButton>
           </div>
         </div>
       </section>
@@ -144,21 +144,21 @@ export function RecentNominations() {
                   {getCategoryLabel(nomination.category)}
                 </Badge>
                 
-                <Button asChild size="sm" className="w-full">
+                <WSAButton asChild size="sm" variant="secondary" className="w-full">
                   <Link href={nomination.liveUrl}>
                     View Profile
                     <ExternalLink className="ml-2 h-3 w-3" />
                   </Link>
-                </Button>
+                </WSAButton>
               </CardContent>
             </Card>
           ))}
         </div>
 
         <div className="text-center">
-          <Button asChild variant="outline">
+          <WSAButton asChild variant="outline">
             <Link href="/nominees">View All Nominees</Link>
-          </Button>
+          </WSAButton>
         </div>
       </div>
     </section>

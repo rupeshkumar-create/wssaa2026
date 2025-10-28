@@ -286,6 +286,79 @@ export async function GET(request: NextRequest) {
 }
 
 /**
+ * DELETE /api/admin/nominations - Delete a nomination
+ */
+export async function DELETE(request: NextRequest) {
+  // Validate admin authentication
+  if (!validateAdminAuth(request)) {
+    return createAuthErrorResponse();
+  }
+  
+  try {
+    const { searchParams } = new URL(request.url);
+    const nominationId = searchParams.get('id');
+
+    if (!nominationId) {
+      return NextResponse.json(
+        { error: 'Missing nomination ID' },
+        { status: 400 }
+      );
+    }
+
+    // First get the nomination to find the nominee_id
+    const { data: nomination, error: fetchError } = await supabaseAdmin
+      .from('nominations')
+      .select('id, nominee_id')
+      .eq('id', nominationId)
+      .single();
+
+    if (fetchError) {
+      console.error('Failed to fetch nomination:', fetchError);
+      return NextResponse.json(
+        { error: 'Nomination not found' },
+        { status: 404 }
+      );
+    }
+
+    // Delete the nomination (this will cascade to related data)
+    const { error: deleteNominationError } = await supabaseAdmin
+      .from('nominations')
+      .delete()
+      .eq('id', nominationId);
+
+    if (deleteNominationError) {
+      console.error('Failed to delete nomination:', deleteNominationError);
+      throw new Error(`Failed to delete nomination: ${deleteNominationError.message}`);
+    }
+
+    // Also delete the nominee record
+    const { error: deleteNomineeError } = await supabaseAdmin
+      .from('nominees')
+      .delete()
+      .eq('id', nomination.nominee_id);
+
+    if (deleteNomineeError) {
+      console.error('Failed to delete nominee:', deleteNomineeError);
+      // Don't throw here as nomination is already deleted
+    }
+
+    console.log(`Successfully deleted nomination ${nominationId} and nominee ${nomination.nominee_id}`);
+
+    return NextResponse.json({
+      success: true,
+      message: 'Nomination deleted successfully'
+    });
+
+  } catch (error) {
+    console.error('DELETE /api/admin/nominations error:', error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Failed to delete nomination' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
  * PATCH /api/admin/nominations - Update nomination status or details
  */
 export async function PATCH(request: NextRequest) {

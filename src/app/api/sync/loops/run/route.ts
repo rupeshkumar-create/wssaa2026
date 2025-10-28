@@ -1,13 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/server/supabase/client';
-import { 
-  syncNominatorToLoops, 
-  syncNomineeToLoops, 
-  syncVoterToLoops,
-  updateNominatorToLive,
-  testLoopsConnection,
-  batchSyncToLoops
-} from '@/server/loops/realtime-sync';
+
+// Lazy imports to avoid build-time errors
+let syncNominatorToLoops: any;
+let syncNomineeToLoops: any;
+let syncVoterToLoops: any;
+let updateNominatorToLive: any;
+let testLoopsConnection: any;
+let batchSyncToLoops: any;
+
+async function initializeLoops() {
+  if (!syncNominatorToLoops) {
+    try {
+      const sync = await import('@/server/loops/realtime-sync');
+      syncNominatorToLoops = sync.syncNominatorToLoops;
+      syncNomineeToLoops = sync.syncNomineeToLoops;
+      syncVoterToLoops = sync.syncVoterToLoops;
+      updateNominatorToLive = sync.updateNominatorToLive;
+      testLoopsConnection = sync.testLoopsConnection;
+      batchSyncToLoops = sync.batchSyncToLoops;
+    } catch (error) {
+      console.error('Failed to initialize Loops:', error);
+      throw error;
+    }
+  }
+}
 
 /**
  * Manual Loops sync endpoint
@@ -15,6 +32,20 @@ import {
  */
 export async function POST(request: NextRequest) {
   try {
+    // Check if Loops is configured
+    if (!process.env.LOOPS_API_KEY) {
+      return NextResponse.json(
+        { 
+          error: 'Loops not configured',
+          configured: false
+        },
+        { status: 400 }
+      );
+    }
+
+    // Initialize Loops client
+    await initializeLoops();
+
     // Verify cron secret for security
     const authHeader = request.headers.get('authorization');
     const cronSecret = process.env.CRON_SECRET;

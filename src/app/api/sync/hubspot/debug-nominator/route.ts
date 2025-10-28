@@ -1,9 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase/server';
-import { syncNominatorToHubSpot } from '@/server/hubspot/realtime-sync';
+
+// Lazy import to avoid build-time errors
+let syncNominatorToHubSpot: any;
+
+async function initializeHubSpot() {
+  if (!syncNominatorToHubSpot) {
+    try {
+      const sync = await import('@/server/hubspot/realtime-sync');
+      syncNominatorToHubSpot = sync.syncNominatorToHubSpot;
+    } catch (error) {
+      console.error('Failed to initialize HubSpot:', error);
+      throw error;
+    }
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if HubSpot is configured
+    if (!process.env.HUBSPOT_ACCESS_TOKEN && !process.env.HUBSPOT_TOKEN) {
+      return NextResponse.json(
+        { 
+          error: 'HubSpot not configured',
+          configured: false
+        },
+        { status: 400 }
+      );
+    }
+
     const { email } = await request.json();
     
     if (!email) {
@@ -11,6 +36,9 @@ export async function POST(request: NextRequest) {
     }
     
     console.log(`🔍 Debugging nominator sync for: ${email}`);
+
+    // Initialize HubSpot client
+    await initializeHubSpot();
     
     // 1. Check if nominator exists in database
     const { data: nominator, error: nominatorError } = await supabase

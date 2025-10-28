@@ -1,20 +1,49 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/server/supabase/client';
-import { 
-  syncNominatorToHubSpot, 
-  syncNomineeToHubSpot, 
-  syncVoterToHubSpot,
-  testHubSpotRealTimeSync,
-  setupHubSpotCustomProperties
-} from '@/server/hubspot/realtime-sync';
+
+// Lazy imports to avoid build-time errors
+let syncNominatorToHubSpot: any;
+let syncNomineeToHubSpot: any;
+let syncVoterToHubSpot: any;
+let testHubSpotRealTimeSync: any;
+let setupHubSpotCustomProperties: any;
+
+async function initializeHubSpot() {
+  if (!syncNominatorToHubSpot) {
+    try {
+      const sync = await import('@/server/hubspot/realtime-sync');
+      syncNominatorToHubSpot = sync.syncNominatorToHubSpot;
+      syncNomineeToHubSpot = sync.syncNomineeToHubSpot;
+      syncVoterToHubSpot = sync.syncVoterToHubSpot;
+      testHubSpotRealTimeSync = sync.testHubSpotRealTimeSync;
+      setupHubSpotCustomProperties = sync.setupHubSpotCustomProperties;
+    } catch (error) {
+      console.error('Failed to initialize HubSpot:', error);
+      throw error;
+    }
+  }
+}
 
 // Secret header for cron job protection
 const CRON_SECRET = process.env.CRON_SECRET || 'dev-secret-key';
 
 export async function GET(request: NextRequest) {
   try {
+    // Check if HubSpot is configured
+    if (!process.env.HUBSPOT_ACCESS_TOKEN && !process.env.HUBSPOT_TOKEN) {
+      return NextResponse.json(
+        { 
+          error: 'HubSpot not configured',
+          configured: false
+        },
+        { status: 400 }
+      );
+    }
+
+    // Initialize HubSpot client
+    await initializeHubSpot();
+
     // Simple health check for HubSpot connection
-    const { testHubSpotRealTimeSync } = await import('@/server/hubspot/realtime-sync');
     const testResult = await testHubSpotRealTimeSync();
     
     return NextResponse.json({

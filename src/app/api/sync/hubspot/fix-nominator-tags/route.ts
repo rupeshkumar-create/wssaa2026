@@ -1,6 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { hubspotClient } from '@/server/hubspot/client';
 import { supabase } from '@/lib/supabase/server';
+
+// Lazy import to avoid build-time errors
+let hubspotClient: any;
+
+async function initializeHubSpot() {
+  if (!hubspotClient) {
+    try {
+      const client = await import('@/server/hubspot/client');
+      hubspotClient = client.hubspotClient;
+    } catch (error) {
+      console.error('Failed to initialize HubSpot:', error);
+      throw error;
+    }
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,6 +23,16 @@ export async function POST(request: NextRequest) {
     // Check if HubSpot sync is enabled
     const hubspotEnabled = process.env.HUBSPOT_SYNC_ENABLED === 'true' && 
                           (process.env.HUBSPOT_ACCESS_TOKEN || process.env.HUBSPOT_TOKEN);
+
+    if (!hubspotEnabled) {
+      return NextResponse.json({
+        success: false,
+        error: 'HubSpot sync not enabled or configured'
+      });
+    }
+
+    // Initialize HubSpot client
+    await initializeHubSpot();
 
     if (!hubspotEnabled) {
       return NextResponse.json({

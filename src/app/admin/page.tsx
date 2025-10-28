@@ -18,6 +18,7 @@ import { AdminNominationFlow } from "@/components/admin/AdminNominationFlow";
 import { AdvancedAnalytics } from "@/components/admin/AdvancedAnalytics";
 import { SimpleLeaderboard } from "@/components/admin/SimpleLeaderboard";
 import { TimelineManager } from "@/components/admin/TimelineManager";
+import { SummitBannerManager } from "@/components/admin/SummitBannerManager";
 
 
 // Bulk upload components temporarily removed
@@ -375,7 +376,7 @@ export default function AdminPage() {
     }
 
     try {
-      const response = await fetch(`/api/admin/nominations-improved?id=${nominationId}`, {
+      const response = await fetch(`/api/admin/nominations?id=${nominationId}`, {
         method: 'DELETE',
         headers: { 
           'Content-Type': 'application/json'
@@ -386,6 +387,7 @@ export default function AdminPage() {
         await fetchData();
         // Trigger real-time data sync across all components
         triggerAdminDataRefresh();
+        console.log(`Successfully deleted nomination ${nominationId}`);
       } else {
         const errorData = await response.json();
         setError(errorData.error || 'Failed to delete nomination');
@@ -528,10 +530,11 @@ export default function AdminPage() {
             {/* Right Content - 70% - Admin Functions */}
             <div className="w-[70%]">
               <Tabs defaultValue="nominations" className="space-y-6">
-                <TabsList className="grid w-full grid-cols-5">
+                <TabsList className="grid w-full grid-cols-6">
                   <TabsTrigger value="nominations">Nominations</TabsTrigger>
                   <TabsTrigger value="admin-add">Add Nominee</TabsTrigger>
                   <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                  <TabsTrigger value="summit-banner">Summit Banner</TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                   <TabsTrigger value="stats">Analytics</TabsTrigger>
                 </TabsList>
@@ -786,9 +789,9 @@ export default function AdminPage() {
             <TimelineManager />
           </TabsContent>
 
-
-
-
+          <TabsContent value="summit-banner">
+            <SummitBannerManager />
+          </TabsContent>
 
           <TabsContent value="settings">
             <div className="space-y-6">

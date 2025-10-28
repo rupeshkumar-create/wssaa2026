@@ -162,7 +162,7 @@ export async function GET(request: NextRequest) {
           state: nominee.state,
           createdAt: nominee.created_at
         };
-      })) || [];
+      }) || [];
 
       return NextResponse.json({
         success: true,
